@@ -1,0 +1,38 @@
+{
+  "name": "iris",
+  "version": "0.1.0",
+  "description": "Modular, extensible, real-time IoT backend",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "tape tests/**/*.js | tap-notify | tap-spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcba-iris/iris.git"
+  },
+  "keywords": [
+    "iris",
+    "IoT",
+    "data",
+    "backend",
+    "gcba"
+  ],
+  "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcba-iris/iris/issues"
+  },
+  "homepage": "https://github.com/gcba-iris/iris#readme",
+  "dependencies": {
+    "archiejs": "^0.3.0",
+    "glob-fs": "^0.1.6"
+  },
+  "devDependencies": {
+    "tap-notify": "^1.0.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0"
+  }
+}
