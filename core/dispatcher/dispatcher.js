@@ -17,8 +17,5 @@ class Dispatcher {
 module.exports = function setup(options, imports) {
     const dispatcher = Dispatcher(options);
 
-    return {
-        'dispatch': dispatcher.dispatch,
-        'respond': dispatcher.respond
-    }
+    return dispatcher;
 }

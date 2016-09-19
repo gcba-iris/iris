@@ -10,7 +10,7 @@
     "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
     "license": "MIT",
     "plugins": {
-        "provides": ["dispatch", "respond"],
+        "provides": ["dispatcher"],
         "consumes": []
     }
 }
