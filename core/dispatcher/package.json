@@ -1,0 +1,16 @@
+{
+    "name": "iris-core-dispatcher",
+    "version": "0.1.0",
+    "description": "Iris dispatcher",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": ["iris"],
+    "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
+    "license": "MIT",
+    "plugins": {
+        "provides": [],
+        "consumes": []
+    }
+}
