@@ -1,5 +1,15 @@
+'use strict';
+
 class HandlerBase {
-    constructor() {
+    constructor(options) {
+        this.options = options;
+    }
+
+    handle(data) {
+
+    }
+
+    release() {
 
     }
 }

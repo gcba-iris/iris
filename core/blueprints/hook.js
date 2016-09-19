@@ -1,5 +1,15 @@
+'use strict';
+
 class HookBase {
-    constructor() {
+    constructor(options) {
+        this.options = options;
+    }
+
+    run(data) {
+
+    }
+
+    release() {
 
     }
 }

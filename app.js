@@ -1,7 +1,12 @@
 const archie = require('archiejs');
-const dispatcher = ['core/dispatcher'];
-const utils = ['core/utils'];
-const dependencies = archie.resolveConfig(dispatcher, __dirname); // Dependency trees
+const core = [{
+    packagePath: 'core/dispatcher',
+    name: 'Dispatcher'
+}, {
+    packagePath: 'core/utils',
+    name: 'Utils'
+}];
+const dependencies = archie.resolveConfig(core, __dirname); // Dependency trees
 
 archiejs.createApp(dependencies, (err) => {
 
