@@ -8,6 +8,6 @@ const core = [{
 }];
 const dependencies = archie.resolveConfig(core, __dirname); // Dependency trees
 
-archiejs.createApp(dependencies, (err) => {
-
+archie.createApp(dependencies, (err) => {
+    console.log('Iris up and running');
 });
