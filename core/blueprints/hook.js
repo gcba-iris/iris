@@ -28,4 +28,4 @@ class Hook {
      */
 }
 
-module.exports = HookBase;
+module.exports = Hook;

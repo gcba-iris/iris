@@ -33,4 +33,4 @@ class Handler {
      */
 }
 
-module.exports = HandlerBase;
+module.exports = Handler;

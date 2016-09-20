@@ -19,7 +19,7 @@ class Dock {
     }
 
     parse(message) {
-        // TODO: Default Implementation
+        // TODO: Default implementation
     }
 
     send(data) {
@@ -27,7 +27,7 @@ class Dock {
     }
 
     encode(response) {
-        // TODO: Default Implementation
+        // TODO: Default implementation
     }
 
     release() {
@@ -51,4 +51,4 @@ class Dock {
      */
 }
 
-module.exports = DockBase;
+module.exports = Dock;

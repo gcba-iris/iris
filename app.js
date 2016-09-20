@@ -17,4 +17,6 @@ const dependencies = archie.resolveConfig(core, __dirname); // Dependency trees
 
 archie.createApp(dependencies, (err) => {
     console.log('Iris up and running');
+
+    // TODO: Show an ASCII table with components loaded, ports used, uptime
 });
