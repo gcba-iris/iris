@@ -1,28 +1,31 @@
+/*
+ * Iris
+ * (c) 2016+ Buenos Aires City Government
+ * MIT Licensed
+ *
+ */
+
 'use strict';
 
 const MiniSignal = require('mini-signals');
 
 class Dispatcher {
-    constructor(options) {
+    constructor(options, imports) {
         this.options = options;
         this.signal = new MiniSignal();
     }
 
-    register() {
-
-    }
-
     dispatch(data) {
-
+        // TODO: Implementation
     }
 
-    respond() {
-
+    respond(response) {
+        // TODO: Implementation
     }
 }
 
 module.exports = function setup(options, imports) {
-    const dispatcher = new Dispatcher(options);
+    const dispatcher = new Dispatcher(options, imports);
 
     return dispatcher;
 }
