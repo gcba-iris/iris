@@ -1,10 +1,13 @@
 'use strict';
 
+const MiniSignal = require('mini-signals');
+
 class DockBase {
     constructor(ports, parser, encoder) {
         this.ports = ports;
         this.parser = parser;
         this.encoder = encoder;
+        this.signal = new MiniSignal();
     }
 
     listen(ports) {
@@ -31,3 +34,5 @@ class DockBase {
 
     }
 }
+
+module.exports = DockBase;

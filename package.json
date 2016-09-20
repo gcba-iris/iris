@@ -28,7 +28,8 @@
   "homepage": "https://github.com/gcba-iris/iris#readme",
   "dependencies": {
     "archiejs": "^0.3.0",
-    "glob-fs": "^0.1.6"
+    "glob-fs": "^0.1.6",
+    "mini-signals": "^1.1.1"
   },
   "devDependencies": {
     "tap-notify": "^1.0.0",
