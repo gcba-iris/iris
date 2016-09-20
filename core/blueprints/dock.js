@@ -1,7 +1,7 @@
 /*
  * Iris
  * (c) 2016+ Buenos Aires City Government
- * MIT Licensed
+ * License: https://opensource.org/licenses/MIT
  *
  */
 
@@ -9,7 +9,7 @@
 
 const MiniSignal = require('mini-signals');
 
-class DockBase {
+class Dock {
     constructor(options, imports) {
         this.ports = options.ports;
         this.parser = options.parser;
@@ -17,14 +17,6 @@ class DockBase {
         this.dispatcher = imports.dispatcher;
         this.signal = new MiniSignal();
     }
-
-    /*
-     * This method must be implemented by the child classes
-     *
-     listen(ports) {
-
-     }
-     */
 
     parse(message) {
         // TODO: Default Implementation
@@ -38,6 +30,18 @@ class DockBase {
         // TODO: Default Implementation
     }
 
+    release() {
+        // TODO: Implementation
+    }
+
+    /*
+     * This method must be implemented by the child classes
+     *
+     listen(ports) {
+
+     }
+     */
+
     /*
      * This method must be implemented by the child classes
      *
@@ -45,10 +49,6 @@ class DockBase {
 
      }
      */
-
-    release() {
-        // TODO: Implementation
-    }
 }
 
 module.exports = DockBase;

@@ -1,7 +1,7 @@
 /*
  * Iris
  * (c) 2016+ Buenos Aires City Government
- * MIT Licensed
+ * License: https://opensource.org/licenses/MIT
  *
  */
 
@@ -9,11 +9,19 @@
 
 const MiniSignal = require('mini-signals');
 
-class HandlerBase {
+class Handler {
     constructor(options, imports) {
         this.options = options;
         this.dispatcher = imports.dispatcher;
         this.signal = new MiniSignal();
+    }
+
+    send(response) {
+        this.dispatcher.respond(response);
+    }
+
+    release() {
+        // TODO: Implementation
     }
 
     /*
@@ -23,14 +31,6 @@ class HandlerBase {
 
      }
      */
-
-    send(response) {
-        this.dispatcher.respond(response);
-    }
-
-    release() {
-        // TODO: Implementation
-    }
 }
 
 module.exports = HandlerBase;

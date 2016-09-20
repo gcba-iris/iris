@@ -1,7 +1,7 @@
 /*
  * Iris
  * (c) 2016+ Buenos Aires City Government
- * MIT Licensed
+ * License: https://opensource.org/licenses/MIT
  *
  */
 
