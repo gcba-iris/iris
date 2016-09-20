@@ -1,3 +1,9 @@
+# Custom modules
+modules/docks
+modules/handlers
+modules/hooks
+modules/services
+
 # Logs
 logs
 *.log
