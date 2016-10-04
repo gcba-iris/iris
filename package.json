@@ -28,13 +28,15 @@
   "homepage": "https://github.com/gcba-iris/iris#readme",
   "dependencies": {
     "archiejs": "^0.3.0",
-    "glob-fs": "^0.1.6",
+    "liftoff": "^2.3.0",
     "mini-signals": "^1.1.1",
-    "shortid": "^2.2.6"
+    "orchestrator": "^0.3.7",
+    "shortid": "^2.2.6",
+    "vantage": "^1.7.0"
   },
   "devDependencies": {
     "tap-notify": "^1.0.0",
     "tap-spec": "^4.1.1",
-    "tape": "^4.6.0"
+    "tape": "^4.6.2"
   }
 }
