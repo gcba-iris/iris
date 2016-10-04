@@ -24,8 +24,4 @@ class Dispatcher {
     }
 }
 
-module.exports = function setup(options, imports) {
-    const dispatcher = new Dispatcher(options, imports);
-
-    return dispatcher;
-}
+module.exports = Dispatcher;
