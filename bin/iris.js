@@ -10,7 +10,7 @@
 'use strict';
 
 const Liftoff = require('liftoff');
-const iris = require('../lib/Iris');
+const Vantage = require('vantage');
 
 const loader = new Liftoff({
     name: 'iris',
@@ -19,7 +19,26 @@ const loader = new Liftoff({
     },
     v8flags: ['--harmony']
 });
+const cli = new Vantage();
 
-loader.launch({}, iris.init);
+const init = (env) => {
+    console.dir(env);
+
+    if (env.configPath) {
+        process.chdir(env.configBase);
+    } else if (!env.modulePath) {
+        console.log('Local Iris not found.');
+        console.log('Try running: npm install iris --save');
+        process.exit(1);
+    } else {
+        console.log('No Irisfile found.');
+        process.exit(1);
+    }
+
+    const config = require(env.configPath);
+    const iris = require(env.modulePath);
+}
+
+loader.launch({}, init);
 
 // TODO: Handle termination (destroy threadpool, cleanup, etc)

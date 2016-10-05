@@ -2,7 +2,7 @@
   "name": "iris",
   "version": "0.1.0",
   "description": "Modular, extensible, real-time IoT backend",
-  "main": "iris.js",
+  "main": "index.js",
   "directories": {
     "test": "tests"
   },
