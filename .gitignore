@@ -1,8 +1,5 @@
-# Custom modules
-modules/docks
-modules/handlers
-modules/hooks
-modules/services
+# Irisfile
+irisfile.js
 
 # Logs
 logs
