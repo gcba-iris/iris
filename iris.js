@@ -5,19 +5,20 @@
  *
  */
 
-const archie = require('archiejs');
-const vantage = require("vantage")();
-const core = [
-    {
-        packagePath: 'core/dispatcher',
-        name: 'dispatcher'
-    }, {
-        packagePath: 'core/utils',
-        name: 'utils'
-    }
-];
-const dependencies = archie.resolveConfig(core, __dirname); // Dependency trees
+'use strict';
 
-archie.createApp(dependencies, (err) => {
-    console.log('Iris up and running');
+const Liftoff = require('liftoff');
+const Vantage = require("vantage");
+
+var Iris = new Liftoff({
+    processTitle: 'iris',
+    moduleName: 'iris',
+    configName: 'irisfile',
+    extensions: {
+        '.js': null
+    }
 });
+
+Iris.cli = new Vantage();
+
+// TODO: Handle termination (destroy threadpool, cleanup, etc)

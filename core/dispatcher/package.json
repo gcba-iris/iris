@@ -8,9 +8,5 @@
     },
     "keywords": ["iris"],
     "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
-    "license": "MIT",
-    "plugins": {
-        "provides": ["dispatcher"],
-        "consumes": []
-    }
+    "license": "MIT"
 }

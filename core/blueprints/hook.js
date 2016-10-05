@@ -10,7 +10,7 @@
 const MiniSignal = require('mini-signals');
 
 class Hook {
-    constructor(options, imports) {
+    constructor(options) {
         this.options = options;
         this.signal = new MiniSignal();
     }

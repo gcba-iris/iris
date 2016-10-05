@@ -10,12 +10,12 @@
 const MiniSignal = require('mini-signals');
 
 class Dock {
-    constructor(options, imports) {
+    constructor(dispatcher, options) {
         this.meta = options.meta;
         this.ports = options.ports;
         this.parser = options.parser;
         this.encoder = options.encoder;
-        this.dispatcher = imports.dispatcher;
+        this.dispatcher = dispatcher;
         this.signal = new MiniSignal();
     }
 

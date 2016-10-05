@@ -27,10 +27,9 @@
   },
   "homepage": "https://github.com/gcba-iris/iris#readme",
   "dependencies": {
-    "archiejs": "^0.3.0",
     "liftoff": "^2.3.0",
     "mini-signals": "^1.1.1",
-    "orchestrator": "^0.3.7",
+    "npool": "^1.4.7",
     "shortid": "^2.2.6",
     "vantage": "^1.7.0"
   },

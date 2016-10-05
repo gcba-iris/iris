@@ -10,9 +10,9 @@
 const MiniSignal = require('mini-signals');
 
 class Handler {
-    constructor(options, imports) {
+    constructor(dispatcher, options) {
         this.options = options;
-        this.dispatcher = imports.dispatcher;
+        this.dispatcher = dispatcher;
         this.signal = new MiniSignal();
     }
 
