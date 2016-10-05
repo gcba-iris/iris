@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * Iris
  * (c) 2016+ Buenos Aires City Government
@@ -8,9 +10,9 @@
 'use strict';
 
 const Liftoff = require('liftoff');
-const Vantage = require('vantage');
+const iris = require('../lib/Iris');
 
-var Iris = new Liftoff({
+const loader = new Liftoff({
     name: 'iris',
     extensions: {
         '.js': null
@@ -18,16 +20,6 @@ var Iris = new Liftoff({
     v8flags: ['--harmony']
 });
 
-Iris.prototype = {
-    cli: new Vantage()
-};
-
-const start = ( env ) => {
-    console.dir( env );
-};
-
-Iris.launch({
-
-}, start);
+loader.launch({}, iris.init);
 
 // TODO: Handle termination (destroy threadpool, cleanup, etc)
