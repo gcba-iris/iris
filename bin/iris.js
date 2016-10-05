@@ -9,10 +9,10 @@
 
 'use strict';
 
-const Liftoff = require('liftoff');
+const LiftOff = require('liftoff');
 const Vantage = require('vantage');
 
-const loader = new Liftoff({
+const loader = new LiftOff({
     name: 'iris',
     extensions: {
         '.js': null
@@ -29,9 +29,11 @@ const init = (env) => {
     } else if (!env.modulePath) {
         console.log('Local Iris not found.');
         console.log('Try running: npm install iris --save');
+
         process.exit(1);
     } else {
         console.log('No Irisfile found.');
+
         process.exit(1);
     }
 
