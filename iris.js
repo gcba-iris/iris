@@ -8,17 +8,26 @@
 'use strict';
 
 const Liftoff = require('liftoff');
-const Vantage = require("vantage");
+const Vantage = require('vantage');
 
 var Iris = new Liftoff({
-    processTitle: 'iris',
-    moduleName: 'iris',
-    configName: 'irisfile',
+    name: 'iris',
     extensions: {
         '.js': null
-    }
+    },
+    v8flags: ['--harmony']
 });
 
-Iris.cli = new Vantage();
+Iris.prototype = {
+    cli: new Vantage()
+};
+
+const start = ( env ) => {
+    console.dir( env );
+};
+
+Iris.launch({
+
+}, start);
 
 // TODO: Handle termination (destroy threadpool, cleanup, etc)

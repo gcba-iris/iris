@@ -9,6 +9,12 @@
   "scripts": {
     "test": "tape tests/**/*.js | tap-notify | tap-spec"
   },
+  "bin": {
+    "iris": "iris.js"
+  },
+  "engines": {
+    "node": ">= 6.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gcba-iris/iris.git"
@@ -16,8 +22,10 @@
   "keywords": [
     "iris",
     "IoT",
-    "data",
     "backend",
+    "data",
+    "devices",
+    "sensors",
     "gcba"
   ],
   "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
