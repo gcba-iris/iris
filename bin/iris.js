@@ -25,7 +25,7 @@ const cli = new Vantage();
 var iris, config;
 
 const init = (env) => {
-    console.dir(env);
+    // console.dir(env);
 
     if (env.configPath) {
         process.chdir(env.configBase);
@@ -42,7 +42,6 @@ const init = (env) => {
         process.exit(1);
     }
 
-    // Load Irisfile
     require(env.configPath);
 
     iris = require(env.modulePath);
