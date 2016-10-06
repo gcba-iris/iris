@@ -7,27 +7,33 @@
 
 'use strict';
 
+const lodash = require('lodash');
+
 class Iris {
     constructor() {
         console.log('Hi from Iris!');
 
         this._config = {}; // TODO: Set defaults
+        this._docks = [];
+        this._flows = [];
+        this._tags = [];
+        this._hooks = [];
+        this._handlers = [];
     }
 
     set config(options) {
-        this._config = options;
+        // TODO: Check options
+        Object.assign(this._config, options);
     }
 
     set(key, value) {
+        // TODO: Check config
         this._config[key] = value;
     }
 
-    dock(name, options) {
-
-    }
-
     flow(options) {
-
+        // TODO: Check options
+        this._flows.push(options);
     }
 
     start() {
