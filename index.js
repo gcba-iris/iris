@@ -9,13 +9,26 @@
 
 const lodash = require('lodash');
 const Flow = require('./lib/Flow');
+const BaseDock = require('./lib/bases/Dock');
+const BaseHandler = require('./lib/bases/Handler');
+const BaseHook = require('./lib/bases/Hook');
 
 class Iris {
     constructor() {
-        console.log('Hi from Iris!');
-
         this._config = {}; // TODO: Set defaults
         this._flows = [];
+    }
+
+    get Dock() {
+        return BaseDock;
+    }
+
+    get Handler() {
+        return BaseHandler;
+    }
+
+    get Hook() {
+        return BaseHook;
     }
 
     get flows() {
@@ -36,12 +49,17 @@ class Iris {
         this._config[key] = value;
     }
 
-    flow(options) {
+    flow(name, options) {
         // TODO: Check options
-        const flow = new Flow(options);
+        const flow = new Flow(name, options);
+
+        // TODO: Prettify logs and messages
+        console.log('Flow \'' + flow.name + '\' found:');
+        console.log('    Tag: \'' + flow.tag + '\'');
+        console.log('    Handler: \'' + flow.handler.name + '\'');
 
         flow.docks.forEach((dock) => {
-            dock.listen(dock.config.ports);
+            dock.listen(dock.config.port);
         }, this);
 
         this._flows.push(flow);
