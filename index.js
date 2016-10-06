@@ -11,15 +11,15 @@ class Iris {
     constructor() {
         console.log('Hi from Iris!');
 
-        this.config = {}; // TODO: Set defaults
+        this._config = {}; // TODO: Set defaults
     }
 
-    config(options) {
-        this.config = options;
+    set config(options) {
+        this._config = options;
     }
 
     set(key, value) {
-        this.config[key] = value;
+        this._config[key] = value;
     }
 
     dock(name, options) {
