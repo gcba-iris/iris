@@ -14,6 +14,7 @@ class Iris {
         console.log('Hi from Iris!');
 
         this._config = {}; // TODO: Set defaults
+        this._dispatcher = {};
         this._docks = [];
         this._flows = [];
         this._tags = [];
@@ -24,6 +25,10 @@ class Iris {
     set config(options) {
         // TODO: Check options
         Object.assign(this._config, options);
+    }
+
+    set dispatcher(dispatcher) {
+        this._dispatcher = dispatcher;
     }
 
     set(key, value) {
