@@ -14,7 +14,7 @@ class Iris {
         console.log('Hi from Iris!');
 
         this._config = {}; // TODO: Set defaults
-        this._dispatcher = {};
+        this._dispatcher = undefined;
         this._docks = [];
         this._flows = [];
         this._tags = [];
