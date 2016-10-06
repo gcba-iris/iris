@@ -8,27 +8,27 @@
 'use strict';
 
 const lodash = require('lodash');
+const Flow = require('./lib/Flow');
 
 class Iris {
     constructor() {
         console.log('Hi from Iris!');
 
         this._config = {}; // TODO: Set defaults
-        this._dispatcher = undefined;
-        this._docks = [];
         this._flows = [];
-        this._tags = [];
-        this._hooks = [];
-        this._handlers = [];
+    }
+
+    get flows() {
+        return this._flows;
+    }
+
+    get config() {
+        return this._config;
     }
 
     set config(options) {
         // TODO: Check options
         Object.assign(this._config, options);
-    }
-
-    set dispatcher(dispatcher) {
-        this._dispatcher = dispatcher;
     }
 
     set(key, value) {
@@ -38,11 +38,13 @@ class Iris {
 
     flow(options) {
         // TODO: Check options
-        this._flows.push(options);
-    }
+        const flow = new Flow(options);
 
-    start() {
+        flow.docks.forEach((dock) => {
+            dock.listen(dock.config.ports);
+        }, this);
 
+        this._flows.push(flow);
     }
 }
 

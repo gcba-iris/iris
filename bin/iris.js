@@ -11,6 +11,7 @@
 
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
+const dispatcher = require('../lib/Dispatcher');
 
 const loader = new LiftOff({
     name: 'iris',
@@ -21,24 +22,38 @@ const loader = new LiftOff({
 });
 const cli = new Vantage();
 
+var iris, config;
+
 const init = (env) => {
     console.dir(env);
 
     if (env.configPath) {
         process.chdir(env.configBase);
     } else if (!env.modulePath) {
+        // TODO: Prettify logs and messages
         console.log('Local Iris not found.');
         console.log('Try running: npm install iris --save');
 
         process.exit(1);
     } else {
+        // TODO: Prettify logs and messages
         console.log('No Irisfile found.');
 
         process.exit(1);
     }
 
-    const config = require(env.configPath);
-    const iris = require(env.modulePath);
+    // Load Irisfile
+    require(env.configPath);
+
+    iris = require(env.modulePath);
+    config = iris.config;
+
+    if (iris.flows.length > 0) {
+        dispatcher.config = this._flows;
+    } else {
+        // TODO: Prettify logs and messages
+        console.log('No flows found in Irisfile.');
+    }
 }
 
 loader.launch({}, init);
