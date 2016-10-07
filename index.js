@@ -8,6 +8,7 @@
 'use strict';
 
 const lodash = require('lodash');
+const dispatcher = require('./lib/Dispatcher');
 const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
 const BaseHandler = require('./lib/bases/Handler');
@@ -59,6 +60,7 @@ class Iris {
         console.log('    Handler: \'' + flow.handler.name + '\'');
 
         flow.docks.forEach((dock) => {
+            dock.dispatcher = dispatcher;
             dock.listen(dock.config.port);
         }, this);
 

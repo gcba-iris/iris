@@ -48,7 +48,9 @@ const init = (env) => {
     config = iris.config;
 
     if (iris.flows.length > 0) {
-        dispatcher.config = this._flows;
+        dispatcher.config = {
+            flows: iris.flows
+        };
     } else {
         // TODO: Prettify logs and messages
         console.log('No flows found in Irisfile.');
