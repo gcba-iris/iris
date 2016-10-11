@@ -45,11 +45,11 @@ const init = (env) => {
     require(env.configPath);
 
     iris = require(env.modulePath);
-    config = iris.config;
 
     if (iris.flows.length > 0) {
         dispatcher.config = {
-            flows: iris.flows
+            flows: iris.flows,
+            threads: iris.config.threads
         };
     } else {
         // TODO: Prettify logs and messages
