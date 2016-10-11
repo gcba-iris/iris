@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/gcba-iris/iris#readme",
   "dependencies": {
+    "death": "^1.0.0",
     "fastparallel": "^2.3.0",
     "liftoff": "^2.3.0",
     "lodash": "^4.16.3",

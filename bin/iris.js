@@ -11,6 +11,7 @@
 
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
+const onDeath = require('death');
 const dispatcher = require('../lib/Dispatcher');
 
 const loader = new LiftOff({
@@ -57,6 +58,11 @@ const init = (env) => {
     }
 }
 
+const end = (signal, error) => {
+    dispatcher.release();
+}
+
+onDeath(end);
 loader.launch({}, init);
 
 // TODO: Handle termination (destroy threadpool, cleanup, etc)
