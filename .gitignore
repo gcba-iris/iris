@@ -4,6 +4,7 @@ docks
 hooks
 handlers
 services
+tmp
 
 # Logs
 logs

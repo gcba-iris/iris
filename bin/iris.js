@@ -11,9 +11,10 @@
 
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
-const onClose = require('death');
+const Death = require('death');
 const dispatcher = require('../lib/Dispatcher');
 
+const cli = new Vantage();
 const loader = new LiftOff({
     name: 'iris',
     extensions: {
@@ -21,7 +22,6 @@ const loader = new LiftOff({
     },
     v8flags: ['--harmony']
 });
-const cli = new Vantage();
 
 var iris, config;
 
@@ -62,5 +62,9 @@ const end = (signal, error) => {
     dispatcher.release();
 }
 
-onClose(end);
+loader.onClose = Death({
+    uncaughtException: true
+});
+
+loader.onClose(end);
 loader.launch({}, init);
