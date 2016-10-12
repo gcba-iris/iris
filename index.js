@@ -7,7 +7,6 @@
 
 'use strict';
 
-const lodash = require('lodash');
 const dispatcher = require('./lib/Dispatcher');
 const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
