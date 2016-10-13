@@ -11,7 +11,6 @@ const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
 const BaseHandler = require('./lib/bases/Handler');
 const BaseHook = require('./lib/bases/Hook');
-const Death = require('death');
 const dispatcher = require('./lib/Dispatcher');
 const shortid = require('shortid');
 
@@ -44,6 +43,7 @@ class Iris {
     set config(options) {
         // TODO: Check options
         Object.assign(this._config, options);
+        onClose(this.release);
     }
 
     set(key, value) {

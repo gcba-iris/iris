@@ -1,10 +1,6 @@
 # Irisfile
 irisfile.js
-docks
-hooks
-handlers
-services
-tmp
+.iris
 
 # Logs
 logs
