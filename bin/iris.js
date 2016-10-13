@@ -23,6 +23,13 @@ const loader = new LiftOff({
     v8flags: ['--harmony']
 });
 
+
+const banner =
+    `
+          _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/
+
+`;
+
 var iris, config, threadPool;
 
 const init = (env) => {
@@ -47,10 +54,17 @@ const init = (env) => {
     threadPool = new Threads.Pool(iris.config.threads);
 
     if (iris.flows.length > 0) {
+        console.log(banner);
+
         dispatcher.threadPool = threadPool;
         dispatcher.config = {
             flows: iris.flows
         };
+
+        cli.delimiter('iris~$')
+            .banner(banner)
+            .listen(iris.config.remotePort)
+            .show();
     } else {
         // TODO: Prettify logs and messages
         console.log('No flows found in Irisfile.');

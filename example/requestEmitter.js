@@ -1,7 +1,7 @@
 const http = require("http");
 const options = {
     hostname: '127.0.0.1',
-    port: 1337,
+    port: 5000,
     path: '/',
     method: 'POST'
 };
@@ -22,10 +22,10 @@ const loop = (options) => {
             console.log('Error: ' + e.message);
         });
 
-        request.write(data_tag2);
+        request.write(data_tag1);
         request.end();
 
-        console.log('[ResquestEmitter] Sending ' + '\'' + data_tag2 + '\'');
+        console.log('[ResquestEmitter] Sending ' + '\'' + data_tag1 + '\'');
 
         loop(options);
     }, 1000);

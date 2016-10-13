@@ -54,11 +54,6 @@ class Iris {
         // TODO: Check options
         const flow = new Flow(name, options);
 
-        // TODO: Prettify logs and messages
-        console.log('Flow \'' + flow.name + '\' found:');
-        console.log('    Tag: \'' + flow.tag + '\'');
-        console.log('    Handler: \'' + flow.handler.name + '\'');
-
         flow.docks.forEach((dock) => {
             dock.dispatcher = dispatcher;
 
