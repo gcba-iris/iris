@@ -25,8 +25,6 @@ const loader = new LiftOff({
 var iris, config;
 
 const init = (env) => {
-    // console.dir(env);
-
     if (env.configPath) {
         process.chdir(env.configBase);
     } else if (!env.modulePath) {
