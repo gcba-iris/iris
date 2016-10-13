@@ -43,7 +43,8 @@
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
     "threads": "^0.7.0",
-    "vantage": "^1.7.0"
+    "vantage": "^1.7.0",
+    "vorpal": "^1.11.4"
   },
   "devDependencies": {
     "request-ip": "^1.2.2",
