@@ -11,7 +11,6 @@
 
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
-const Death = require('death');
 const dispatcher = require('../lib/Dispatcher');
 
 const cli = new Vantage();
@@ -58,13 +57,4 @@ const init = (env) => {
     }
 }
 
-const end = (signal, error) => {
-    dispatcher.release();
-}
-
-loader.onClose = Death({
-    uncaughtException: true
-});
-
-loader.onClose(end);
 loader.launch({}, init);
