@@ -10,11 +10,13 @@
 'use strict';
 
 const LiftOff = require('liftoff');
+const Vorpal = require('vorpal');
 const Vantage = require('vantage');
 const Threads = require('threads');
 const dispatcher = require('../lib/Dispatcher');
 
-const cli = new Vantage();
+const cli = new Vorpal();
+const remoteCli = new Vantage();
 const loader = new LiftOff({
     name: 'iris',
     extensions: {
@@ -22,7 +24,6 @@ const loader = new LiftOff({
     },
     v8flags: ['--harmony']
 });
-
 
 const banner =
     `
@@ -60,7 +61,7 @@ const init = (env) => {
             flows: iris.flows
         };
 
-        cli.delimiter('iris~$')
+        remoteCli.delimiter('iris~$')
             .banner(banner)
             .listen(iris.config.remotePort)
             .show();
