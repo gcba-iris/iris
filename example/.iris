@@ -1,0 +1,40 @@
+'use strict';
+
+const parallel = require('fastparallel')();
+const _pwjexiu$A = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/handlers/handler1.js');
+const _QwXjEiBny = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/hooks/hook1.js');
+const _FiEjEHuRy = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/hooks/hook2.js');
+const _Q1VexHtny = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/handlers/handler1.js');
+const _ziLjKHNRA = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/hooks/hook1.js');
+const _FiFvxiBny = require('/Users/ritazerrizuela/Documents/Projects/iris/iris/example/hooks/hook2.js');
+
+module.exports = (data, done) => {
+    var response;
+
+    switch (data.tag) {
+        case 'tag1':
+            parallel({}, [_QwXjEiBny.run], data, () => {});
+
+            response = _pwjexiu$A.handle(data);
+            if (response) {
+                parallel({}, [_FiEjEHuRy.run], response, () => {});
+
+                let message = {message: response, tag: data.tag, meta: data.meta};
+                done(message);
+            }
+            else done(false);
+            break;
+        case 'tag2':
+            parallel({}, [_ziLjKHNRA.run], data, () => {});
+
+            response = _Q1VexHtny.handle(data);
+            if (response) {
+                parallel({}, [_FiFvxiBny.run], response, () => {});
+
+                let message = {message: response, tag: data.tag, meta: data.meta};
+                done(message);
+            }
+            else done(false);
+            break;
+    }
+};

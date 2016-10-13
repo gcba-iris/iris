@@ -40,7 +40,6 @@
     "graceful-fs": "^4.1.9",
     "liftoff": "^2.3.0",
     "mini-signals": "^1.1.1",
-    "mkdirp": "^0.5.1",
     "shortid": "^2.2.6",
     "threads": "^0.7.0",
     "vantage": "^1.7.0"

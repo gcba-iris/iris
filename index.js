@@ -7,11 +7,13 @@
 
 'use strict';
 
-const dispatcher = require('./lib/Dispatcher');
 const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
 const BaseHandler = require('./lib/bases/Handler');
 const BaseHook = require('./lib/bases/Hook');
+const Death = require('death');
+const dispatcher = require('./lib/Dispatcher');
+const shortid = require('shortid');
 
 class Iris {
     constructor() {
@@ -60,7 +62,13 @@ class Iris {
 
         flow.docks.forEach((dock) => {
             dock.dispatcher = dispatcher;
-            dock.listen(dock.config.port);
+
+            if (!dock.id) {
+                let id = shortid.generate();
+
+                dock.id = id;
+                dock.listen(dock.config.port);
+            }
         }, this);
 
         this._flows.push(flow);
