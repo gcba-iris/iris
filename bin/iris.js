@@ -11,6 +11,7 @@
 
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
+const Threads = require('threads');
 const dispatcher = require('../lib/Dispatcher');
 
 const cli = new Vantage();
@@ -22,7 +23,7 @@ const loader = new LiftOff({
     v8flags: ['--harmony']
 });
 
-var iris, config;
+var iris, config, threadPool;
 
 const init = (env) => {
     if (env.configPath) {
@@ -43,11 +44,12 @@ const init = (env) => {
     require(env.configPath);
 
     iris = require(env.modulePath);
+    threadPool = new Threads.Pool(iris.config.threads);
 
     if (iris.flows.length > 0) {
+        dispatcher.threadPool = threadPool;
         dispatcher.config = {
-            flows: iris.flows,
-            threads: iris.config.threads
+            flows: iris.flows
         };
     } else {
         // TODO: Prettify logs and messages
