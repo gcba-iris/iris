@@ -43,7 +43,6 @@ class Iris {
     set config(options) {
         // TODO: Check options
         Object.assign(this._config, options);
-        onClose(this.release);
     }
 
     set(key, value) {

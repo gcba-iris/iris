@@ -40,6 +40,7 @@
     "liftoff": "^2.3.0",
     "mini-signals": "^1.1.1",
     "shortid": "^2.2.6",
+    "sparkles": "^1.0.0",
     "threads": "^0.7.0",
     "vantage": "^1.7.0"
   },
