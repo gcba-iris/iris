@@ -96,9 +96,7 @@ class Iris {
             logLevel: validator.isString,
             events: {
                 dispatcher: validator.isBoolean,
-                docks: validator.isBoolean,
-                handlers: validator.isBoolean,
-                hooks: validator.isBoolean
+                docks: validator.isBoolean
             },
             vantage: {
                 enabled: validator.isBoolean,
