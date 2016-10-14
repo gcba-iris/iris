@@ -61,10 +61,13 @@ const init = (env) => {
             flows: iris.flows
         };
 
-        remoteCli.delimiter('iris~$')
-            .banner(banner)
-            .listen(iris.config.remotePort)
-            .show();
+        if (iris.config.vantage.enabled) {
+            remoteCli
+                .delimiter('iris~$')
+                .banner(banner)
+                .listen(iris.config.vantage.port);
+        }
+
     } else {
         // TODO: Prettify logs and messages
         console.log('No flows found in Irisfile.');
