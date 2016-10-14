@@ -29,7 +29,7 @@ const loader = new LiftOff({
 
 const banner =
     `
-          _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/\n
+          _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/\n\n
     `;
 
 const vantage = (config) => {
@@ -54,14 +54,14 @@ const init = (env) => {
     var iris, config, threadPool;
     var spinner = ora('Loading local package');
 
-    console.log(banner);
+    process.stdout.write(chalk.dim(banner));
     spinner.start();
 
     if (!env.modulePath) {
         // TODO: Prettify logs and messages
         spinner.fail();
-        console.log('Local Iris not found.');
-        console.log('Try running: npm install iris --save');
+        console.error(chalk.red('Local Iris not found.'));
+        console.error(chalk.red('Try running: npm install iris --save'));
 
         process.exit(1);
     }
@@ -75,7 +75,7 @@ const init = (env) => {
     } else {
         // TODO: Prettify logs and messages
         spinner.fail();
-        console.log('No Irisfile found.');
+        console.error(chalk.red('No Irisfile found.'));
 
         process.exit(1);
     }
@@ -95,7 +95,7 @@ const init = (env) => {
         vantage(iris.config);
     } else {
         // TODO: Prettify logs and messages
-        console.log('No flows found in Irisfile.');
+        console.error(chalk.red('No flows found in Irisfile.'));
     }
 }
 
