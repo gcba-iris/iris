@@ -7,6 +7,10 @@ class UDPDock extends Dock {
         super(name);
     }
 
+    get path() {
+        return __filename;
+    }
+
     listen(port) {
         console.log('[UDP Dock] Listening on port ' + port + '...');
     }

@@ -14,7 +14,7 @@ class Handler1 extends Handler {
     handle(data) {
         console.log('[Handler1] Handling data...');
 
-        return 'response';
+        return 'A response...';
     }
 }
 

@@ -9,6 +9,10 @@ class HTTPDock extends Dock {
         super(name, protocol);
     }
 
+    get path() {
+        return __filename;
+    }
+
     listen(port) {
         const server = http.createServer(this._handleRequest.bind(this));
 

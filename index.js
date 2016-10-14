@@ -21,6 +21,19 @@ class Iris {
     constructor() {
         this._config = {};
         this._flows = [];
+        this._modules = [];
+    }
+
+    get flows() {
+        return this._flows;
+    }
+
+    get config() {
+        return this._config;
+    }
+
+    get modules() {
+        return this._modules;
     }
 
     get Dock() {
@@ -33,14 +46,6 @@ class Iris {
 
     get Hook() {
         return BaseHook;
-    }
-
-    get flows() {
-        return this._flows;
-    }
-
-    get config() {
-        return this._config;
     }
 
     set config(options) {
@@ -62,7 +67,7 @@ class Iris {
 
     flow(name, options) {
         const config = options;
-        const spinner = ora(`Validating ${name}`).start();
+        const spinner = ora(`Validating '${name}'`).start();
 
         this._checkFlowOptions(config);
         config.inputHooks = config.inputHooks || [];
@@ -80,7 +85,7 @@ class Iris {
 
     _checkConfig(config, spinner) {
         const schema = {
-            threads: [validator.isRequired, validator.isNumber],
+            threads: validator.isNumber,
             logLevel: validator.isString,
             vantage: {
                 enabled: validator.isBoolean,
@@ -107,6 +112,7 @@ class Iris {
         const dockSchema = {
             name: [validator.isRequired, validator.isString],
             protocol: [validator.isRequired, validator.isString],
+            path: [validator.isRequired, validator.isString],
             validate: [validator.isRequired, validator.isFunction],
             parse: [validator.isRequired, validator.isFunction],
             process: [validator.isRequired, validator.isFunction],
@@ -123,6 +129,7 @@ class Iris {
 
                 let id = shortid.generate();
 
+                this._modules.push(dock.path);
                 this._startDock(dock);
             }
         }, this);
@@ -140,6 +147,7 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors);
 
                 hook.validated = true;
+                this._modules.push(hook.path);
             }
         }, this);
 
@@ -148,6 +156,7 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors);
 
                 hook.validated = true;
+                this._modules.push(hook.path);
             }
         }, this);
     }
@@ -163,6 +172,7 @@ class Iris {
             validator.validate(flow.handler, handlerSchema, this._handleErrors);
 
             flow.handler.validated = true;
+            this._modules.push(flow.handler.path);
         }
     }
 

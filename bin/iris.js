@@ -12,10 +12,12 @@
 const LiftOff = require('liftoff');
 const Vantage = require('vantage');
 const Threads = require('threads');
+const Sparkles = require('sparkles');
 const dispatcher = require('../lib/Dispatcher');
 const minimist = require('minimist');
 const ora = require('ora');
 const chalk = require('chalk');
+const chokidar = require('chokidar');
 
 const args = minimist(process.argv.slice(2));
 
@@ -32,33 +34,13 @@ const banner =
           _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/\n\n
     `;
 
-const vantage = (config) => {
-    if (config.vantage.enabled) {
-        const remoteCli = new Vantage();
-
-        remoteCli
-            .delimiter('iris~$')
-            .banner(banner)
-            .listen(config.vantage.port);
-    }
-}
-
-const cli = () => {
-    const cliCursor = require('cli-cursor');
-    require("nodejs-dashboard");
-
-    cliCursor.hide();
-}
-
-const init = (env) => {
-    var iris, config, threadPool;
+const load = (env) => {
     var spinner = ora('Loading local package');
 
     process.stdout.write(chalk.dim(banner));
     spinner.start();
 
     if (!env.modulePath) {
-        // TODO: Prettify logs and messages
         spinner.fail();
         console.error(chalk.red('Local Iris not found.'));
         console.error(chalk.red('Try running: npm install iris --save'));
@@ -73,28 +55,67 @@ const init = (env) => {
         process.chdir(env.configBase);
         spinner.succeed();
     } else {
-        // TODO: Prettify logs and messages
         spinner.fail();
         console.error(chalk.red('No Irisfile found.'));
 
         process.exit(1);
     }
+}
 
+const newThreadPool = (config) => {
+    return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
+}
+
+const configureDispatcher = (flows, threadPool) => {
+    dispatcher.threadPool = threadPool;
+    dispatcher.config = {
+        flows: flows
+    };
+}
+
+const vantage = (config) => {
+    if (config.vantage.enabled) {
+        const remoteCli = new Vantage();
+
+        remoteCli
+            .delimiter('iris~$')
+            .banner(banner)
+            .listen(config.vantage.port);
+    }
+}
+
+const cli = () => {
+    const cliCursor = require('cli-cursor');
+
+    require("nodejs-dashboard");
+    cliCursor.hide();
+}
+
+const init = (env) => {
+    var iris, config, threadPool, events, watcher;
+
+    load(env);
     require(env.configPath);
     iris = require(env.modulePath);
 
-    threadPool = new Threads.Pool(iris.config.threads);
+    threadPool = newThreadPool(iris.config);
+    events = Sparkles('iris');
+    watcher = chokidar.watch(iris.modules, {
+            ignored: /[\/\\]\./,
+            persistent: true
+        })
+        .on('change', (path) => {
+            events.emit('reload', {
+                pool: newThreadPool(iris.config)
+            });
+        })
+        .on('error', (error) => console.error(chalk.red(`Watcher error: ${error}`)));
 
     if (iris.flows.length > 0) {
-        dispatcher.threadPool = threadPool;
-        dispatcher.config = {
-            flows: iris.flows
-        };
-
-        cli();
+        configureDispatcher(iris.flows, threadPool);
         vantage(iris.config);
+        cli();
     } else {
-        // TODO: Prettify logs and messages
         console.error(chalk.red('No flows found in Irisfile.'));
     }
 }
