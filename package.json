@@ -38,13 +38,13 @@
     "fastparallel": "^2.3.0",
     "graceful-fs": "^4.1.9",
     "liftoff": "^2.3.0",
+    "meow": "^3.7.0",
     "mini-signals": "^1.1.1",
     "propchecker": "^1.0.2",
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
     "threads": "^0.7.0",
-    "vantage": "^1.7.0",
-    "vorpal": "^1.11.4"
+    "vantage": "^1.7.0"
   },
   "devDependencies": {
     "request-ip": "^1.2.2",

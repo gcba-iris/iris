@@ -10,13 +10,11 @@
 'use strict';
 
 const LiftOff = require('liftoff');
-const Vorpal = require('vorpal');
 const Vantage = require('vantage');
 const Threads = require('threads');
 const dispatcher = require('../lib/Dispatcher');
+const meow = require('meow');
 
-const cli = new Vorpal();
-const remoteCli = new Vantage();
 const loader = new LiftOff({
     name: 'iris',
     extensions: {
@@ -62,6 +60,8 @@ const init = (env) => {
         };
 
         if (iris.config.vantage.enabled) {
+            const remoteCli = new Vantage();
+
             remoteCli
                 .delimiter('iris~$')
                 .banner(banner)
