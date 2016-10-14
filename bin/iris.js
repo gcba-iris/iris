@@ -13,7 +13,10 @@ const LiftOff = require('liftoff');
 const Vantage = require('vantage');
 const Threads = require('threads');
 const dispatcher = require('../lib/Dispatcher');
-const meow = require('meow');
+const minimist = require('minimist');
+const chalk = require('chalk');
+
+const args = minimist(process.argv.slice(2));
 
 const loader = new LiftOff({
     name: 'iris',
@@ -29,6 +32,21 @@ const banner =
     `;
 
 var iris, config, threadPool;
+
+const vantage = (config) => {
+    if (config.vantage.enabled) {
+        const remoteCli = new Vantage();
+
+        remoteCli
+            .delimiter('iris~$')
+            .banner(banner)
+            .listen(config.vantage.port);
+    }
+}
+
+const cli = () => {
+    require("nodejs-dashboard");
+}
 
 const init = (env) => {
     if (env.configPath) {
@@ -59,15 +77,8 @@ const init = (env) => {
             flows: iris.flows
         };
 
-        if (iris.config.vantage.enabled) {
-            const remoteCli = new Vantage();
-
-            remoteCli
-                .delimiter('iris~$')
-                .banner(banner)
-                .listen(iris.config.vantage.port);
-        }
-
+        cli();
+        vantage(iris.config);
     } else {
         // TODO: Prettify logs and messages
         console.log('No flows found in Irisfile.');
