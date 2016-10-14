@@ -11,13 +11,14 @@ const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
 const BaseHandler = require('./lib/bases/Handler');
 const BaseHook = require('./lib/bases/Hook');
-const Validator = require('propchecker');
 const dispatcher = require('./lib/Dispatcher');
+const validator = require('propchecker');
 const shortid = require('shortid');
+const ora = require('ora');
 
 class Iris {
     constructor() {
-        this._config = {}; // TODO: Set defaults
+        this._config = {};
         this._flows = [];
     }
 
@@ -48,14 +49,13 @@ class Iris {
         config.logLevel = config.logLevel || 'info';
 
         if (config.vantage) {
-            config.vantage.enabled = !config.vantage.enabled ? false : true;
+            config.vantage.enabled = config.vantage.enabled || false;
         }
 
         Object.assign(this._config, options);
     }
 
     set(key, value) {
-        // TODO: Check config
         this._config[key] = value;
     }
 
@@ -84,15 +84,15 @@ class Iris {
 
     _checkConfig(config) {
         const schema = {
-            threads: [Validator.isRequired, Validator.isNumber],
-            logLevel: Validator.isString,
+            threads: [validator.isRequired, validator.isNumber],
+            logLevel: validator.isString,
             vantage: {
-                enabled: Validator.isBoolean,
-                port: Validator.isNumber
+                enabled: validator.isBoolean,
+                port: validator.isNumber
             }
         };
 
-        Validator.validate(config, schema, (errors) => {
+        validator.validate(config, schema, (errors) => {
             console.error(errors);
 
             process.exit(1);
@@ -101,14 +101,14 @@ class Iris {
 
     _checkFlowOptions(options) {
         const schema = {
-            tag: [Validator.isRequired, Validator.isString],
-            docks: [Validator.isRequired, Validator.isArray],
-            handler: Validator.isRequired,
-            inputHooks: Validator.isArray,
-            outputHooks: Validator.isArray
+            tag: [validator.isRequired, validator.isString],
+            docks: [validator.isRequired, validator.isArray],
+            handler: validator.isRequired,
+            inputHooks: validator.isArray,
+            outputHooks: validator.isArray
         };
 
-        Validator.validate(options, schema, (errors) => {
+        validator.validate(options, schema, (errors) => {
             console.error(errors);
 
             process.exit(1);

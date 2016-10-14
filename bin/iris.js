@@ -45,7 +45,10 @@ const vantage = (config) => {
 }
 
 const cli = () => {
+    const cliCursor = require('cli-cursor');
     require("nodejs-dashboard");
+
+    cliCursor.hide();
 }
 
 const init = (env) => {
