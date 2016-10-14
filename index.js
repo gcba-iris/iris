@@ -55,6 +55,7 @@ class Iris {
         config.logLevel = config.logLevel || 'info';
 
         if (config.events) {
+            config.events.dispatcher = config.events.dispatcher && true;
             config.events.docks = config.events.docks && true;
             config.events.handlers = config.events.handlers && true;
             config.events.hooks = config.events.hooks && true;
@@ -94,6 +95,7 @@ class Iris {
             threads: validator.isNumber,
             logLevel: validator.isString,
             events: {
+                dispatcher: validator.isBoolean,
                 docks: validator.isBoolean,
                 handlers: validator.isBoolean,
                 hooks: validator.isBoolean

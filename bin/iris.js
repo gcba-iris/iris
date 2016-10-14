@@ -66,10 +66,11 @@ const newThreadPool = (config) => {
     return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
 }
 
-const configureDispatcher = (flows, threadPool) => {
+const configureDispatcher = (flows, config, threadPool) => {
     dispatcher.threadPool = threadPool;
     dispatcher.config = {
-        flows: flows
+        flows: flows,
+        events: config.events
     };
 }
 
@@ -112,7 +113,7 @@ const init = (env) => {
         .on('error', (error) => console.error(chalk.red(`Watcher error: ${error}`)));
 
     if (iris.flows.length > 0) {
-        configureDispatcher(iris.flows, threadPool);
+        configureDispatcher(iris.flows, iris.config, threadPool);
         vantage(iris.config);
         cli();
     } else {
