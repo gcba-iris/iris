@@ -15,6 +15,7 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
+const chalk = require('chalk');
 
 class Iris {
     constructor() {
@@ -61,6 +62,7 @@ class Iris {
 
     flow(name, options) {
         const config = options;
+        const spinner = ora(`Validating ${name}`).start();
 
         this._checkFlowOptions(config);
         config.inputHooks = config.inputHooks || [];
@@ -68,21 +70,15 @@ class Iris {
 
         const flow = new Flow(name, config);
 
-        flow.docks.forEach((dock) => {
-            dock.dispatcher = dispatcher;
+        this._validateDocks(flow, spinner);
+        this._validateHooks(flow, spinner);
+        this._validateHandler(flow, spinner);
 
-            if (!dock.id) {
-                let id = shortid.generate();
-
-                dock.id = id;
-                dock.listen(dock.config.port);
-            }
-        }, this);
-
+        spinner.succeed();
         this._flows.push(flow);
     }
 
-    _checkConfig(config) {
+    _checkConfig(config, spinner) {
         const schema = {
             threads: [validator.isRequired, validator.isNumber],
             logLevel: validator.isString,
@@ -92,14 +88,10 @@ class Iris {
             }
         };
 
-        validator.validate(config, schema, (errors) => {
-            console.error(errors);
-
-            process.exit(1);
-        });
+        validator.validate(config, schema, this._handleErrors);
     }
 
-    _checkFlowOptions(options) {
+    _checkFlowOptions(options, spinner) {
         const schema = {
             tag: [validator.isRequired, validator.isString],
             docks: [validator.isRequired, validator.isArray],
@@ -108,11 +100,88 @@ class Iris {
             outputHooks: validator.isArray
         };
 
-        validator.validate(options, schema, (errors) => {
-            console.error(errors);
+        validator.validate(options, schema, this._handleErrors);
+    }
 
-            process.exit(1);
-        });
+    _validateDocks(flow, spinner) {
+        const dockSchema = {
+            name: [validator.isRequired, validator.isString],
+            protocol: [validator.isRequired, validator.isString],
+            validate: [validator.isRequired, validator.isFunction],
+            parse: [validator.isRequired, validator.isFunction],
+            process: [validator.isRequired, validator.isFunction],
+            reply: [validator.isRequired, validator.isFunction],
+            encode: [validator.isRequired, validator.isFunction],
+            listen: [validator.isRequired, validator.isFunction],
+            port: [validator.isRequired, validator.isNumber],
+            send: [validator.isFunction]
+        };
+
+        flow.docks.forEach((dock) => {
+            if (!dock.id) {
+                validator.validate(dock, dockSchema, this._handleErrors);
+
+                let id = shortid.generate();
+
+                this._startDock(dock);
+            }
+        }, this);
+    }
+
+    _validateHooks(flow, spinner) {
+        const hookSchema = {
+            name: [validator.isRequired, validator.isString],
+            path: [validator.isRequired, validator.isString],
+            run: [validator.isRequired, validator.isFunction]
+        };
+
+        flow.inputHooks.forEach(function (hook) {
+            if (!hook.validated) {
+                validator.validate(hook, hookSchema, this._handleErrors);
+
+                hook.validated = true;
+            }
+        }, this);
+
+        flow.outputHooks.forEach(function (hook) {
+            if (!hook.validated) {
+                validator.validate(hook, hookSchema, this._handleErrors);
+
+                hook.validated = true;
+            }
+        }, this);
+    }
+
+    _validateHandler(flow, spinner) {
+        const handlerSchema = {
+            name: [validator.isRequired, validator.isString],
+            path: [validator.isRequired, validator.isString],
+            handle: [validator.isRequired, validator.isFunction]
+        };
+
+        if (!flow.handler.validated) {
+            validator.validate(flow.handler, handlerSchema, this._handleErrors);
+
+            flow.handler.validated = true;
+        }
+    }
+
+    _handleErrors(errors) {
+        spinner.fail();
+
+        errors.forEach(function (error) {
+            console.error(chalk.red(error));
+        }, this);
+
+        process.exit(1);
+    }
+
+    _startDock(dock) {
+        let id = shortid.generate();
+
+        dock.id = id;
+        dock.dispatcher = dispatcher;
+        dock.listen(dock.config.port);
     }
 }
 
