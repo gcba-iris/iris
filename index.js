@@ -54,6 +54,12 @@ class Iris {
         this._checkConfig(config);
         config.logLevel = config.logLevel || 'info';
 
+        if (config.events) {
+            config.events.docks = config.events.docks && true;
+            config.events.handlers = config.events.handlers && true;
+            config.events.hooks = config.events.hooks && true;
+        }
+
         if (config.vantage) {
             config.vantage.enabled = config.vantage.enabled || false;
         }
@@ -87,6 +93,11 @@ class Iris {
         const schema = {
             threads: validator.isNumber,
             logLevel: validator.isString,
+            events: {
+                docks: validator.isBoolean,
+                handlers: validator.isBoolean,
+                hooks: validator.isBoolean
+            },
             vantage: {
                 enabled: validator.isBoolean,
                 port: validator.isNumber
@@ -129,6 +140,9 @@ class Iris {
 
                 let id = shortid.generate();
 
+                Object.assign(dock.config, {
+                    events: this._config.events.docks
+                });
                 this._modules.push(dock.path);
                 this._startDock(dock);
             }
