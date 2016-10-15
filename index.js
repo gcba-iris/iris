@@ -50,8 +50,9 @@ class Iris {
 
     set config(options) {
         const config = options;
+        const spinner = ora('Checking config').start();
 
-        this._checkConfig(config);
+        this._checkConfig(config, spinner);
         config.logLevel = config.logLevel || 'info';
 
         if (config.events) {
@@ -65,6 +66,8 @@ class Iris {
             config.vantage.enabled = config.vantage.enabled || false;
         }
 
+        spinner.succeed();
+
         Object.assign(this._config, options);
     }
 
@@ -74,22 +77,24 @@ class Iris {
 
     flow(name, options) {
         const config = options;
+        const spinner = ora(`Validating '${name}'`).start();
 
-        this._spinner = ora(`Validating '${name}'`).start();
-        this._checkFlowOptions(config);
+        this._checkFlowOptions(config, spinner);
         config.inputHooks = config.inputHooks || [];
         config.outputHooks = config.outputHooks || [];
 
         const flow = new Flow(name, config);
 
-        this._validateDocks(flow);
-        this._validateHooks(flow);
-        this._validateHandler(flow);
-        this._spinner.succeed();
+        this._validateDocks(flow, spinner);
+        this._validateHooks(flow, spinner);
+        this._validateHandler(flow, spinner);
+
+        spinner.succeed();
+
         this._flows.push(flow);
     }
 
-    _checkConfig(config) {
+    _checkConfig(config, spinner) {
         const schema = {
             threads: validator.isNumber,
             logLevel: validator.isString,
@@ -105,10 +110,10 @@ class Iris {
             }
         };
 
-        validator.validate(config, schema, this._handleErrors);
+        validator.validate(config, schema, this._handleErrors(spinner));
     }
 
-    _checkFlowOptions(options) {
+    _checkFlowOptions(options, spinner) {
         const flowSchema = {
             tag: [validator.isRequired, validator.isString],
             docks: [validator.isRequired, validator.isArray],
@@ -117,10 +122,10 @@ class Iris {
             outputHooks: validator.isArray
         };
 
-        validator.validate(options, flowSchema, this._handleErrors);
+        validator.validate(options, flowSchema, this._handleErrors(spinner));
     }
 
-    _validateDocks(flow) {
+    _validateDocks(flow, spinner) {
         const dockSchema = {
             name: [validator.isRequired, validator.isString],
             protocol: [validator.isRequired, validator.isString],
@@ -137,7 +142,7 @@ class Iris {
 
         flow.docks.forEach((dock) => {
             if (!dock.id) {
-                validator.validate(dock, dockSchema, this._handleErrors);
+                validator.validate(dock, dockSchema, this._handleErrors(spinner));
                 dock.id = shortid.generate();
                 dock.config = Object.assign(dock.config, {
                     events: this._config.events.docks
@@ -148,7 +153,7 @@ class Iris {
         }, this);
     }
 
-    _validateHooks(flow) {
+    _validateHooks(flow, spinner) {
         const hookSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
@@ -158,20 +163,20 @@ class Iris {
 
         flow.inputHooks.forEach(function (hook) {
             if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors);
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
                 this._configureComponent(hook, this.config.events.hooks);
             }
         }, this);
 
         flow.outputHooks.forEach(function (hook) {
             if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors);
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
                 this._configureComponent(hook, this.config.events.hooks);
             }
         }, this);
     }
 
-    _validateHandler(flow) {
+    _validateHandler(flow, spinner) {
         const handlerSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
@@ -180,7 +185,7 @@ class Iris {
         };
 
         if (!flow.handler.validated) {
-            validator.validate(flow.handler, handlerSchema, this._handleErrors);
+            validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
             this._configureComponent(flow.handler, this.config.events.handlers);
         }
     }
@@ -193,14 +198,16 @@ class Iris {
         this._modules.push(component.path);
     }
 
-    _handleErrors(errors) {
-        this._spinner.fail();
+    _handleErrors(spinner) {
+        return (errors) => {
+            spinner.fail();
 
-        errors.forEach(function (error) {
-            console.error(chalk.red(error));
-        }, this);
+            errors.forEach(function (error) {
+                console.error(chalk.red(error));
+            }, this);
 
-        process.exit(1);
+            process.exit(1);
+        }
     }
 
     _startDock(dock) {
