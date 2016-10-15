@@ -11,7 +11,7 @@ class Handler1 extends Handler {
         return __filename;
     }
 
-    handle(data) {
+    process(data) {
         console.log('[Handler1] Handling data...');
 
         return 'A response...';

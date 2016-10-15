@@ -11,7 +11,7 @@ class Hook1 extends Hook {
         return __filename;
     }
 
-    run(data) {
+    process(data) {
         console.log('[Hook1] Running...');
     }
 }
