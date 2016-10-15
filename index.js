@@ -141,7 +141,8 @@ class Iris {
 
                 let id = shortid.generate();
 
-                Object.assign(dock.config, {
+                dock.id = id;
+                dock.config = Object.assign(dock.config, {
                     events: this._config.events.docks
                 });
                 this._modules.push(dock.path);
@@ -160,24 +161,14 @@ class Iris {
         flow.inputHooks.forEach(function (hook) {
             if (!hook.validated) {
                 validator.validate(hook, hookSchema, this._handleErrors);
-
-                hook.validated = true;
-                hook.config = Object.assign(hook.config, {
-                    events: this.config.events.hooks
-                });
-                this._modules.push(hook.path);
+                this._configureComponent(hook, this.config.events.hooks);
             }
         }, this);
 
         flow.outputHooks.forEach(function (hook) {
             if (!hook.validated) {
                 validator.validate(hook, hookSchema, this._handleErrors);
-
-                hook.validated = true;
-                hook.config = Object.assign(hook.config, {
-                    events: this.config.events.hooks
-                });
-                this._modules.push(hook.path);
+                this._configureComponent(hook, this.config.events.hooks);
             }
         }, this);
     }
@@ -191,13 +182,16 @@ class Iris {
 
         if (!flow.handler.validated) {
             validator.validate(flow.handler, handlerSchema, this._handleErrors);
-
-            flow.handler.validated = true;
-            flow.handler.config = Object.assign(flow.handler.config, {
-                events: this.config.events.handlers
-            });
-            this._modules.push(flow.handler.path);
+            this._configureComponent(flow.handler, this.config.events.handlers);
         }
+    }
+
+    _configureComponent(component, eventConfig) {
+        component.validated = true;
+        component.config = Object.assign(component.config, {
+            events: eventConfig
+        });
+        this._modules.push(component.path);
     }
 
     _handleErrors(errors) {
