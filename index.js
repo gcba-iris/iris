@@ -138,10 +138,7 @@ class Iris {
         flow.docks.forEach((dock) => {
             if (!dock.id) {
                 validator.validate(dock, dockSchema, this._handleErrors);
-
-                let id = shortid.generate();
-
-                dock.id = id;
+                dock.id = shortid.generate();
                 dock.config = Object.assign(dock.config, {
                     events: this._config.events.docks
                 });
