@@ -152,6 +152,7 @@ class Iris {
         const hookSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
+            process: [validator.isRequired, validator.isFunction],
             run: [validator.isRequired, validator.isFunction]
         };
 
@@ -174,6 +175,7 @@ class Iris {
         const handlerSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
+            process: [validator.isRequired, validator.isFunction],
             handle: [validator.isRequired, validator.isFunction]
         };
 
