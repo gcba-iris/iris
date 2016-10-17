@@ -15,6 +15,7 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
+const logger = require('winston');
 const utils = require('./lib/utils/utils');
 
 const consoleLog = utils.log;
@@ -24,6 +25,8 @@ class Iris {
         this._config = {};
         this._flows = [];
         this._modules = [];
+
+        logger.cli();
     }
 
     get flows() {
@@ -55,7 +58,7 @@ class Iris {
         const spinner = ora('Checking config').start();
 
         this._checkConfig(config, spinner);
-        config.logLevel = config.logLevel || 'info';
+        logger.level = config.logLevel || 'info';
 
         if (config.events) {
             config.events.dispatcher = config.events.dispatcher && true;
