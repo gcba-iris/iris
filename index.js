@@ -89,7 +89,7 @@ class Iris {
         this._flows.push(flow);
     }
 
-    _checkConfig(config) {
+    _checkConfig(config, spinner) {
         const schema = {
             threads: validator.isNumber,
             logLevel: validator.isString,
@@ -108,8 +108,8 @@ class Iris {
         validator.validate(config, schema, this._handleErrors);
     }
 
-    _checkFlowOptions(options) {
-        const flowSchema = {
+    _checkFlowOptions(options, spinner) {
+        const schema = {
             tag: [validator.isRequired, validator.isString],
             docks: [validator.isRequired, validator.isArray],
             handler: validator.isRequired,
@@ -117,10 +117,10 @@ class Iris {
             outputHooks: validator.isArray
         };
 
-        validator.validate(options, flowSchema, this._handleErrors);
+        validator.validate(options, schema, this._handleErrors);
     }
 
-    _validateDocks(flow) {
+    _validateDocks(flow, spinner) {
         const dockSchema = {
             name: [validator.isRequired, validator.isString],
             protocol: [validator.isRequired, validator.isString],
@@ -148,7 +148,7 @@ class Iris {
         }, this);
     }
 
-    _validateHooks(flow) {
+    _validateHooks(flow, spinner) {
         const hookSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
@@ -171,7 +171,7 @@ class Iris {
         }, this);
     }
 
-    _validateHandler(flow) {
+    _validateHandler(flow, spinner) {
         const handlerSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
