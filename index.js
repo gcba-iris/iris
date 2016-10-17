@@ -74,18 +74,19 @@ class Iris {
 
     flow(name, options) {
         const config = options;
+        const spinner = ora(`Validating '${name}'`).start();
 
-        this._spinner = ora(`Validating '${name}'`).start();
         this._checkFlowOptions(config);
         config.inputHooks = config.inputHooks || [];
         config.outputHooks = config.outputHooks || [];
 
         const flow = new Flow(name, config);
 
-        this._validateDocks(flow, this._spinner);
-        this._validateHooks(flow, this._spinner);
-        this._validateHandler(flow, this._spinner);
-        this._spinner.succeed();
+        this._validateDocks(flow, spinner);
+        this._validateHooks(flow, spinner);
+        this._validateHandler(flow, spinner);
+
+        spinner.succeed();
         this._flows.push(flow);
     }
 
@@ -95,9 +96,7 @@ class Iris {
             logLevel: validator.isString,
             events: {
                 dispatcher: validator.isBoolean,
-                docks: validator.isBoolean,
-                handlers: validator.isBoolean,
-                hooks: validator.isBoolean
+                docks: validator.isBoolean
             },
             vantage: {
                 enabled: validator.isBoolean,
@@ -162,9 +161,6 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors);
 
                 hook.validated = true;
-                hook.config = Object.assign(hook.config, {
-                    events: this.config.events.hooks
-                });
                 this._modules.push(hook.path);
             }
         }, this);
@@ -174,9 +170,6 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors);
 
                 hook.validated = true;
-                hook.config = Object.assign(hook.config, {
-                    events: this.config.events.hooks
-                });
                 this._modules.push(hook.path);
             }
         }, this);
@@ -193,15 +186,12 @@ class Iris {
             validator.validate(flow.handler, handlerSchema, this._handleErrors);
 
             flow.handler.validated = true;
-            flow.handler.config = Object.assign(flow.handler.config, {
-                events: this.config.events.handlers
-            });
             this._modules.push(flow.handler.path);
         }
     }
 
     _handleErrors(errors) {
-        this._spinner.fail();
+        spinner.fail();
 
         errors.forEach(function (error) {
             console.error(chalk.red(error));
