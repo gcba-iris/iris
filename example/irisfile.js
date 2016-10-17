@@ -6,7 +6,7 @@ const outputHook = require('./hooks/hook2');
 
 iris.config = {
     threads: 4,
-    logLevel: 'verbose', // TODO: Implement
+    logLevel: 'silly',
     events: {
         dispatcher: true,
         docks: true

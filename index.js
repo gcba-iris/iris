@@ -72,10 +72,16 @@ class Iris {
             config.events.docks = config.events.docks && true;
             config.events.handlers = config.events.handlers && true;
             config.events.hooks = config.events.hooks && true;
+        } else {
+            process.stdout.write('\r');
+            logger.verbose('No events config found, disabling all by default');
         }
 
         if (config.vantage) {
             config.vantage.enabled = config.vantage.enabled || false;
+        } else {
+            process.stdout.write('\r');
+            logger.verbose('No Vantage config found, disabling by default');
         }
 
         spinner.succeed();
@@ -83,6 +89,7 @@ class Iris {
     }
 
     set(key, value) {
+        this._logger.silly('Setting ' + key + '= ' + value);
         this._config[key] = value;
     }
 
@@ -107,18 +114,20 @@ class Iris {
     _checkConfig(config, spinner) {
         const schema = {
             threads: validator.isNumber,
-            logLevel: validator.isString,
-            events: {
-                dispatcher: validator.isBoolean,
-                docks: validator.isBoolean,
-                handlers: validator.isBoolean,
-                hooks: validator.isBoolean
-            },
-            vantage: {
-                enabled: validator.isBoolean,
-                port: validator.isNumber
-            }
+            logLevel: validator.isString
         };
+
+        if (config.events) schema.events = {
+            dispatcher: validator.isBoolean,
+            docks: validator.isBoolean,
+            handlers: validator.isBoolean,
+            hooks: validator.isBoolean
+        };
+
+        if (config.vantage) schema.vantage = {
+            enabled: validator.isBoolean,
+            port: validator.isNumber
+        }
 
         validator.validate(config, schema, this._handleErrors(spinner));
     }
@@ -133,6 +142,11 @@ class Iris {
         };
 
         validator.validate(options, flowSchema, this._handleErrors(spinner));
+
+        if (this.config.logLevel == 'silly') {
+            process.stdout.write('\r');
+            this._logger.silly('Checked flow options');
+        }
     }
 
     _validateDocks(flow, spinner) {
@@ -153,10 +167,15 @@ class Iris {
         flow.docks.forEach((dock) => {
             if (!dock.id) {
                 validator.validate(dock, dockSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated dock \'' + dock.name + '\'');
+
+                if (this.config.events && this.config.events.docks) {
+                    dock.config = Object.assign(dock.config, {
+                        events: this.config.events.docks
+                    });
+                }
+
                 dock.id = shortid.generate();
-                dock.config = Object.assign(dock.config, {
-                    events: this.config.events.docks
-                });
                 this.modules.push(dock.path);
                 this._startDock(dock);
             }
@@ -174,22 +193,27 @@ class Iris {
         flow.inputHooks.forEach(function (hook) {
             if (!hook.validated) {
                 validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated input hook \'' + hook.name + '\'');
+
+                if (this.config.events && this.config.events.hooks) {
+                    hook.config = Object.assign(hook.config, {
+                        events: this.config.events.hooks
+                    });
+                }
 
                 hook.validated = true;
-                hook.config = Object.assign(hook.config, {
-                    events: this.config.events.hooks
-                });
                 this.modules.push(hook.path);
-            }
+            } else logger.silly('Hook \'' + hook.name + '\' already validated');
         }, this);
 
         flow.outputHooks.forEach(function (hook) {
             if (!hook.validated) {
                 validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated output hook \'' + hook.name + '\'');
 
                 hook.validated = true;
                 this.modules.push(hook.path);
-            }
+            } else logger.silly('Hook \'' + hook.name + '\' already validated');
         }, this);
     }
 
@@ -202,11 +226,15 @@ class Iris {
 
         if (!flow.handler.validated) {
             validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
+            this._logger.silly('Validated handler \'' + flow.handler.name + '\'');
+
+            if (this.config.events && this.config.events.handlers) {
+                flow.handler.config = Object.assign(flow.handler.config, {
+                    events: this.config.events.handlers
+                });
+            }
 
             flow.handler.validated = true;
-            flow.handler.config = Object.assign(flow.handler.config, {
-                events: this.config.events.handlers
-            });
             this.modules.push(flow.handler.path);
         }
     }
@@ -229,6 +257,8 @@ class Iris {
         dock.id = id;
         dock.dispatcher = dispatcher;
         dock.listen(dock.config.port);
+
+        this._logger.verbose('Started dock \'' + dock.name + '\' on port ' + dock.config.port);
     }
 }
 

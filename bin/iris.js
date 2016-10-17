@@ -18,8 +18,10 @@ const minimist = require('minimist');
 const chokidar = require('chokidar');
 const ora = require('ora');
 const chalk = require('chalk');
+const logger = require('winston');
 const utils = require('../lib/utils/utils');
 const args = minimist(process.argv.slice(2));
+
 const consoleLog = utils.log;
 
 const loader = new LiftOff({
@@ -64,6 +66,8 @@ const load = (env) => {
 }
 
 const newThreadPool = (config) => {
+    logger.verbose('Creating new threadpool');
+
     return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
 }
 
@@ -76,8 +80,10 @@ const configureDispatcher = (flows, config, threadPool) => {
 }
 
 const vantage = (config) => {
-    if (config.vantage.enabled) {
+    if (config.vantage && config.vantage.enabled) {
         const remoteCli = new Vantage();
+
+        consoleLog.verbose('Vantage server started on port ' + config.vantage.port);
 
         remoteCli
             .delimiter('iris~$')
@@ -88,7 +94,6 @@ const vantage = (config) => {
 
 const cli = () => {
     const cliCursor = require('cli-cursor');
-    const logger = require('winston');
 
     require("nodejs-dashboard");
     cliCursor.hide();
@@ -96,6 +101,8 @@ const cli = () => {
 
 const init = (env) => {
     var iris, config, threadPool, events, watcher;
+
+    logger.cli();
 
     load(env);
     require(env.configPath);
@@ -108,6 +115,8 @@ const init = (env) => {
             persistent: true
         })
         .on('change', (path) => {
+            logger.verbose('File change detected');
+
             events.emit('reload', {
                 pool: newThreadPool(iris.config)
             });
@@ -119,7 +128,9 @@ const init = (env) => {
         vantage(iris.config);
         cli();
     } else {
-        consoleLog.error('No flows found in Irisfile.');
+        consoleLog.error('No flows found in Irisfile');
+
+        process.exit(1);
     }
 }
 

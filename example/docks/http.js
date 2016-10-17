@@ -39,6 +39,7 @@ class HTTPDock extends Dock {
 
                 if (message) {
                     response.write(message);
+                    this.logger.verbose('Sent response to client');
                 } else response.end();
             });
         }.bind(this));
