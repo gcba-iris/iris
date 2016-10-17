@@ -12,11 +12,11 @@ class UDPDock extends Dock {
     }
 
     listen(port) {
-        console.log('[UDP Dock] Listening on port ' + port + '...');
+        this.logger.info('[UDP Dock] Listening on port ' + port + '...');
     }
 
     reply(message) {
-        console.log('[HTTP Dock] Sending reply...');
+        this.logger.info('[HTTP Dock] Sending reply...');
     }
 }
 

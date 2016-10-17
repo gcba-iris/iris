@@ -12,9 +12,9 @@ class Handler1 extends Handler {
     }
 
     handle(data) {
-        console.log('[Handler1] Handling data...');
+        this.logger.info('[Handler1] Handling data...');
 
-        return 'A response...';
+        return 'A response';
     }
 }
 

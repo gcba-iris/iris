@@ -17,7 +17,7 @@ class HTTPDock extends Dock {
         const server = http.createServer(this._handleRequest.bind(this));
 
         server.listen(port, () => {
-            console.log('[HTTP Dock] Listening on port ' + port + '...');
+            this.logger.info('[HTTP Dock] Listening on port ' + port + '...');
         });
     }
 

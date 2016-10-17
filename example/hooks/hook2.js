@@ -12,7 +12,7 @@ class Hook2 extends Hook {
     }
 
     process(data) {
-        console.log('[Hook2] Running...');
+        this.logger.info('[Hook2] Running...');
     }
 
 }
