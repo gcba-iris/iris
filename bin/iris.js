@@ -15,11 +15,13 @@ const Threads = require('threads');
 const Sparkles = require('sparkles');
 const dispatcher = require('../lib/Dispatcher');
 const minimist = require('minimist');
+const chokidar = require('chokidar');
 const ora = require('ora');
 const chalk = require('chalk');
-const chokidar = require('chokidar');
+const utils = require('../lib/utils/utils');
 
 const args = minimist(process.argv.slice(2));
+const log = utils.log;
 
 const loader = new LiftOff({
     name: 'iris',
@@ -42,8 +44,8 @@ const load = (env) => {
 
     if (!env.modulePath) {
         spinner.fail();
-        console.error(chalk.red('Local Iris not found.'));
-        console.error(chalk.red('Try running: npm install iris --save'));
+        log.error('Local Iris not found.');
+        log.error('Try running: npm install iris --save');
 
         process.exit(1);
     }
@@ -56,7 +58,7 @@ const load = (env) => {
         spinner.succeed();
     } else {
         spinner.fail();
-        console.error(chalk.red('No Irisfile found.'));
+        log.error('No Irisfile found.');
 
         process.exit(1);
     }
@@ -110,14 +112,14 @@ const init = (env) => {
                 pool: newThreadPool(iris.config)
             });
         })
-        .on('error', (error) => console.error(chalk.red(`Watcher error: ${error}`)));
+        .on('error', (error) => log.error(`Watcher error: ${error}`));
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
         vantage(iris.config);
         cli();
     } else {
-        console.error(chalk.red('No flows found in Irisfile.'));
+        log.error('No flows found in Irisfile.');
     }
 }
 

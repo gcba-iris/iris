@@ -15,7 +15,9 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
-const chalk = require('chalk');
+const utils = require('../lib/utils/utils');
+
+const log = utils.log;
 
 class Iris {
     constructor() {
@@ -183,8 +185,7 @@ class Iris {
         const handlerSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
-            handle: [validator.isRequired, validator.isFunction],
-            process: [validator.isRequired, validator.isFunction]
+            handle: [validator.isRequired, validator.isFunction]
         };
 
         if (!flow.handler.validated) {
@@ -202,7 +203,7 @@ class Iris {
         spinner.fail();
 
         errors.forEach(function (error) {
-            console.error(chalk.red(error));
+            log.error(error);
         }, this);
 
         process.exit(1);
@@ -213,7 +214,7 @@ class Iris {
             spinner.fail();
 
             errors.forEach(function (error) {
-                console.error(chalk.red(error));
+                log.error(error);
             }, this);
 
             process.exit(1);
