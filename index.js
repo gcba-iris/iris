@@ -96,7 +96,9 @@ class Iris {
             logLevel: validator.isString,
             events: {
                 dispatcher: validator.isBoolean,
-                docks: validator.isBoolean
+                docks: validator.isBoolean,
+                handlers: validator.isBoolean,
+                hooks: validator.isBoolean
             },
             vantage: {
                 enabled: validator.isBoolean,
@@ -159,6 +161,9 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors(spinner));
 
                 hook.validated = true;
+                hook.config = Object.assign(hook.config, {
+                    events: this.config.events.hooks
+                });
                 this.modules.push(hook.path);
             }
         }, this);
@@ -184,6 +189,9 @@ class Iris {
             validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
 
             flow.handler.validated = true;
+            flow.handler.config = Object.assign(flow.handler.config, {
+                events: this.config.events.handlers
+            });
             this.modules.push(flow.handler.path);
         }
     }

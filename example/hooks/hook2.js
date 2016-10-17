@@ -11,9 +11,10 @@ class Hook2 extends Hook {
         return __filename;
     }
 
-    run(data) {
+    process(data) {
         console.log('[Hook2] Running...');
     }
+
 }
 
 module.exports = new Hook2('hook2');
