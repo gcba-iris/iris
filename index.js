@@ -139,9 +139,9 @@ class Iris {
                 validator.validate(dock, dockSchema, this._handleErrors(spinner));
                 dock.id = shortid.generate();
                 dock.config = Object.assign(dock.config, {
-                    events: this._config.events.docks
+                    events: this.config.events.docks
                 });
-                this._modules.push(dock.path);
+                this.modules.push(dock.path);
                 this._startDock(dock);
             }
         }, this);
@@ -159,7 +159,7 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors(spinner));
 
                 hook.validated = true;
-                this._modules.push(hook.path);
+                this.modules.push(hook.path);
             }
         }, this);
 
@@ -168,7 +168,7 @@ class Iris {
                 validator.validate(hook, hookSchema, this._handleErrors(spinner));
 
                 hook.validated = true;
-                this._modules.push(hook.path);
+                this.modules.push(hook.path);
             }
         }, this);
     }
@@ -184,7 +184,7 @@ class Iris {
             validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
 
             flow.handler.validated = true;
-            this._modules.push(flow.handler.path);
+            this.modules.push(flow.handler.path);
         }
     }
 
