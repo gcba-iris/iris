@@ -47,7 +47,8 @@
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
     "threads": "^0.7.0",
-    "vantage": "^1.7.0"
+    "vantage": "^1.7.0",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "@types/chalk": "^0.4.31",

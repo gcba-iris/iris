@@ -21,7 +21,7 @@ const chalk = require('chalk');
 const utils = require('../lib/utils/utils');
 
 const args = minimist(process.argv.slice(2));
-const log = utils.log;
+const consoleLog = utils.log;
 
 const loader = new LiftOff({
     name: 'iris',
@@ -44,8 +44,8 @@ const load = (env) => {
 
     if (!env.modulePath) {
         spinner.fail();
-        log.error('Local Iris not found.');
-        log.error('Try running: npm install iris --save');
+        consoleLog.error('Local Iris not found.');
+        consoleLog.error('Try running: npm install iris --save');
 
         process.exit(1);
     }
@@ -58,7 +58,7 @@ const load = (env) => {
         spinner.succeed();
     } else {
         spinner.fail();
-        log.error('No Irisfile found.');
+        consoleLog.error('No Irisfile found.');
 
         process.exit(1);
     }
@@ -112,14 +112,14 @@ const init = (env) => {
                 pool: newThreadPool(iris.config)
             });
         })
-        .on('error', (error) => log.error(`Watcher error: ${error}`));
+        .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
         vantage(iris.config);
         cli();
     } else {
-        log.error('No flows found in Irisfile.');
+        consoleLog.error('No flows found in Irisfile.');
     }
 }
 

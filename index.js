@@ -15,9 +15,10 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
+const logger = require('winston');
 const utils = require('./lib/utils/utils');
 
-const log = utils.log;
+const consoleLog = utils.log;
 
 class Iris {
     constructor() {
@@ -203,7 +204,7 @@ class Iris {
         spinner.fail();
 
         errors.forEach(function (error) {
-            log.error(error);
+            consoleLog.error(error);
         }, this);
 
         process.exit(1);
@@ -214,7 +215,7 @@ class Iris {
             spinner.fail();
 
             errors.forEach(function (error) {
-                log.error(error);
+                consoleLog.error(error);
             }, this);
 
             process.exit(1);
