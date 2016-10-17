@@ -99,8 +99,8 @@ const init = (env) => {
     require(env.configPath);
     iris = require(env.modulePath);
 
-    events = Sparkles('iris');
     threadPool = newThreadPool(iris.config);
+    events = Sparkles('iris');
     watcher = chokidar.watch(iris.modules, {
             ignored: /[\/\\]\./,
             persistent: true
