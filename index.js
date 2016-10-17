@@ -153,7 +153,8 @@ class Iris {
         const hookSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
-            run: [validator.isRequired, validator.isFunction]
+            run: [validator.isRequired, validator.isFunction],
+            process: [validator.isRequired, validator.isFunction]
         };
 
         flow.inputHooks.forEach(function (hook) {
@@ -182,7 +183,8 @@ class Iris {
         const handlerSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
-            handle: [validator.isRequired, validator.isFunction]
+            handle: [validator.isRequired, validator.isFunction],
+            process: [validator.isRequired, validator.isFunction]
         };
 
         if (!flow.handler.validated) {
