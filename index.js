@@ -15,7 +15,7 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
-const utils = require('../lib/utils/utils');
+const utils = require('./lib/utils/utils');
 
 const log = utils.log;
 
