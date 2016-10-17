@@ -27,18 +27,25 @@ class Iris {
         this._config = {};
         this._flows = [];
         this._modules = [];
-    }
+        this._logger = logger;
 
-    get flows() {
-        return this._flows;
+        this._logger.cli();
     }
 
     get config() {
         return this._config;
     }
 
+    get logger() {
+        return this._logger;
+    }
+
     get modules() {
         return this._modules;
+    }
+
+    get flows() {
+        return this._flows;
     }
 
     get Dock() {
@@ -58,8 +65,7 @@ class Iris {
         const spinner = ora('Checking config').start();
 
         this._checkConfig(config, spinner);
-        logger.level = config.logLevel || 'info';
-        logger.cli();
+        this._logger.level = config.logLevel || 'info';
 
         if (config.events) {
             config.events.dispatcher = config.events.dispatcher && true;
