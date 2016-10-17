@@ -15,7 +15,6 @@ const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
 const ora = require('ora');
-const logger = require('winston');
 const utils = require('./lib/utils/utils');
 
 const consoleLog = utils.log;
@@ -53,8 +52,9 @@ class Iris {
 
     set config(options) {
         const config = options;
+        const spinner = ora('Checking config').start();
 
-        this._checkConfig(config);
+        this._checkConfig(config, spinner);
         config.logLevel = config.logLevel || 'info';
 
         if (config.events) {
@@ -68,6 +68,7 @@ class Iris {
             config.vantage.enabled = config.vantage.enabled || false;
         }
 
+        spinner.succeed();
         Object.assign(this._config, options);
     }
 
@@ -79,7 +80,7 @@ class Iris {
         const config = options;
         const spinner = ora(`Validating '${name}'`).start();
 
-        this._checkFlowOptions(config);
+        this._checkFlowOptions(config, spinner);
         config.inputHooks = config.inputHooks || [];
         config.outputHooks = config.outputHooks || [];
 
