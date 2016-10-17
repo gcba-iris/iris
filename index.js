@@ -104,11 +104,11 @@ class Iris {
             }
         };
 
-        validator.validate(config, schema, this._handleErrors);
+        validator.validate(config, schema, this._handleErrors(spinner));
     }
 
     _checkFlowOptions(options, spinner) {
-        const schema = {
+        const flowSchema = {
             tag: [validator.isRequired, validator.isString],
             docks: [validator.isRequired, validator.isArray],
             handler: validator.isRequired,
@@ -116,7 +116,7 @@ class Iris {
             outputHooks: validator.isArray
         };
 
-        validator.validate(options, schema, this._handleErrors);
+        validator.validate(options, flowSchema, this._handleErrors(spinner));
     }
 
     _validateDocks(flow, spinner) {
@@ -136,11 +136,9 @@ class Iris {
 
         flow.docks.forEach((dock) => {
             if (!dock.id) {
-                validator.validate(dock, dockSchema, this._handleErrors);
-
-                let id = shortid.generate();
-
-                Object.assign(dock.config, {
+                validator.validate(dock, dockSchema, this._handleErrors(spinner));
+                dock.id = shortid.generate();
+                dock.config = Object.assign(dock.config, {
                     events: this._config.events.docks
                 });
                 this._modules.push(dock.path);
@@ -158,7 +156,7 @@ class Iris {
 
         flow.inputHooks.forEach(function (hook) {
             if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors);
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
 
                 hook.validated = true;
                 this._modules.push(hook.path);
@@ -167,7 +165,7 @@ class Iris {
 
         flow.outputHooks.forEach(function (hook) {
             if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors);
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
 
                 hook.validated = true;
                 this._modules.push(hook.path);
@@ -183,7 +181,7 @@ class Iris {
         };
 
         if (!flow.handler.validated) {
-            validator.validate(flow.handler, handlerSchema, this._handleErrors);
+            validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
 
             flow.handler.validated = true;
             this._modules.push(flow.handler.path);
@@ -198,6 +196,18 @@ class Iris {
         }, this);
 
         process.exit(1);
+    }
+
+    _handleErrors(spinner) {
+        return (errors) => {
+            spinner.fail();
+
+            errors.forEach(function (error) {
+                console.error(chalk.red(error));
+            }, this);
+
+            process.exit(1);
+        }
     }
 
     _startDock(dock) {
