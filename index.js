@@ -82,9 +82,9 @@ class Iris {
 
         const flow = new Flow(name, config);
 
-        this._validateDocks(flow);
-        this._validateHooks(flow);
-        this._validateHandler(flow);
+        this._validateDocks(flow, this._spinner);
+        this._validateHooks(flow, this._spinner);
+        this._validateHandler(flow, this._spinner);
         this._spinner.succeed();
         this._flows.push(flow);
     }
