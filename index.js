@@ -14,19 +14,19 @@ const BaseHook = require('./lib/bases/Hook');
 const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
-const ora = require('ora');
+const chalk = require('chalk');
 const logger = require('winston');
+const ora = require('ora');
 const utils = require('./lib/utils/utils');
 
 const consoleLog = utils.log;
 
 class Iris {
     constructor() {
+        this._name = 'main';
         this._config = {};
         this._flows = [];
         this._modules = [];
-
-        logger.cli();
     }
 
     get flows() {
@@ -59,6 +59,7 @@ class Iris {
 
         this._checkConfig(config, spinner);
         logger.level = config.logLevel || 'info';
+        logger.cli();
 
         if (config.events) {
             config.events.dispatcher = config.events.dispatcher && true;
@@ -202,16 +203,6 @@ class Iris {
             });
             this.modules.push(flow.handler.path);
         }
-    }
-
-    _handleErrors(errors) {
-        spinner.fail();
-
-        errors.forEach(function (error) {
-            consoleLog.error(error);
-        }, this);
-
-        process.exit(1);
     }
 
     _handleErrors(spinner) {

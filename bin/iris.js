@@ -19,7 +19,6 @@ const chokidar = require('chokidar');
 const ora = require('ora');
 const chalk = require('chalk');
 const utils = require('../lib/utils/utils');
-
 const args = minimist(process.argv.slice(2));
 const consoleLog = utils.log;
 
@@ -89,6 +88,7 @@ const vantage = (config) => {
 
 const cli = () => {
     const cliCursor = require('cli-cursor');
+    const logger = require('winston');
 
     require("nodejs-dashboard");
     cliCursor.hide();
