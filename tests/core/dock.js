@@ -1,3 +1,5 @@
+'use strict';
+
 const Dock = require('../../lib/bases/Dock');
 const Sparkles = require('sparkles');
 const test = require('tape');

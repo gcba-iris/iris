@@ -1,3 +1,5 @@
+'use strict';
+
 const Hook = require('../../lib/bases/Hook');
 const Sparkles = require('sparkles');
 const test = require('tape');

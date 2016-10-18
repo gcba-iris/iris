@@ -1,3 +1,5 @@
+'use strict';
+
 const Handler = require('../../lib/bases/Handler');
 const Sparkles = require('sparkles');
 const test = require('tape');
