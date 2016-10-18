@@ -57,6 +57,7 @@
     "@types/chokidar": "^1.4.29",
     "@types/minimist": "^1.1.29",
     "@types/ora": "0.0.29",
+    "mockery": "^2.0.0",
     "request-ip": "^1.2.2",
     "tap-notify": "^1.0.0",
     "tape": "^4.6.2",
