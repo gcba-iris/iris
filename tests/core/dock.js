@@ -66,23 +66,13 @@ group('port', (test) => {
 group('config', (test) => {
     const dock = new Dock('test', 'test');
 
-    const config = {
-        port: 8080,
-        test: 'test'
-    };
-    const expectedConfig = {
-        maxMessageLength: 300,
-        port: 8080,
-        test: 'test'
-    };
-
     test('sets dock config', (t) => {
         dock.config = config;
-        t.deepEqual(dock.config, expectedConfig);
+        t.deepEqual(dock.config, config);
     });
 
     test('gets dock config', (t) => {
-        t.deepEqual(dock.config, expectedConfig);
+        t.deepEqual(dock.config, config);
     });
 });
 
@@ -97,19 +87,6 @@ group('dispatcher', (test) => {
 
 group('validate()', (test) => {
     const dock = new Dock('test', 'test');
-
-    const config = {
-        port: 8080,
-        parser: {
-            subtagSeparator: '|',
-            dataSeparator: ','
-        },
-        encoder: {
-            subtagSeparator: '|',
-            dataSeparator: ','
-        },
-        maxMessageLength: 100
-    };
 
     dock.dispatcher = dispatcher;
     dock.config = config;
