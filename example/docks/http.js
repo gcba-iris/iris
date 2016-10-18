@@ -7,6 +7,9 @@ const requestIp = require('request-ip');
 class HTTPDock extends Dock {
     constructor(name, protocol) {
         super(name, protocol);
+
+        this._server = null;
+        this._listening = false;
     }
 
     get path() {
@@ -14,11 +17,16 @@ class HTTPDock extends Dock {
     }
 
     listen(port) {
-        const server = http.createServer(this._handleRequest.bind(this));
+        this._server = http.createServer(this._handleRequest.bind(this));
 
-        server.listen(port, () => {
+        this._server.listen(port, () => {
+            this._listening = true;
             this.logger.info('[HTTP Dock] Listening on port ' + port + '...');
         });
+    }
+
+    stop() {
+        if (this._listening) this._server.close();
     }
 
     _handleRequest(request, response) {

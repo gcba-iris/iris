@@ -176,8 +176,8 @@ class Iris {
                 }
 
                 dock.id = shortid.generate();
+                dock.dispatcher = dispatcher;
                 this.modules.push(dock.path);
-                this._startDock(dock);
             }
         }, this);
     }
@@ -249,16 +249,6 @@ class Iris {
 
             process.exit(1);
         }
-    }
-
-    _startDock(dock) {
-        let id = shortid.generate();
-
-        dock.id = id;
-        dock.dispatcher = dispatcher;
-        dock.listen(dock.config.port);
-
-        this._logger.verbose('Started dock \'' + dock.name + '\' on port ' + dock.config.port);
     }
 }
 
