@@ -1,36 +1,42 @@
-const Hook = require('../../lib/bases/Dock');
+const Hook = require('../../lib/bases/Hook');
 const Sparkles = require('sparkles');
 const test = require('tape');
 const group = require('tape-plus').group;
 
 group('name', (test) => {
-    var hook = new Hook('test');
+    const hook = new Hook('test');
 
     test('gets dock name', (t) => {
-        t.pass('Ok');
+        t.equal(hook.name, 'test');
     });
 });
 
 group('config', (test) => {
-    var hook = new Hook('test');
+    const hook = new Hook('test');
+
+    const config = {
+        test: 'Test'
+    };
 
     test('sets dock config', (t) => {
-        t.pass('Ok');
+        hook.config = config;
+        t.deepEqual(hook.config, config);
     });
 
     test('gets dock config', (t) => {
-        t.pass('Ok');
+        t.deepEqual(hook.config, config);
     });
 });
 
 group('validated', (test) => {
-    var hook = new Hook('test');
+    const hook = new Hook('test');
 
     test('sets dock validation state', (t) => {
-        t.pass('Ok');
+        hook.validated = true;
+        t.equal(hook.validated, true);
     });
 
     test('gets dock validation state', (t) => {
-        t.pass('Ok');
+        t.equal(hook.validated, true);
     });
 });

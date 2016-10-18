@@ -23,7 +23,7 @@ const dispatcher = {
 };
 
 group('id', (test) => {
-    var dock = new Dock('test', 'test');
+    const dock = new Dock('test', 'test');
 
     test('sets dock Id', (t) => {
         dock.id = 'test';
@@ -56,9 +56,7 @@ group('port', (test) => {
     const dock = new Dock('test', 'test');
 
     test('gets dock port', (t) => {
-        dock.config = {
-            port: 8080
-        };
+        dock.config = config;
         t.equal(dock.port, 8080);
     });
 });
@@ -244,7 +242,7 @@ group('process()', (test) => {
 });
 
 group('encode()', (test) => {
-    var dock = new Dock('test', 'test');
+    const dock = new Dock('test', 'test');
 
     dock.id = 'test';
     dock.config = config;
@@ -300,7 +298,7 @@ group('encode()', (test) => {
 });
 
 group('_checkConfig()', (test) => {
-    var dock = new Dock('test', 'test');
+    const dock = new Dock('test', 'test');
 
     var failed = false;
 
