@@ -46,7 +46,7 @@ const load = (env) => {
     if (!env.modulePath) {
         spinner.fail();
         consoleLog.error('Local Iris not found.');
-        consoleLog.error('Try running: npm install iris --save');
+        consoleLog.error('Try running: npm install @gcba-iris/iris --save');
 
         process.exit(1);
     }
