@@ -77,13 +77,6 @@ class Iris {
             logger.verbose('No events config found, disabling all by default');
         }
 
-        if (config.vantage) {
-            config.vantage.enabled = config.vantage.enabled || false;
-        } else {
-            process.stdout.write('\r');
-            logger.verbose('No Vantage config found, disabling by default');
-        }
-
         spinner.succeed();
         Object.assign(this._config, options);
     }
@@ -123,11 +116,6 @@ class Iris {
             handlers: validator.isBoolean,
             hooks: validator.isBoolean
         };
-
-        if (config.vantage) schema.vantage = {
-            enabled: validator.isBoolean,
-            port: validator.isNumber
-        }
 
         validator.validate(config, schema, this._handleErrors(spinner));
     }

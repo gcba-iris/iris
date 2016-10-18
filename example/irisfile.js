@@ -10,10 +10,6 @@ iris.config = {
     events: {
         dispatcher: true,
         docks: true
-    },
-    vantage: {
-        enabled: false,
-        port: 1337
     }
 };
 

@@ -10,17 +10,14 @@
 'use strict';
 
 const LiftOff = require('liftoff');
-const Vantage = require('vantage');
 const Threads = require('threads');
 const Sparkles = require('sparkles');
 const dispatcher = require('../lib/Dispatcher');
-const minimist = require('minimist');
 const chokidar = require('chokidar');
 const ora = require('ora');
 const chalk = require('chalk');
 const logger = require('winston');
 const utils = require('../lib/utils/utils');
-const args = minimist(process.argv.slice(2));
 
 const consoleLog = utils.log;
 
@@ -79,21 +76,10 @@ const configureDispatcher = (flows, config, threadPool) => {
     };
 }
 
-const vantage = (config) => {
-    if (config.vantage && config.vantage.enabled) {
-        const remoteCli = new Vantage();
-
-        consoleLog.verbose('Vantage server started on port ' + config.vantage.port);
-
-        remoteCli
-            .delimiter('iris~$')
-            .banner(banner)
-            .listen(config.vantage.port);
-    }
-}
-
 const cli = () => {
+    const minimist = require('minimist');
     const cliCursor = require('cli-cursor');
+    const args = minimist(process.argv.slice(2));
 
     require("nodejs-dashboard");
     cliCursor.hide();
@@ -125,7 +111,6 @@ const init = (env) => {
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
-        vantage(iris.config);
         cli();
     } else {
         consoleLog.error('No flows found in Irisfile.');
