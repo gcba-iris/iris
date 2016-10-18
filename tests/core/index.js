@@ -11,7 +11,7 @@ const handler = require('../../example/handlers/handler1');
 const hook1 = require('../../example/hooks/hook1');
 const hook2 = require('../../example/hooks/hook2');
 
-group('config', (test) => {
+group('iris.config', (test) => {
     test('sets Iris config', (t) => {
         t.pass('Ok');
     });
@@ -21,61 +21,61 @@ group('config', (test) => {
     });
 });
 
-group('logger', (test) => {
+group('iris.logger', (test) => {
     test('gets logger instance', (t) => {
         t.pass('Ok');
     });
 });
 
-group('modules', (test) => {
+group('iris.modules', (test) => {
     test('gets list of active module paths', (t) => {
         t.pass('Ok');
     });
 });
 
-group('flows', (test) => {
+group('iris.flows', (test) => {
     test('gets list of active flows', (t) => {
         t.pass('Ok');
     });
 });
 
-group('Dock', (test) => {
+group('iris.Dock', (test) => {
     test('gets base Dock class', (t) => {
         t.pass('Ok');
     });
 });
 
-group('Handler', (test) => {
+group('iris.Handler', (test) => {
     test('gets base Handler class', (t) => {
         t.pass('Ok');
     });
 });
 
-group('Hook', (test) => {
+group('iris.Hook', (test) => {
     test('gets base Hook class', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_checkConfig()', (test) => {
+group('iris._checkConfig()', (test) => {
     test('checks Iris config', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_checkFlowOptions()', (test) => {
+group('iris._checkFlowOptions()', (test) => {
     test('checks flow schema', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_validateDocks()', (test) => {
+group('iris._validateDocks()', (test) => {
     test('validate registered docks', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_validateHooks()', (test) => {
+group('iris._validateHooks()', (test) => {
     test('validate registered input hooks', (t) => {
         t.pass('Ok');
     });
@@ -85,13 +85,13 @@ group('_validateHooks()', (test) => {
     });
 });
 
-group('_validateHandler()', (test) => {
+group('iris._validateHandler()', (test) => {
     test('validate registered handler', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_handleErrors()', (test) => {
+group('iris._handleErrors()', (test) => {
     test('log validation errors', (t) => {
         t.pass('Ok');
     });

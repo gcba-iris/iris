@@ -24,7 +24,7 @@ const dispatcher = {
     dispatch: (data, callback) => {}
 };
 
-group('id', (test) => {
+group('dock.id', (test) => {
     const dock = new Dock('test', 'test');
 
     test('sets dock Id', (t) => {
@@ -38,7 +38,7 @@ group('id', (test) => {
     });
 });
 
-group('name', (test) => {
+group('dock.name', (test) => {
     const dock = new Dock('test', 'test');
 
     test('gets dock name', (t) => {
@@ -46,7 +46,7 @@ group('name', (test) => {
     });
 });
 
-group('protocol', (test) => {
+group('dock.protocol', (test) => {
     const dock = new Dock('test', 'test');
 
     test('gets dock protocol', (t) => {
@@ -54,7 +54,7 @@ group('protocol', (test) => {
     });
 });
 
-group('port', (test) => {
+group('dock.port', (test) => {
     const dock = new Dock('test', 'test');
 
     test('gets dock port', (t) => {
@@ -63,7 +63,7 @@ group('port', (test) => {
     });
 });
 
-group('config', (test) => {
+group('dock.config', (test) => {
     const dock = new Dock('test', 'test');
 
     test('sets dock config', (t) => {
@@ -76,7 +76,7 @@ group('config', (test) => {
     });
 });
 
-group('dispatcher', (test) => {
+group('dock.dispatcher', (test) => {
     const dock = new Dock('test', 'test');
 
     test('sets dispatcher instance', (t) => {
@@ -85,7 +85,7 @@ group('dispatcher', (test) => {
     });
 });
 
-group('validate()', (test) => {
+group('dock.validate()', (test) => {
     const dock = new Dock('test', 'test');
 
     dock.dispatcher = dispatcher;
@@ -120,7 +120,7 @@ group('validate()', (test) => {
     });
 });
 
-group('parse()', (test) => {
+group('dock.parse()', (test) => {
     const dock = new Dock('test', 'test');
 
     dock.dispatcher = dispatcher;
@@ -159,7 +159,7 @@ group('parse()', (test) => {
     });
 });
 
-group('process()', (test) => {
+group('dock.process()', (test) => {
     const dock = new Dock('test', 'test');
     const events = Sparkles('test');
 
@@ -243,7 +243,7 @@ group('process()', (test) => {
     });
 });
 
-group('encode()', (test) => {
+group('dock.encode()', (test) => {
     const dock = new Dock('test', 'test');
 
     dock.id = 'test';
@@ -299,7 +299,7 @@ group('encode()', (test) => {
     });
 });
 
-group('_checkConfig()', (test) => {
+group('dock._checkConfig()', (test) => {
     const dock = new Dock('test', 'test');
 
     var failed = false;

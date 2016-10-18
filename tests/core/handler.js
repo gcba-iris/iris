@@ -9,7 +9,7 @@ const dispatcher = {
     test: 'Test'
 };
 
-group('name', (test) => {
+group('handler.name', (test) => {
     const handler = new Handler('test');
 
     test('gets hook name', (t) => {
@@ -17,7 +17,7 @@ group('name', (test) => {
     });
 });
 
-group('config', (test) => {
+group('handler.config', (test) => {
     const handler = new Handler('test');
 
     const config = {
@@ -34,7 +34,7 @@ group('config', (test) => {
     });
 });
 
-group('dispatcher', (test) => {
+group('handler.dispatcher', (test) => {
     const handler = new Handler('test');
 
     test('sets hook dispatcher instance', (t) => {
@@ -43,7 +43,7 @@ group('dispatcher', (test) => {
     });
 });
 
-group('validated', (test) => {
+group('handler.validated', (test) => {
     const handler = new Handler('test');
 
     test('sets hook validation state', (t) => {
@@ -56,7 +56,7 @@ group('validated', (test) => {
     });
 });
 
-group('send()', (test) => {
+group('handler.send()', (test) => {
     const handler = new Handler('test');
 
     const response = 'Test';

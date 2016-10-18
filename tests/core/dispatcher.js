@@ -26,25 +26,25 @@ const flows = [new Flow('Flow 1', {
     })
 ];
 
-group('tags', (test) => {
+group('dispatcher.tags', (test) => {
     test('gets tags', (t) => {
         t.pass('Ok');
     });
 });
 
-group('config', (test) => {
+group('dispatcher.config', (test) => {
     test('sets dispatcher config', (t) => {
         t.pass('Ok');
     });
 });
 
-group('threadPool', (test) => {
+group('dispatcher.threadPool', (test) => {
     test('sets dispatcher threadpool instance', (t) => {
         t.pass('Ok');
     });
 });
 
-group('dispatch()', (test) => {
+group('dispatcher.dispatch()', (test) => {
     test('sends data to threadpool', (t) => {
         t.pass('Ok');
     });
@@ -58,25 +58,25 @@ group('dispatch()', (test) => {
     });
 });
 
-group('respond()', (test) => {
+group('dispatcher.respond()', (test) => {
     test('sends response to original dock', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_processFlows()', (test) => {
+group('dispatcher._processFlows()', (test) => {
     test('pushes content to tags array', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_generateJob()', (test) => {
+group('dispatcher._generateJob()', (test) => {
     test('generates a valid javascript file', (t) => {
         t.pass('Ok');
     });
 });
 
-group('_loadJob()', (test) => {
+group('dispatcher._loadJob()', (test) => {
     test('loads compiled flows into threadpool', (t) => {
         t.pass('Ok');
     });
@@ -86,7 +86,7 @@ group('_loadJob()', (test) => {
     });
 });
 
-group('_startDock()', (test) => {
+group('dispatcher._startDock()', (test) => {
     test('stops docks', (t) => {
         t.pass('Ok');
     });

@@ -5,7 +5,7 @@ const Sparkles = require('sparkles');
 const test = require('tape');
 const group = require('tape-plus').group;
 
-group('name', (test) => {
+group('hook.name', (test) => {
     const hook = new Hook('test');
 
     test('gets dock name', (t) => {
@@ -13,7 +13,7 @@ group('name', (test) => {
     });
 });
 
-group('config', (test) => {
+group('hook.config', (test) => {
     const hook = new Hook('test');
 
     const config = {
@@ -30,7 +30,7 @@ group('config', (test) => {
     });
 });
 
-group('validated', (test) => {
+group('hook.validated', (test) => {
     const hook = new Hook('test');
 
     test('sets dock validation state', (t) => {
