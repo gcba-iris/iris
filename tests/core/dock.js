@@ -310,6 +310,8 @@ group('_checkConfig()', (test) => {
     };
 
     test('checks config', (t) => {
+        dock._checkConfig(config);
+
         if (failed) t.fail('Config threw validation errors');
         else t.pass('Ok');
     });
