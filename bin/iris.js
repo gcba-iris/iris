@@ -128,7 +128,7 @@ const init = (env) => {
         vantage(iris.config);
         cli();
     } else {
-        consoleLog.error('No flows found in Irisfile');
+        consoleLog.error('No flows found in Irisfile.');
 
         process.exit(1);
     }
