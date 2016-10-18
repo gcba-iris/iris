@@ -160,6 +160,7 @@ class Iris {
             reply: [validator.isRequired, validator.isFunction],
             encode: [validator.isRequired, validator.isFunction],
             listen: [validator.isRequired, validator.isFunction],
+            stop: [validator.isRequired, validator.isFunction],
             port: [validator.isRequired, validator.isNumber],
             send: [validator.isFunction]
         };
