@@ -81,11 +81,6 @@ class Iris {
         Object.assign(this._config, options);
     }
 
-    set(key, value) {
-        this._logger.silly('Setting ' + key + '= ' + value);
-        this._config[key] = value;
-    }
-
     flow(name, options) {
         const config = options;
         const spinner = ora(`Validating '${name}'`).start();
