@@ -201,17 +201,12 @@ group('process()', (test) => {
             t.pass('Ok');
             next();
         };
-        const dispatcher = {
-            tags: {
-                'tag1': {}
-            },
-            dispatch: (data, callback) => {
-                events.emit('dispatcherExecuted', {});
-            }
-        };
 
         events.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
+        dock._dispatcher.dispatch = (data, callback) => {
+            events.emit('dispatcherExecuted', {});
+        };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -230,17 +225,12 @@ group('process()', (test) => {
             t.pass('Ok');
             next();
         };
-        const dispatcher = {
-            tags: {
-                'tag1': {}
-            },
-            dispatch: (data, callback) => {
-                if (data.meta.dock) events.emit('setDockId', {});
-            }
-        };
 
         events.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
+        dock._dispatcher.dispatch = (data, callback) => {
+            if (data.meta.dock) events.emit('setDockId', {});
+        };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -259,17 +249,12 @@ group('process()', (test) => {
             t.pass('Ok');
             next();
         };
-        const dispatcher = {
-            tags: {
-                'tag1': {}
-            },
-            dispatch: (data, callback) => {
-                if (data.meta.timestamp) events.emit('setTimestamp', {});
-            }
-        };
 
         events.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
+        dock._dispatcher.dispatch = (data, callback) => {
+            if (data.meta.timestamp) events.emit('setTimestamp', {});
+        }
         dock.process(message, meta, callback);
 
         setTimeout(() => {
