@@ -27,8 +27,12 @@ const flows = [
     })
 ];
 const tags = {
-  'tag1': flows[0],
-  'tag2': flows[1]
+    'tag1': {
+        flow: flows[0]
+    },
+    'tag2': {
+        flow: flows[1]
+    }
 };
 
 group('dispatcher.tags', (test) => {
@@ -59,7 +63,11 @@ group('dispatcher.threadPool', (test) => {
 group('dispatcher.dispatch()', (test) => {
     const threadPool = {
         test: 'Test',
-        send: (data) => {}
+        send: (data) => {
+            return {
+                on: () => {}
+            };
+        }
     };
     const data = {
         tag: 'tag1',
@@ -71,7 +79,13 @@ group('dispatcher.dispatch()', (test) => {
         var valid = false;
 
         dispatcher.threadPool = threadPool;
-        dispatcher._threadPool.send = (data) => valid = true;
+        dispatcher._threadPool.send = (data) => {
+            valid = true;
+            
+            return {
+                on: () => {}
+            };
+        }
         dispatcher._tags = tags;
         dispatcher.dispatch(data);
 
