@@ -10,7 +10,8 @@ const handler = require('../../example/handlers/handler1');
 const hook1 = require('../../example/hooks/hook1');
 const hook2 = require('../../example/hooks/hook2');
 
-const flows = [new Flow('Flow 1', {
+const flows = [
+    new Flow('Flow 1', {
         tag: 'tag1',
         docks: [httpDock],
         handler: handler,
@@ -25,10 +26,15 @@ const flows = [new Flow('Flow 1', {
         outputHooks: [hook2]
     })
 ];
+const tags = {
+  'tag1': flows[0],
+  'tag2': flows[1]
+};
 
 group('dispatcher.tags', (test) => {
     test('gets tags', (t) => {
-        t.pass('Ok');
+        dispatcher._tags = tags;
+        t.deepEqual(dispatcher.tags, tags);
     });
 });
 
@@ -40,20 +46,54 @@ group('dispatcher.config', (test) => {
 
 group('dispatcher.threadPool', (test) => {
     test('sets dispatcher threadpool instance', (t) => {
-        t.pass('Ok');
+        const threadPool = {
+            test: 'Test'
+        };
+
+        dispatcher.threadPool = threadPool;
+
+        t.equal(dispatcher._threadPool, threadPool);
     });
 });
 
 group('dispatcher.dispatch()', (test) => {
+    const threadPool = {
+        test: 'Test',
+        send: (data) => {}
+    };
+    const data = {
+        tag: 'tag1',
+        data: {},
+        meta: {}
+    };
+
     test('sends data to threadpool', (t) => {
-        t.pass('Ok');
-    });
+        var valid = false;
+
+        dispatcher.threadPool = threadPool;
+        dispatcher._threadPool.send = (data) => valid = true;
+        dispatcher._tags = tags;
+        dispatcher.dispatch(data);
+
+        if (valid)
+            t.pass('Ok');
+        else
+            t.fail('Data was never sent to the threadpool');
+        }
+    );
 
     test('adds flow name to metadata', (t) => {
-        t.pass('Ok');
+        dispatcher.threadPool = threadPool;
+        dispatcher._tags = tags;
+        dispatcher.dispatch(data);
+        t.equal(data.meta.flow, 'Flow 1');
     });
 
     test('receives response from threadpool', (t) => {
+        t.pass('Ok');
+    });
+
+    test('runs dock callback', (t) => {
         t.pass('Ok');
     });
 });
