@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "tape tests/**/*.js | tap-notify | tap-speck --100",
-    "posttest": "tap --coverage-report=lcov && codecov"
+    "posttest": "tape --coverage-report=lcov && codecov"
   },
   "bin": {
     "iris": "./bin/iris.js"
