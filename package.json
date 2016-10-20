@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "nyc tape tests/**/*.js | tap-notify | tap-speck"
+    "test": "nyc tape tests/**/*.js | tap-notify | tap-speck",
+    "coverage": "nyc report --reporter=lcov"
   },
   "bin": {
     "iris": "./bin/iris.js"
@@ -61,5 +62,11 @@
     "tap-notify": "^1.0.0",
     "tape": "^4.6.2",
     "tape-plus": "^1.0.0"
+  },
+  "nyc": {
+    "exclude": [
+      "example/**/*.js",
+      "bin/*.js"
+    ]
   }
 }
