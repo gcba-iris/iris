@@ -26,7 +26,8 @@ const config = {
 iris._logger = {
     warn: () => {},
     silly: () => {},
-    error: () => {}
+    error: () => {},
+    verbose: () => {}
 };
 
 group('iris.config', (test) => {
@@ -49,7 +50,8 @@ group('iris.logger', (test) => {
             level: 'silly',
             warn: () => {},
             silly: () => {},
-            error: () => {}
+            error: () => {},
+            verbose: () => {}
         };
         t.equal(JSON.stringify(iris.logger), JSON.stringify(logger));
     });
