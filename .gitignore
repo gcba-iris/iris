@@ -1,6 +1,9 @@
 # Irisfile
 .iris
 
+# Visual Studio Code
+.vscode
+
 # Logs
 logs
 *.log
