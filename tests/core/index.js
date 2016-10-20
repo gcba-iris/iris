@@ -14,13 +14,19 @@ const hook2 = require('../../example/hooks/hook2');
 
 const config = {
     threads: 4,
-    logLevel: 'warn',
+    logLevel: 'silly',
     events: {
         dispatcher: true,
         docks: true,
         handlers: true,
         hooks: true
     }
+};
+
+iris._logger = {
+    warn: () => {},
+    silly: () => {},
+    error: () => {}
 };
 
 group('iris.config', (test) => {
@@ -39,8 +45,13 @@ group('iris.config', (test) => {
 
 group('iris.logger', (test) => {
     test('gets logger instance', (t) => {
-        const logger = require('winston');
-        t.deepLooseEqual(iris.logger, logger);
+        const logger = {
+            level: 'silly',
+            warn: () => {},
+            silly: () => {},
+            error: () => {}
+        };
+        t.equal(JSON.stringify(iris.logger), JSON.stringify(logger));
     });
 });
 
@@ -95,5 +106,23 @@ group('iris.Handler', (test) => {
 group('iris.Hook', (test) => {
     test('gets base Hook class', (t) => {
         t.deepLooseEqual(iris.Hook, BaseHook);
+    });
+});
+
+group('iris._handleErrors()', (test) => {
+    test('emits an event', (t) => {
+        const spinner = {
+            fail: () => {}
+        };
+        const errors = ['error'];
+
+        iris._handleErrors = (spinner) => {
+            return (errors) => {
+                spinner.fail();
+
+                t.pass('Ok');
+            }
+        }
+        iris._handleErrors(spinner)(errors);
     });
 });
