@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "nyc tape tests/**/*.js | tap-notify | tap-speck",
-    "coverage": "nyc report --reporter=lcov"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "bin": {
     "iris": "./bin/iris.js"
@@ -57,6 +57,7 @@
     "@types/chokidar": "^1.4.29",
     "@types/minimist": "^1.1.29",
     "@types/ora": "0.0.29",
+    "codecov": "^1.0.1",
     "nyc": "^8.3.2",
     "request-ip": "^1.2.2",
     "tap-notify": "^1.0.0",
@@ -66,7 +67,8 @@
   "nyc": {
     "exclude": [
       "example/**/*.js",
-      "bin/*.js"
+      "bin/*.js",
+      "node_modules"
     ]
   }
 }
