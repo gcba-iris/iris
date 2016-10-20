@@ -68,10 +68,10 @@ class Iris {
         this._logger.level = config.logLevel || 'info';
 
         if (config.events) {
-            config.events.dispatcher = config.events.dispatcher && true;
-            config.events.docks = config.events.docks && true;
-            config.events.handlers = config.events.handlers && true;
-            config.events.hooks = config.events.hooks && true;
+            config.events.dispatcher = config.events.dispatcher ? true : false;
+            config.events.docks = config.events.docks ? true : false;
+            config.events.handlers = config.events.handlers ? true : false;
+            config.events.hooks = config.events.hooks ? true : false;
         } else {
             logger.verbose('\rNo events config found, disabling all by default');
         }

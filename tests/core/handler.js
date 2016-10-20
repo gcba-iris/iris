@@ -26,7 +26,7 @@ group('handler.config', (test) => {
 
     test('sets hook config', (t) => {
         handler.config = config;
-        t.deepEqual(handler.config, config);
+        t.deepEqual(handler._config, config);
     });
 
     test('gets hook config', (t) => {

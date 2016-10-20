@@ -22,7 +22,7 @@ group('hook.config', (test) => {
 
     test('sets dock config', (t) => {
         hook.config = config;
-        t.deepEqual(hook.config, config);
+        t.deepEqual(hook._config, config);
     });
 
     test('gets dock config', (t) => {

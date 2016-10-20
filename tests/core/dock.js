@@ -68,7 +68,7 @@ group('dock.config', (test) => {
 
     test('sets dock config', (t) => {
         dock.config = config;
-        t.deepEqual(dock.config, config);
+        t.deepEqual(dock._config, config);
     });
 
     test('gets dock config', (t) => {
