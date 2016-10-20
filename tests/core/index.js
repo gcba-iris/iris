@@ -14,7 +14,13 @@ const hook2 = require('../../example/hooks/hook2');
 
 const config = {
     threads: 4,
-    logLevel: 'silly'
+    logLevel: 'warn',
+    events: {
+        dispatcher: true,
+        docks: true,
+        handlers: true,
+        hooks: true
+    }
 };
 
 group('iris.config', (test) => {
