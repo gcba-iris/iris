@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - '6.5'
+env:
+  global:
+    - CXX=g++-4.8
+before_script:
+  - npm update -g npm
+  - npm install
+  - npm install -g node-gyp
+script:
+  - npm test
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
