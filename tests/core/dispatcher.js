@@ -179,3 +179,17 @@ group('dispatcher._startDock()', (test) => {
         t.equal(valid, true);
     });
 });
+
+group('dispatcher._emitEvent', (test) => {
+    test('emits an event', (t) => {
+        const config = {
+            events: true
+        };
+
+        dispatcher._events = {};
+        dispatcher._events.emit = function (event, callback) {
+            t.pass('Ok');
+        }.bind(this);
+        dispatcher._emitEvent('test', {});
+    });
+});
