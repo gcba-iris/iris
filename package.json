@@ -68,6 +68,7 @@
     "exclude": [
       "example/**/*.js",
       "bin/*.js",
+      "tests",
       "node_modules"
     ]
   }
