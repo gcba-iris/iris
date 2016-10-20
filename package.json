@@ -42,7 +42,7 @@
     "graceful-fs": "^4.1.9",
     "liftoff": "^2.3.0",
     "minimist": "^1.2.0",
-    "nodejs-dashboard": "^0.1.1",
+    "nodejs-dashboard": "^0.1.2",
     "ora": "^0.3.0",
     "propchecker": "^1.0.2",
     "shortid": "^2.2.6",

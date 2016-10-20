@@ -73,8 +73,7 @@ class Iris {
             config.events.handlers = config.events.handlers && true;
             config.events.hooks = config.events.hooks && true;
         } else {
-            process.stdout.write('\r');
-            logger.verbose('No events config found, disabling all by default');
+            logger.verbose('\rNo events config found, disabling all by default');
         }
 
         spinner.succeed();
@@ -127,8 +126,7 @@ class Iris {
         validator.validate(options, flowSchema, this._handleErrors(spinner));
 
         if (this.config.logLevel == 'silly') {
-            process.stdout.write('\r');
-            this._logger.silly('Checked flow options');
+            this._logger.silly('\rChecked flow options');
         }
     }
 

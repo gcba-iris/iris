@@ -3,6 +3,7 @@
 const Sparkles = require('sparkles');
 const Flow = require('../../lib/Flow');
 const dispatcher = require('../../lib/Dispatcher');
+const fs = require('graceful-fs');
 const test = require('tape');
 const group = require('tape-plus').group;
 const httpDock = require('../../example/docks/http');
@@ -34,6 +35,13 @@ const tags = {
         flow: flows[1]
     }
 };
+const config = {
+    flows: flows
+};
+
+httpDock.config = {
+    port: 5000
+};
 
 group('dispatcher.tags', (test) => {
     test('gets tags', (t) => {
@@ -43,8 +51,22 @@ group('dispatcher.tags', (test) => {
 });
 
 group('dispatcher.config', (test) => {
+    const threadPool = {
+        test: 'Test',
+        run: (data) => {
+            return {
+                on: (event) => {}
+            };
+        }
+    };
+
     test('sets dispatcher config', (t) => {
-        t.pass('Ok');
+        config.flows[0].docks[0].listen = () => {};
+        config.flows[1].docks[0].listen = () => {};
+
+        dispatcher.threadPool = threadPool;
+        dispatcher.config = config;
+        t.deepEqual(dispatcher._config, config);
     });
 });
 
@@ -55,7 +77,6 @@ group('dispatcher.threadPool', (test) => {
         };
 
         dispatcher.threadPool = threadPool;
-
         t.equal(dispatcher._threadPool, threadPool);
     });
 });
@@ -81,20 +102,15 @@ group('dispatcher.dispatch()', (test) => {
         dispatcher.threadPool = threadPool;
         dispatcher._threadPool.send = (data) => {
             valid = true;
-            
+
             return {
                 on: () => {}
             };
         }
         dispatcher._tags = tags;
         dispatcher.dispatch(data);
-
-        if (valid)
-            t.pass('Ok');
-        else
-            t.fail('Data was never sent to the threadpool');
-        }
-    );
+        t.equal(valid, true);
+    });
 
     test('adds flow name to metadata', (t) => {
         dispatcher.threadPool = threadPool;
@@ -102,50 +118,65 @@ group('dispatcher.dispatch()', (test) => {
         dispatcher.dispatch(data);
         t.equal(data.meta.flow, 'Flow 1');
     });
-
-    test('receives response from threadpool', (t) => {
-        t.pass('Ok');
-    });
-
-    test('runs dock callback', (t) => {
-        t.pass('Ok');
-    });
 });
 
 group('dispatcher.respond()', (test) => {
     test('sends response to original dock', (t) => {
-        t.pass('Ok');
+        var valid = false;
+        const response = {
+            message: 'Test',
+            meta: {
+                dock: 'test'
+            },
+            tag: 'tag1'
+        };
+
+        flows[0].docks[0].reply = (response) => {
+            valid = true;
+        };
+        dispatcher._docks['test'] = flows[0].docks[0];
+        dispatcher.respond(response);
+        t.equal(valid, true);
     });
 });
 
 group('dispatcher._processFlows()', (test) => {
     test('pushes content to tags array', (t) => {
-        t.pass('Ok');
+        dispatcher._processFlows(config);
+        t.deepEqual(dispatcher.tags, tags)
     });
 });
 
 group('dispatcher._generateJob()', (test) => {
-    test('generates a valid javascript file', (t) => {
-        t.pass('Ok');
-    });
-});
+    test('generates javascript file', (t) => {
+        const fileName = '.iris';
 
-group('dispatcher._loadJob()', (test) => {
-    test('loads compiled flows into threadpool', (t) => {
-        t.pass('Ok');
-    });
-
-    test('starts docks', (t) => {
-        t.pass('Ok');
+        dispatcher._generateJob(dispatcher.tags, fileName);
+        t.equal(Number.isInteger(fs.openSync(fileName, 'r')), true);
     });
 });
 
 group('dispatcher._startDock()', (test) => {
+    const dock = {
+        config: {
+            port: 5000
+        }
+    };
     test('stops docks', (t) => {
-        t.pass('Ok');
+        var valid = false;
+        dock.stop = () => valid = true;
+        dock.listen = () => {};
+
+        dispatcher._startDock(dock);
+        t.equal(valid, true);
     });
 
     test('starts docks', (t) => {
-        t.pass('Ok');
+        var valid = false;
+        dock.stop = () => {};
+        dock.listen = () => valid = true;
+
+        dispatcher._startDock(dock);
+        t.equal(valid, true);
     });
 });
