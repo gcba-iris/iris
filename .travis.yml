@@ -11,6 +11,8 @@ before_script:
 script:
   - npm test
   - npm posttest
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 addons:
   apt:
     sources:
