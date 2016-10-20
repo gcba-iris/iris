@@ -1,6 +1,5 @@
 'use strict';
 
-const Sparkles = require('sparkles');
 const Flow = require('../../lib/Flow');
 const BaseDock = require('../../lib/bases/Dock');
 const BaseHandler = require('../../lib/bases/Handler');

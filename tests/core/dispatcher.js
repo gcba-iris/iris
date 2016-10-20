@@ -1,6 +1,5 @@
 'use strict';
 
-const Sparkles = require('sparkles');
 const Flow = require('../../lib/Flow');
 const dispatcher = require('../../lib/Dispatcher');
 const fs = require('graceful-fs');

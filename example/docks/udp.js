@@ -11,8 +11,8 @@ class UDPDock extends Dock {
         return __filename;
     }
 
-    listen(port) {
-        this.logger.info('[UDP Dock] Listening on port ' + port + '...');
+    listen() {
+        this.logger.info('[UDP Dock] Listening on port ' + this.config.port + '...');
     }
 
     reply(message) {
