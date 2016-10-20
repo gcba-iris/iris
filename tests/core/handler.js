@@ -59,7 +59,7 @@ group('handler.validated', (test) => {
 group('handler.handle()', (test) => {
     const handler = new Handler('test');
 
-    test('sends response to dispatcher', (t) => {
+    test('handles data', (t) => {
         const response = 'Test';
         var valid = false;
 
@@ -86,5 +86,21 @@ group('handler.send()', (test) => {
         handler.dispatcher = dispatcher;
         handler.send(response);
         t.equal(valid, true);
+    });
+});
+
+group('handler._emitEvent', (test) => {
+    const handler = new Handler('test');
+
+    test('emits an event', (t) => {
+        const config = {
+            events: true
+        };
+
+        handler._events = {};
+        handler._events.emit = function (event, callback) {
+            t.pass('Ok');
+        }.bind(this);
+        handler._emitEvent('Test', {});
     });
 });
