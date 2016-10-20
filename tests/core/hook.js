@@ -42,3 +42,18 @@ group('hook.validated', (test) => {
         t.equal(hook.validated, true);
     });
 });
+
+group('hook.run()', (test) => {
+    const hook = new Hook('test');
+
+    test('runs hook', (t) => {
+        var valid = false;
+
+        hook.process = () => {
+            valid = true;
+        };
+        hook._emitEvent = (event, data) => {};
+        hook.run('Test');
+        t.equal(valid, true);
+    });
+});

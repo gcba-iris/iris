@@ -68,7 +68,6 @@ group('handler.handle()', (test) => {
         };
         handler._emitEvent = (event, data) => {};
         handler.handle(response);
-
         t.equal(valid, true);
     });
 });
