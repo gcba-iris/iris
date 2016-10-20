@@ -180,26 +180,12 @@ group('dispatcher._startDock()', (test) => {
     });
 });
 
-group('dispatcher._emitEvent', (test) => {
+group('dispatcher._emitEvent()', (test) => {
     test('registers event handlers', (t) => {
         dispatcher._events = {};
-        dispatcher._events.on = function (event, callback) {
+        dispatcher._events.emit = (event, callback) => {
             t.pass('Ok');
-        }.bind(this);
-        dispatcher._registerEventHandlers('test', {});
-    });
-});
-
-group('dispatcher._emitEvent', (test) => {
-    test('emits events', (t) => {
-        const config = {
-            events: true
         };
-
-        dispatcher._events = {};
-        dispatcher._events.emit = function (event, callback) {
-            t.pass('Ok');
-        }.bind(this);
         dispatcher._emitEvent('test', {});
     });
 });
