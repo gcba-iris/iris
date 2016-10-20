@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "tape tests/**/*.js | tap-notify | tap-speck"
+    "test": "tape tests/**/*.js | tap-notify | tap-speck --100"
   },
   "bin": {
     "iris": "./bin/iris.js"
