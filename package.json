@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "tape tests/**/*.js | tap-notify | tap-speck --100"
+    "test": "tape tests/**/*.js | tap-notify | tap-speck --100",
+    "posttest": "tap --coverage-report=lcov && codecov"
   },
   "bin": {
     "iris": "./bin/iris.js"
@@ -56,6 +57,7 @@
     "@types/chokidar": "^1.4.29",
     "@types/minimist": "^1.1.29",
     "@types/ora": "0.0.29",
+    "codecov": "^1.0.1",
     "request-ip": "^1.2.2",
     "tap-notify": "^1.0.0",
     "tape": "^4.6.2",

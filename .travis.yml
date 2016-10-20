@@ -10,6 +10,7 @@ before_script:
   - npm install -g node-gyp
 script:
   - npm test
+  - npm posttest
 addons:
   apt:
     sources:
