@@ -112,7 +112,7 @@ group('iris.Hook', (test) => {
 });
 
 group('iris._handleErrors()', (test) => {
-    test('emits an event', (t) => {
+    test('emits events', (t) => {
         const spinner = {
             fail: () => {}
         };

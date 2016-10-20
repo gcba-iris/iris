@@ -181,7 +181,17 @@ group('dispatcher._startDock()', (test) => {
 });
 
 group('dispatcher._emitEvent', (test) => {
-    test('emits an event', (t) => {
+    test('registers event handlers', (t) => {
+        dispatcher._events = {};
+        dispatcher._events.on = function (event, callback) {
+            t.pass('Ok');
+        }.bind(this);
+        dispatcher._registerEventHandlers('test', {});
+    });
+});
+
+group('dispatcher._emitEvent', (test) => {
+    test('emits events', (t) => {
         const config = {
             events: true
         };

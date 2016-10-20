@@ -61,7 +61,7 @@ group('hook.run()', (test) => {
 group('hook._emitEvent', (test) => {
     const hook = new Hook('test');
 
-    test('emits an event', (t) => {
+    test('emits events', (t) => {
         const config = {
             events: true
         };

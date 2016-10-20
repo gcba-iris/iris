@@ -91,7 +91,7 @@ group('handler.send()', (test) => {
 group('handler._emitEvent', (test) => {
     const handler = new Handler('test');
 
-    test('emits an event', (t) => {
+    test('emits events', (t) => {
         const config = {
             events: true
         };
