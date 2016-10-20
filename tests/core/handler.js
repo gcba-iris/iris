@@ -60,7 +60,7 @@ group('handler.handle()', (test) => {
     const handler = new Handler('test');
 
     test('handles data', (t) => {
-        const response = 'Test';
+        const response = 'test';
         var valid = false;
 
         handler.process = () => {
@@ -76,7 +76,7 @@ group('handler.send()', (test) => {
     const handler = new Handler('test');
 
     test('sends response to dispatcher', (t) => {
-        const response = 'Test';
+        const response = 'test';
         var valid = false;
 
         dispatcher.respond = () => {
@@ -100,6 +100,6 @@ group('handler._emitEvent', (test) => {
         handler._events.emit = function (event, callback) {
             t.pass('Ok');
         }.bind(this);
-        handler._emitEvent('Test', {});
+        handler._emitEvent('test', {});
     });
 });

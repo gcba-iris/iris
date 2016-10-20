@@ -53,7 +53,23 @@ group('hook.run()', (test) => {
             valid = true;
         };
         hook._emitEvent = (event, data) => {};
-        hook.run('Test');
+        hook.run('test');
         t.equal(valid, true);
+    });
+});
+
+group('hook._emitEvent', (test) => {
+    const hook = new Hook('test');
+
+    test('emits an event', (t) => {
+        const config = {
+            events: true
+        };
+
+        hook._events = {};
+        hook._events.emit = function (event, callback) {
+            t.pass('Ok');
+        }.bind(this);
+        hook._emitEvent('test', {});
     });
 });
