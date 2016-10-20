@@ -56,21 +56,35 @@ group('handler.validated', (test) => {
     });
 });
 
+group('handler.handle()', (test) => {
+    const handler = new Handler('test');
+
+    test('sends response to dispatcher', (t) => {
+        const response = 'Test';
+        var valid = false;
+
+        handler.process = () => {
+            valid = true;
+        };
+        handler._emitEvent = (event, data) => {};
+        handler.handle(response);
+
+        t.equal(valid, true);
+    });
+});
+
 group('handler.send()', (test) => {
     const handler = new Handler('test');
 
-    const response = 'Test';
-    var valid = false;
-
-    dispatcher.respond = () => {
-        valid = true;
-    };
-    handler.dispatcher = dispatcher;
-
     test('sends response to dispatcher', (t) => {
-        handler.send(response);
+        const response = 'Test';
+        var valid = false;
 
-        if (valid) t.pass('Ok');
-        else t.fail('Response is not being set to dispatcher');
+        dispatcher.respond = () => {
+            valid = true;
+        };
+        handler.dispatcher = dispatcher;
+        handler.send(response);
+        t.equal(valid, true);
     });
 });
