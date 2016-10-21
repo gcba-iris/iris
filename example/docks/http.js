@@ -44,7 +44,7 @@ class HTTPDock extends Dock {
         });
 
         request.on('end', function () {
-            const data = Buffer.concat(chunks).toString();
+            const data = Buffer.concat(chunks);
 
             this.process(data, meta, (message) => {
                 response.statusCode = 200;
