@@ -9,6 +9,8 @@
 
 'use strict';
 
+require("nodejs-dashboard");
+
 const LiftOff = require('liftoff');
 const Threads = require('threads');
 const Sparkles = require('sparkles');
@@ -17,8 +19,12 @@ const chokidar = require('chokidar');
 const ora = require('ora');
 const chalk = require('chalk');
 const logger = require('winston');
+const minimist = require('minimist');
+const cliCursor = require('cli-cursor');
+const cliCommands = require('../lib/utils/cli');
 const utils = require('../lib/utils/utils');
 
+const args = minimist(process.argv.slice(2));
 const consoleLog = utils.log;
 
 const loader = new LiftOff({
@@ -34,6 +40,36 @@ const banner =
           _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/\n\n
     `;
 
+const cli = (args) => {
+    const keys = Object.keys(args);
+
+    if (keys.length === 1 && args._.length === 1) {
+        switch (args._[0]) {
+            case 'status':
+                cliCommands.status();
+                break;
+            case 'init':
+                cliCommands.init();
+                break;
+            case 'config':
+                cliCommands.config();
+                break;
+        }
+
+        return true;
+    } else if (keys.length === 1 && args._.length === 2) {
+        switch (args._[0]) {
+            case 'new':
+                cliCommands.new(args._[1]);
+                break;
+        }
+
+        return true;
+    } else if (keys.length > 1 || args._.length > 0) cliCommands.help();
+
+    return false;
+};
+
 const load = (env) => {
     var spinner = ora('Loading local package');
 
@@ -43,7 +79,7 @@ const load = (env) => {
     if (!env.modulePath) {
         spinner.fail();
         consoleLog.error('Local Iris not found.');
-        consoleLog.error('Try running: npm install @gcba-iris/iris --save');
+        consoleLog.error('Try running: npm install gcba-iris/iris --save');
 
         process.exit(1);
     }
@@ -60,13 +96,13 @@ const load = (env) => {
 
         process.exit(1);
     }
-}
+};
 
 const newThreadPool = (config) => {
     logger.verbose('Creating new threadpool');
 
     return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
-}
+};
 
 const configureDispatcher = (flows, config, threadPool) => {
     dispatcher.threadPool = threadPool;
@@ -74,21 +110,10 @@ const configureDispatcher = (flows, config, threadPool) => {
         flows: flows,
         events: config.events
     };
-}
+};
 
-const cli = () => {
-    const minimist = require('minimist');
-    const cliCursor = require('cli-cursor');
-    const args = minimist(process.argv.slice(2));
-
-    require("nodejs-dashboard");
-    cliCursor.hide();
-}
-
-const init = (env) => {
+const startIris = (env) => {
     var iris, config, threadPool, events, watcher;
-
-    logger.cli();
 
     load(env);
     require(env.configPath);
@@ -111,12 +136,18 @@ const init = (env) => {
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
-        cli();
     } else {
         consoleLog.error('No flows found in Irisfile.');
 
         process.exit(1);
     }
-}
+};
+
+const init = (env) => {
+    logger.cli();
+    cliCursor.hide();
+
+    if (!cli(args)) startIris(env);
+};
 
 loader.launch({}, init);

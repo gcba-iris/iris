@@ -4,6 +4,9 @@
 # Visual Studio Code
 .vscode
 
+# MacOs
+.DS_Store
+
 # Logs
 logs
 *.log
