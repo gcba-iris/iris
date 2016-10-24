@@ -155,7 +155,7 @@ group('dock.parse()', (test) => {
         const meta = {};
         const result = dock.parse(data, meta);
 
-        t.equal(result, null);
+        t.equal(result, false);
     });
 });
 
