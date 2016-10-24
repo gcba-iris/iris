@@ -35,11 +35,6 @@ const loader = new LiftOff({
     v8flags: ['--harmony']
 });
 
-const banner =
-    `
-          _          _            _         _        \r\n         \/\\ \\       \/\\ \\         \/\\ \\      \/ \/\\      \r\n         \\ \\ \\     \/  \\ \\        \\ \\ \\    \/ \/  \\     \r\n         \/\\ \\_\\   \/ \/\\ \\ \\       \/\\ \\_\\  \/ \/ \/\\ \\__  \r\n        \/ \/\\\/_\/  \/ \/ \/\\ \\_\\     \/ \/\\\/_\/ \/ \/ \/\\ \\___\\ \r\n       \/ \/ \/    \/ \/ \/_\/ \/ \/    \/ \/ \/    \\ \\ \\ \\\/___\/ \r\n      \/ \/ \/    \/ \/ \/__\\\/ \/    \/ \/ \/      \\ \\ \\       \r\n     \/ \/ \/    \/ \/ \/_____\/    \/ \/ \/   _    \\ \\ \\      \r\n ___\/ \/ \/__  \/ \/ \/\\ \\ \\  ___\/ \/ \/__ \/_\/\\__\/ \/ \/      \r\n\/\\__\\\/_\/___\\\/ \/ \/  \\ \\ \\\/\\__\\\/_\/___\\\\ \\\/___\/ \/       \r\n\\\/_________\/\\\/_\/    \\_\\\/\\\/_________\/ \\_____\\\/\n\n
-    `;
-
 const cli = (args) => {
     const keys = Object.keys(args);
 
@@ -54,6 +49,9 @@ const cli = (args) => {
             case 'config':
                 cliCommands.config();
                 break;
+            default:
+                cliCommands.help();
+                break;
         }
 
         return true;
@@ -61,6 +59,9 @@ const cli = (args) => {
         switch (args._[0]) {
             case 'new':
                 cliCommands.new(args._[1]);
+                break;
+            default:
+                cliCommands.help();
                 break;
         }
 
@@ -73,7 +74,7 @@ const cli = (args) => {
 const load = (env) => {
     var spinner = ora('Loading local package');
 
-    process.stdout.write(chalk.dim(banner));
+    consoleLog.info(utils.banner + '\n');
     spinner.start();
 
     if (!env.modulePath) {
