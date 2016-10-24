@@ -16,6 +16,7 @@ const Threads = require('threads');
 const Sparkles = require('sparkles');
 const dispatcher = require('../lib/Dispatcher');
 const chokidar = require('chokidar');
+const decache = require('decache');
 const ora = require('ora');
 const chalk = require('chalk');
 const logger = require('winston');
@@ -122,15 +123,26 @@ const startIris = (env) => {
 
     threadPool = newThreadPool(iris.config);
     events = Sparkles('iris');
-    watcher = chokidar.watch(iris.modules, {
+    watcher = chokidar.watch(Object.keys(iris.modules), {
             ignored: /[\/\\]\./,
             persistent: true
         })
         .on('change', (path) => {
             logger.verbose('File change detected');
 
+            const config = Object.assign({}, iris.modules[path].config);
+
+            if (iris.modules[path].type === 'dock') {
+                iris.modules[path].stop();
+                decache(path);
+                iris.modules[path] = require(path);
+            }
+
             events.emit('reload', {
-                pool: newThreadPool(iris.config)
+                pool: newThreadPool(iris.config),
+                module: iris.modules[path],
+                path: path,
+                config: config
             });
         })
         .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));

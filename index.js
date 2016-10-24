@@ -26,7 +26,7 @@ class Iris {
         this._name = 'main';
         this._config = {};
         this._flows = [];
-        this._modules = [];
+        this._modules = {};
         this._logger = logger;
 
         this._logger.cli();
@@ -159,7 +159,7 @@ class Iris {
 
                 dock.id = shortid.generate();
                 dock.dispatcher = dispatcher;
-                this.modules.push(dock.path);
+                this.modules[dock.path] = dock;
             }
         }, this);
     }
@@ -184,7 +184,7 @@ class Iris {
                 }
 
                 hook.validated = true;
-                this.modules.push(hook.path);
+                this.modules[hook.path] = hook;
             } else logger.silly('Hook \'' + hook.name + '\' already validated');
         }, this);
 
@@ -194,7 +194,7 @@ class Iris {
                 this._logger.silly('Validated output hook \'' + hook.name + '\'');
 
                 hook.validated = true;
-                this.modules.push(hook.path);
+                this.modules[hook.path] = hook;
             } else logger.silly('Hook \'' + hook.name + '\' already validated');
         }, this);
     }
@@ -217,7 +217,7 @@ class Iris {
             }
 
             flow.handler.validated = true;
-            this.modules.push(flow.handler.path);
+            this.modules[flow.handler.path] = flow.handler;
         }
     }
 

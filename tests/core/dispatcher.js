@@ -161,14 +161,6 @@ group('dispatcher._startDock()', (test) => {
             port: 5000
         }
     };
-    test('stops docks', (t) => {
-        var valid = false;
-        dock.stop = () => valid = true;
-        dock.listen = () => {};
-
-        dispatcher._startDock(dock);
-        t.equal(valid, true);
-    });
 
     test('starts docks', (t) => {
         var valid = false;

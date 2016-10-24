@@ -59,7 +59,7 @@ group('iris.logger', (test) => {
 
 group('iris.modules', (test) => {
     test('gets list of active module paths', (t) => {
-        t.equal(Array.isArray(iris.modules), true);
+        t.equal(Array.isArray(Object.keys(iris.modules)), true);
     });
 });
 
