@@ -45,7 +45,6 @@
     "minimist": "^1.2.0",
     "nodejs-dashboard": "^0.1.2",
     "npm-cmd": "^0.2.0",
-    "npm-programmatic": "0.0.6",
     "ora": "^0.3.0",
     "param-case": "^2.1.0",
     "propchecker": "^1.0.2",
