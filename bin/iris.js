@@ -18,7 +18,6 @@ const dispatcher = require('../lib/Dispatcher');
 const chokidar = require('chokidar');
 const decache = require('decache');
 const ora = require('ora');
-const chalk = require('chalk');
 const logger = require('winston');
 const minimist = require('minimist');
 const cliCursor = require('cli-cursor');
