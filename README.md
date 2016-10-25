@@ -1,25 +1,44 @@
-<center>
-<p>
-![Iris](https://github.com/gcba-iris/iris/raw/master/assets/img/logo.png)
+<p align="center">
+    <img src="https://github.com/gcba-iris/iris/raw/master/assets/img/logo.png" alt="Iris" />
 </p>
-</center>
-<center>
-<p>
-[![Build Status](https://travis-ci.org/gcba-iris/iris.svg?branch=master)](https://travis-ci.org/gcba-iris/iris)
-[![Codacy Status](https://api.codacy.com/project/badge/Grade/8f1241b15304485bbaefa6cf5d390214)](https://www.codacy.com/app/zeta/iris?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gcba-iris/iris&amp;utm_campaign=Badge_Grade)
-[![Coverage Status](https://codecov.io/gh/gcba-iris/iris/branch/master/graph/badge.svg)](https://codecov.io/gh/gcba-iris/iris)
+
+<p align="center">
+    <a href="https://travis-ci.org/gcba-iris/iris">
+        <img src="https://travis-ci.org/gcba-iris/iris.svg?branch=master" alt="Build Status" />
+    </a>
+        <a href="https://www.codacy.com/app/zeta/iris?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gcba-iris/iris&amp;utm_campaign=Badge_Grade">
+        <img src="https://api.codacy.com/project/badge/Grade/8f1241b15304485bbaefa6cf5d390214" alt="Codacy Status" />
+    </a>
+    <a href="https://codecov.io/gh/gcba-iris/iris">
+        <img src="https://codecov.io/gh/gcba-iris/iris/branch/master/graph/badge.svg" alt="Coverage Status" />
+    </a>
 </p>
-</center>
 
 ---
 
-Iris is a tiny Node.js framework for building fast, modular, extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Start the app. That's it.
+Iris is a tiny Node.js framework for building fast, modular, extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Run the app. That's it.
 
 Iris tries to strike a balance between convention vs configuration. It comes with sane defaults and a plugin system that makes it easy to get started, while still allowing for ample flexibility.
 
 ```bash
 $ npm install gcba-iris/iris -g
 ```
+
+
+## Contents
+
+  * [1 Flow](#flow)
+  * [2 Getting started](#getting-started)
+    * [2.1 1. Create an empty project](#1-create-an-empty-project)
+      * [2.1.1 Existing project](#existing-project)
+    * [2.2 2. Add flows](#2-add-flows)
+      * [2.2.1 Method signature](#method-signature)
+      * [2.2.2 Sample irisfile.js](#sample-irisfilejs)
+      * [2.2.3 Sample request body](#sample-request-body)
+    * [2.3 3. Run flows](#3-run-flows)
+  * [3 Requirements](#requirements)
+  * [4 Learn more](#learn-more)
+
 
 ## Flow
 
