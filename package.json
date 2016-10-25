@@ -29,10 +29,12 @@
     "iris",
     "IoT",
     "backend",
+    "framework",
     "data",
     "devices",
     "sensors",
-    "gcba"
+    "gcba",
+    "buenosaires"
   ],
   "author": "Rita Zerrizuela <zeta@widcket.com> (http://widcket.com)",
   "license": "MIT",
