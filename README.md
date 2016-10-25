@@ -55,7 +55,7 @@ myApp/
 Then runs `npm install`.
 
 
-### Existing project
+#### Existing project
 
 ```bash
 $ iris init
@@ -121,7 +121,7 @@ iris.flow('Flow 2', {
 tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
 ```
 
-### Run flows
+### 3. Run flows
 
 Inside a project directory:
 
