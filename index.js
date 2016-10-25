@@ -14,7 +14,6 @@ const BaseHook = require('./lib/bases/Hook');
 const dispatcher = require('./lib/Dispatcher');
 const validator = require('propchecker');
 const shortid = require('shortid');
-const chalk = require('chalk');
 const logger = require('winston');
 const ora = require('ora');
 const utils = require('./lib/utils/utils');
