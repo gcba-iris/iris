@@ -19,10 +19,12 @@ class HTTPDock extends Dock {
     listen() {
         this._server = http.createServer(this._handleRequest.bind(this));
 
-        this._server.listen(this.config.port, () => {
-            this._listening = true;
-            this.logger.info('[HTTP Dock] Listening on port ' + this.config.port + '...');
-        });
+        if (!this._listening) {
+            this._server.listen(this.config.port, () => {
+                this._listening = true;
+                this.logger.info('[HTTP Dock] Listening on port ' + this.config.port + '...');
+            });
+        }
     }
 
     stop() {
