@@ -20,6 +20,11 @@
     "type": "git",
     "url": "git+https://github.com/gcba-iris/iris.git"
   },
+  "files": [
+    "bin",
+    "lib",
+    "index.js"
+  ],
   "keywords": [
     "iris",
     "IoT",
