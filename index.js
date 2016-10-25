@@ -124,7 +124,7 @@ class Iris {
 
         validator.validate(options, flowSchema, this._handleErrors(spinner));
 
-        if (this.config.logLevel == 'silly') {
+        if (this.config.logLevel === 'silly') {
             this._logger.silly('\rChecked flow options');
         }
     }
