@@ -27,8 +27,8 @@ $ npm install gcba-iris/iris -g
 
 ## Contents
 
-  * [1 Flow](#flow)
-  * [2 Getting started](#getting-started)
+  * [1. Flow](#flow)
+  * [2. Getting started](#getting-started)
     * [2.1 1. Create an empty project](#1-create-an-empty-project)
       * [2.1.1 Existing project](#existing-project)
     * [2.2 2. Add flows](#2-add-flows)
@@ -36,8 +36,8 @@ $ npm install gcba-iris/iris -g
       * [2.2.2 Sample irisfile.js](#sample-irisfilejs)
       * [2.2.3 Sample request body](#sample-request-body)
     * [2.3 3. Run flows](#3-run-flows)
-  * [3 Requirements](#requirements)
-  * [4 Learn more](#learn-more)
+  * [3. Requirements](#requirements)
+  * [4. Learn more](#learn-more)
 
 
 ## Flow
