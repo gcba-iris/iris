@@ -6,8 +6,7 @@ const options = {
     method: 'POST'
 };
 
-const data_tag1 = 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
-const data_tag2 = 'tag2|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
+const dataTag = 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
 
 const loop = (options) => {
     setTimeout(function () {
@@ -22,10 +21,10 @@ const loop = (options) => {
             console.log('Error: ' + e.message);
         });
 
-        request.write(data_tag1);
+        request.write(dataTag);
         request.end();
 
-        console.log('[ResquestEmitter] Sending ' + '\'' + data_tag1 + '\'');
+        console.log('[ResquestEmitter] Sending ' + '\'' + dataTag + '\'');
 
         loop(options);
     }, 1000);

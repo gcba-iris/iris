@@ -123,7 +123,7 @@ group('iris._handleErrors()', (test) => {
                 spinner.fail();
 
                 t.pass('Ok');
-            }
+            };
         }
         iris._handleErrors(spinner)(errors);
     });

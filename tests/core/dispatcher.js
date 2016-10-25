@@ -105,7 +105,7 @@ group('dispatcher.dispatch()', (test) => {
             return {
                 on: () => {}
             };
-        }
+        };
         dispatcher._tags = tags;
         dispatcher.dispatch(data);
         t.equal(valid, true);
@@ -142,7 +142,7 @@ group('dispatcher.respond()', (test) => {
 group('dispatcher._processFlows()', (test) => {
     test('pushes content to tags array', (t) => {
         dispatcher._processFlows(config);
-        t.deepEqual(dispatcher.tags, tags)
+        t.deepEqual(dispatcher.tags, tags);
     });
 });
 

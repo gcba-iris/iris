@@ -229,7 +229,7 @@ class Iris {
             }, this);
 
             process.exit(1);
-        }
+        };
     }
 }
 
