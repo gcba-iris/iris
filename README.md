@@ -46,10 +46,20 @@ $ npm install gcba-iris/iris -g
 
 Iris is built around the **flow**, which is the path a request follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow includes its way back to the original device.
 
+1. Data pours in from multiple sources through the **docks**. Each dock accounts for a single protocol, and listens to one port.
+2. The dock parses the data and converts it to a plain javascript object.
+3. The dock sends it to the **dispatcher**.
+4. The dispatcher looks at the tag property and routes the data to the right **handler**.
+5. As the data makes its way to the handler, the **input hooks** (read-only middlewares) can access it and do stuff with it. But they can't modify it.
+6. The handler process the data, persisting it, redirecting it, etc.
+7. If the handler generates a response, it goes to the dispatcher. If there's no response, the process ends here.
+8. The **output hooks** can get their hands on the response and do stuff with it, but without being able to modify it.
+8. Then the dispatcher gets the response and routes it to the right dock.
+9. The dock sends it back to the original device.
+
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
 Handler --> Dispatcher --> Hooks --> Dock -->
-
 ```
 
 ## Getting started
