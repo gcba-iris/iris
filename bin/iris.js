@@ -153,11 +153,12 @@ const startIris = (env) => {
 
         process.exit(1);
     }
+
+    cliCursor.hide();
 };
 
 const init = (env) => {
     logger.cli();
-    cliCursor.hide();
 
     if (!cli(args)) startIris(env);
 };
