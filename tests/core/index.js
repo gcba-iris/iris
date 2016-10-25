@@ -124,7 +124,7 @@ group('iris._handleErrors()', (test) => {
 
                 t.pass('Ok');
             };
-        }
+        };
         iris._handleErrors(spinner)(errors);
     });
 });
