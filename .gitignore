@@ -1,0 +1,26 @@
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+# Translations
+*.mo
+*.pot
+
+# dotenv
+.env
+
+# Rendered site
+_docpress
+
+# Node
+node_modules
+
+# Mac stuff
+.DS_Store
