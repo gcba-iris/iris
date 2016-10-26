@@ -178,19 +178,144 @@ $ iris
 ![Iris screenshot](https://github.com/gcba-iris/iris/raw/master/assets/img/running.png)
 
 
-## Writing plugins
-
-### Docks
-
-
 ## Requirements
 
 - Node.js 6.5.0+
 
 
-## Learn more
+## Writing plugins
 
-Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) for an in-depth explanation of the architecture and API reference.
+All plugins must extend their base classes. Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) for an in-depth explanation of the architecture and API reference.
+
+### Docks
+
+ You must implement `get path()`, `listen()` and `stop()`. `send()` is optional.
+
+##### Sample HTTP dock
+
+```javascript
+'use strict';
+
+const Dock = require('iris').Dock;
+const http = require('http');
+const requestIp = require('request-ip');
+
+class HTTPDock extends Dock {
+    constructor(name, protocol) {
+        super(name, protocol);
+
+        this._server = null;
+        this._listening = false;
+    }
+
+    get path() {
+        return __filename;
+    }
+
+    listen() {
+        this._server = http.createServer(this._handleRequest.bind(this));
+
+        if (!this._listening) {
+            this._server.listen(this.config.port, () => {
+                this._listening = true;
+                this.logger.info('[HTTP Dock] Listening on port ' + this.config.port + '...');
+            });
+        }
+    }
+
+    stop() {
+        if (this._listening) {
+            this._server.close();
+            this._listening = false;
+            this.logger.info('[HTTP Dock] Stopped listening');
+        }
+    }
+
+    _handleRequest(request, response) {
+        const chunks = [];
+        const meta = {
+            ip: requestIp.getClientIp(request)
+        };
+
+        request.on('data', function (chunk) {
+            chunks.push(chunk);
+        });
+
+        request.on('end', function () {
+            const data = Buffer.concat(chunks);
+
+            this.process(data, meta, (message) => {
+                response.statusCode = 200;
+
+                if (message) {
+                    response.write(message);
+                    this.logger.verbose('Sent response to client');
+                } else response.end();
+            });
+        }.bind(this));
+    }
+}
+
+module.exports = new HTTPDock('http', 'HTTP');
+```
+
+### Handlers
+
+You must implement `get path()` and `handle()`.
+
+##### Sample handler
+
+```javascript
+'use strict';
+
+const Handler = require('iris').Handler;
+
+class Handler1 extends Handler {
+    constructor(name) {
+        super(name);
+    }
+
+    get path() {
+        return __filename;
+    }
+
+    handle(data) {
+        this.logger.info('[Handler1] Handling data...');
+
+        return 'A response';
+    }
+}
+
+module.exports = new Handler1('handler1');
+```
+
+### Hooks
+
+You must implement `get path()` and `process()`.
+
+##### Sample hook
+```javascript
+'use strict';
+
+const Hook = require('iris').Hook;
+
+class Hook1 extends Hook {
+    constructor(name) {
+        super(name);
+    }
+
+    get path() {
+        return __filename;
+    }
+
+    process(data) {
+        this.logger.info('[Hook1] Running...');
+    }
+
+}
+
+module.exports = new Hook1('hook1');
+```
 
 ---
 
