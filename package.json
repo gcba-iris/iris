@@ -22,5 +22,8 @@
   "homepage": "https://github.com/gcba-iris/iris#readme",
   "dependencies": {
     "git-update-ghpages": "^1.3.0"
+  },
+  "devDependencies": {
+    "docpress": "0.7.0"
   }
 }
