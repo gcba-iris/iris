@@ -1,0 +1,180 @@
+{
+  "toc": {
+    "sections": [
+      {
+        "title": "Iris",
+        "source": "README.md",
+        "expand": true,
+        "url": "index.html",
+        "slug": "index",
+        "headings": [
+          {
+            "title": "Iris",
+            "depth": 3,
+            "id": "iris"
+          },
+          {
+            "title": "Contents",
+            "depth": 2,
+            "id": "contents"
+          },
+          {
+            "title": "Flow",
+            "depth": 2,
+            "id": "flow",
+            "headings": [
+              {
+                "title": "Dispatcher",
+                "depth": 3,
+                "id": "dispatcher"
+              },
+              {
+                "title": "Plugins",
+                "depth": 3,
+                "id": "plugins"
+              }
+            ]
+          },
+          {
+            "title": "Getting started",
+            "depth": 2,
+            "id": "getting-started",
+            "headings": [
+              {
+                "title": "1. Create an empty project",
+                "depth": 3,
+                "id": "1.-create-an-empty-project"
+              },
+              {
+                "title": "2. Add flows",
+                "depth": 3,
+                "id": "2.-add-flows"
+              },
+              {
+                "title": "3. Run flows",
+                "depth": 3,
+                "id": "3.-run-flows"
+              }
+            ]
+          },
+          {
+            "title": "Writing plugins",
+            "depth": 2,
+            "id": "writing-plugins",
+            "headings": [
+              {
+                "title": "Docks",
+                "depth": 3,
+                "id": "docks"
+              },
+              {
+                "title": "Handlers",
+                "depth": 3,
+                "id": "handlers"
+              },
+              {
+                "title": "Hooks",
+                "depth": 3,
+                "id": "hooks"
+              }
+            ]
+          },
+          {
+            "title": "Requirements",
+            "depth": 2,
+            "id": "requirements"
+          }
+        ]
+      }
+    ]
+  },
+  "index": {
+    "index.html": {
+      "source": "README.md",
+      "title": "Iris",
+      "pageTitle": "Iris",
+      "slug": "index",
+      "headings": [
+        {
+          "title": "Iris",
+          "depth": 3,
+          "id": "iris"
+        },
+        {
+          "title": "Contents",
+          "depth": 2,
+          "id": "contents"
+        },
+        {
+          "title": "Flow",
+          "depth": 2,
+          "id": "flow",
+          "headings": [
+            {
+              "title": "Dispatcher",
+              "depth": 3,
+              "id": "dispatcher"
+            },
+            {
+              "title": "Plugins",
+              "depth": 3,
+              "id": "plugins"
+            }
+          ]
+        },
+        {
+          "title": "Getting started",
+          "depth": 2,
+          "id": "getting-started",
+          "headings": [
+            {
+              "title": "1. Create an empty project",
+              "depth": 3,
+              "id": "1.-create-an-empty-project"
+            },
+            {
+              "title": "2. Add flows",
+              "depth": 3,
+              "id": "2.-add-flows"
+            },
+            {
+              "title": "3. Run flows",
+              "depth": 3,
+              "id": "3.-run-flows"
+            }
+          ]
+        },
+        {
+          "title": "Writing plugins",
+          "depth": 2,
+          "id": "writing-plugins",
+          "headings": [
+            {
+              "title": "Docks",
+              "depth": 3,
+              "id": "docks"
+            },
+            {
+              "title": "Handlers",
+              "depth": 3,
+              "id": "handlers"
+            },
+            {
+              "title": "Hooks",
+              "depth": 3,
+              "id": "hooks"
+            }
+          ]
+        },
+        {
+          "title": "Requirements",
+          "depth": 2,
+          "id": "requirements"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "README.md": "index.html"
+  }
+}
