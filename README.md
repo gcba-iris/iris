@@ -317,6 +317,11 @@ module.exports = new Hook1('hook1');
 
 - Node.js 6.5.0+
 
+
+## Github
+
+[Get the code!](https://github.com/gcba-iris/iris)
+
 ---
 
 ```
