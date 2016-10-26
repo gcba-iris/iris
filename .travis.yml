@@ -18,8 +18,7 @@ script:
   - npm install docpress && ./node_modules/.bin/docpress build
 after_success:
   - npm run coverage
-  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm
-  install git-update-ghpages && ./node_modules/.bin/git-update-ghpages -e; fi
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then npm install git-update-ghpages && ./node_modules/.bin/git-update-ghpages -e; fi
 addons:
   apt:
     sources:
