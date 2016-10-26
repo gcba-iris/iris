@@ -58,7 +58,7 @@ Receives the data object from the **dock**, calls the registered **input hooks**
 
 The dispatcher is the only piece of Iris that cannot be customized or swapped off - it's the glue that holds everything together.
 
-### Modules (plugins)
+### Modules
 
 #### Dock
 
