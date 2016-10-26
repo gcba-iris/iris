@@ -45,7 +45,7 @@ $ npm install gcba-iris/iris -g
 
 ![Architecture](https://github.com/gcba-iris/iris/raw/master/assets/img/architecture.png)
 
-Iris is built around the **flow**, which is the path a request follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow will include its way back to the original device.
+Iris is built around the **flow**, which is the path a message follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow will include its way back to the original device.
 
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
@@ -54,7 +54,7 @@ Handler --> Dispatcher --> Hooks --> Dock -->
 
 ### Dispatcher
 
-Receives the data object from the **dock**, calls the registered **input hooks** and routes the request to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
+Receives the data object from the **dock**, calls the registered **input hooks** and routes the message to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
 
 The dispatcher is the only piece of Iris that cannot be customized or swapped off - it's the glue that holds everything together.
 
@@ -62,9 +62,9 @@ The dispatcher is the only piece of Iris that cannot be customized or swapped of
 
 #### Dock
 
-Listens to a single port for incoming requests through a specific protocol and parses it into a plain javascript object. Then passes this object along to the dispatcher. If a response comes back, the dock serializes it to match the request format and sends it off to the original device.
+Listens to a single port for incoming messages through a specific protocol and parses it into a plain javascript object. Then passes this object along to the dispatcher. If a response comes back, the dock serializes it to match the message format and sends it off to the original device.
 
-##### Sample request
+##### Sample message
 
 ```
 tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
@@ -76,7 +76,7 @@ Processes the data object received from the dispatcher. A handler can generate a
 
 #### Hooks
 
-A hook is just a callback function that gets executed whenever a piece of data passes by the dispatcher in the course of a data flow. Multiple hooks can be tied to a single flow. Each hook can be set to run when the request object comes in (input hook) or when the response goes out (output hook).
+A hook is just a callback function that gets executed whenever a piece of data passes by the dispatcher in the course of a data flow. Multiple hooks can be tied to a single flow. Each hook can be set to run when the message object comes in (input hook) or when the response goes out (output hook).
 
 
 ## Getting started
@@ -120,7 +120,7 @@ iris.flow([name], [config]);
 ```
 - **name**: A string identifier.
 - **config**: An object containing:
-  - **tag**: The flow tag is the first part of the request, up until a known separator. It allows Iris to know how to route the request to the right handler. Therefore, a tag must belong to a single flow.
+  - **tag**: The flow tag is the first part of the message, up until a known separator. It allows Iris to know how to route the message to the right handler. Therefore, a tag must belong to a single flow.
   - **docks**: An array of dock instances.
   - **handler**: The handler instance.
   - **inputHooks** *(optional)*:  An array of hook instances.
