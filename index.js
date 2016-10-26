@@ -99,8 +99,8 @@ class Iris {
         const flow = new Flow(name, config);
 
         this._validateDocks(flow, spinner);
-        this._validateHooks(flow, spinner);
         this._validateHandler(flow, spinner);
+        this._validateHooks(flow, spinner);
 
         spinner.succeed();
         this._flows.push(flow);
@@ -147,6 +147,7 @@ class Iris {
             name: [validator.isRequired, validator.isString],
             protocol: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
+            port: [validator.isRequired, validator.isNumber],
             validate: [validator.isRequired, validator.isFunction],
             parse: [validator.isRequired, validator.isFunction],
             process: [validator.isRequired, validator.isFunction],
@@ -154,7 +155,7 @@ class Iris {
             encode: [validator.isRequired, validator.isFunction],
             listen: [validator.isRequired, validator.isFunction],
             stop: [validator.isRequired, validator.isFunction],
-            port: [validator.isRequired, validator.isNumber],
+            on: [validator.isRequired, validator.isFunction],
             send: [validator.isFunction]
         };
 
@@ -176,12 +177,36 @@ class Iris {
         }, this);
     }
 
+    _validateHandler(flow, spinner) {
+        const handlerSchema = {
+            name: [validator.isRequired, validator.isString],
+            path: [validator.isRequired, validator.isString],
+            handle: [validator.isRequired, validator.isFunction],
+            on: [validator.isRequired, validator.isFunction]
+        };
+
+        if (!flow.handler.validated) {
+            validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
+            this._logger.silly('Validated handler \'' + flow.handler.name + '\'');
+
+            if (this.config.events && this.config.events.handlers) {
+                flow.handler.config = Object.assign(flow.handler.config, {
+                    events: this.config.events.handlers
+                });
+            }
+
+            flow.handler.validated = true;
+            this.modules[flow.handler.path] = flow.handler;
+        }
+    }
+
     _validateHooks(flow, spinner) {
         const hookSchema = {
             name: [validator.isRequired, validator.isString],
             path: [validator.isRequired, validator.isString],
             run: [validator.isRequired, validator.isFunction],
-            process: [validator.isRequired, validator.isFunction]
+            process: [validator.isRequired, validator.isFunction],
+            on: [validator.isRequired, validator.isFunction]
         };
 
         flow.inputHooks.forEach(function (hook) {
@@ -209,28 +234,6 @@ class Iris {
                 this.modules[hook.path] = hook;
             } else logger.silly('Hook \'' + hook.name + '\' already validated');
         }, this);
-    }
-
-    _validateHandler(flow, spinner) {
-        const handlerSchema = {
-            name: [validator.isRequired, validator.isString],
-            path: [validator.isRequired, validator.isString],
-            handle: [validator.isRequired, validator.isFunction]
-        };
-
-        if (!flow.handler.validated) {
-            validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
-            this._logger.silly('Validated handler \'' + flow.handler.name + '\'');
-
-            if (this.config.events && this.config.events.handlers) {
-                flow.handler.config = Object.assign(flow.handler.config, {
-                    events: this.config.events.handlers
-                });
-            }
-
-            flow.handler.validated = true;
-            this.modules[flow.handler.path] = flow.handler;
-        }
     }
 
     _handleErrors(spinner) {
