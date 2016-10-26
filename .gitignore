@@ -8,6 +8,11 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+coverage
+.nyc_output
+
+# Compiled flows
+.iris
 
 # Translations
 *.mo
