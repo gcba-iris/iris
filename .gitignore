@@ -4,8 +4,11 @@
 # Visual Studio Code
 .vscode
 
-# MacOs
+# Mac Stuff
 .DS_Store
+
+# Docpress
+_docpress
 
 # Logs
 logs
