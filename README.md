@@ -56,7 +56,9 @@ Handler --> Dispatcher --> Hooks --> Dock -->
 
 Receives the data object from the **dock**, calls the registered **input hooks** and routes the message to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
 
-The dispatcher is the only piece of Iris that cannot be customized or swapped off - it's the glue that holds everything together.
+##### Dock, handler & hooks are plugins
+
+The dispatcher is part of the Iris core and cannot be customized or swapped off - it's the glue that holds everything together.
 
 ### Modules
 
