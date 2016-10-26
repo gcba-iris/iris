@@ -118,7 +118,7 @@ The data flows are defined in the Irisfile, using `iris.flow()`.
 #### Method signature
 
 ```javascript
-iris.flow([name], [config]);
+iris.flow(name, config);
 ```
 - **name**: A string identifier.
 - **config**: An object containing:
