@@ -16,7 +16,9 @@
 
 ---
 
-Iris is a tiny Node.js framework for building fast, modular, extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Run the app. That's it.
+### Iris
+
+A tiny Node.js framework for building fast, modular & extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Run the app. That's it.
 
 Iris tries to strike a balance between convention vs configuration. It comes with sane defaults and a plugin system that makes it easy to get started, while still allowing for ample flexibility.
 
@@ -34,7 +36,6 @@ $ npm install gcba-iris/iris -g
     * [2.2 Add flows](#2-add-flows)
       * [2.2.1 Method signature](#method-signature)
       * [2.2.2 Sample irisfile.js](#sample-irisfilejs)
-      * [2.2.3 Sample request body](#sample-request-body)
     * [2.3 Run flows](#3-run-flows)
   * [3 Requirements](#requirements)
   * [4 Learn more](#learn-more)
@@ -44,23 +45,39 @@ $ npm install gcba-iris/iris -g
 
 ![Architecture](https://github.com/gcba-iris/iris/raw/master/assets/img/architecture.png)
 
-Iris is built around the **flow**, which is the path a request follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow includes its way back to the original device.
-
-1. Data pours in from multiple sources through the **docks**. Each dock accounts for a single protocol, and listens to one port.
-2. The dock parses the data and converts it to a plain javascript object.
-3. The dock sends it to the **dispatcher**.
-4. The dispatcher looks at the tag property and routes the data to the right **handler**.
-5. As the data makes its way to the handler, the **input hooks** (read-only middlewares) can access it and do stuff with it. But they can't modify it.
-6. The handler process the data, persisting it, redirecting it, etc.
-7. If the handler generates a response, it goes to the dispatcher. If there's no response, the process ends here.
-8. The **output hooks** can get their hands on the response and do stuff with it, but without being able to modify it.
-8. Then the dispatcher gets the response and routes it to the right dock.
-9. The dock sends it back to the original device.
+Iris is built around the **flow**, which is the path a request follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow will include its way back to the original device.
 
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
 Handler --> Dispatcher --> Hooks --> Dock -->
 ```
+
+### Dispatcher
+
+Receives the data object from the **dock**, calls the registered **input hooks** and routes the request to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
+
+The dispatcher is the only piece of Iris that cannot be customized or swapped off - it's the glue that holds everything together.
+
+### Modules (plugins)
+
+#### Dock
+
+Listens to a single port for incoming requests through a specific protocol and parses it into a plain javascript object. Then passes this object along to the dispatcher. If a response comes back, the dock serializes it to match the request format and sends it off to the original device.
+
+##### Sample request
+
+```
+tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
+```
+
+#### Handler
+
+Processes the data object received from the dispatcher. A handler can generate a response, which goes back to the dispatcher. The response will be serialized and sent by the respective dock. If there's no response the data flow ends there.
+
+#### Hooks
+
+A hook is just a callback function that gets executed whenever a piece of data passes by the dispatcher in the course of a data flow. Multiple hooks can be tied to a single flow. Each hook can be set to run when the request object comes in (input hook) or when the response goes out (output hook).
+
 
 ## Getting started
 
@@ -103,7 +120,7 @@ iris.flow([name], [config]);
 ```
 - **name**: A string identifier.
 - **config**: An object containing:
-  - **tag**: The flow tag is the first part of the request body, up until a known separator. It allows Iris to know how to route the request to the right handler. Therefore, a tag must belong to a single flow.
+  - **tag**: The flow tag is the first part of the request, up until a known separator. It allows Iris to know how to route the request to the right handler. Therefore, a tag must belong to a single flow.
   - **docks**: An array of dock instances.
   - **handler**: The handler instance.
   - **inputHooks** *(optional)*:  An array of hook instances.
@@ -142,12 +159,6 @@ iris.flow('Flow 2', {
     handler: anotherHandler,
     inputHooks: [hook2]
 });
-```
-
-#### Sample request body
-
-```
-tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
 ```
 
 ### 3. Run flows
