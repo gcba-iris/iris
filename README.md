@@ -178,11 +178,6 @@ $ iris
 ![Iris screenshot](https://github.com/gcba-iris/iris/raw/master/assets/img/running.png)
 
 
-## Requirements
-
-- Node.js 6.5.0+
-
-
 ## Writing plugins
 
 All plugins must extend their base classes. Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) for an in-depth explanation of the architecture and API reference.
@@ -316,6 +311,11 @@ class Hook1 extends Hook {
 
 module.exports = new Hook1('hook1');
 ```
+
+
+## Requirements
+
+- Node.js 6.5.0+
 
 ---
 
