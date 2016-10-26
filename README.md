@@ -47,6 +47,8 @@ $ npm install gcba-iris/iris -g
 
 Iris is built around the **flow**, which is the path a message follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow will include its way back to the original device.
 
+Data flows are processed in parallel using threads. A message will always remain within a single thread from start to finish, so if a thread goes down only the messages within will be affected.
+
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
 Handler --> Dispatcher --> Hooks --> Dock -->
@@ -54,13 +56,11 @@ Handler --> Dispatcher --> Hooks --> Dock -->
 
 ### Dispatcher
 
-Receives the data object from the **dock**, calls the registered **input hooks** and routes the message to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
-
-##### Dock, handler & hooks are plugins
+Receives the data object from the **dock**, calls the registered **input hooks** and routes the data object to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
 
 The dispatcher is part of the Iris core and cannot be customized or swapped off - it's the glue that holds everything together.
 
-### Modules
+### Plugins
 
 #### Dock
 
@@ -71,6 +71,9 @@ Listens to a single port for incoming messages through a specific protocol and p
 ```
 tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
 ```
+
+The flow tag is the first part of the message. It allows Iris to know how to route the message to the right handler. Therefore, a tag must be unique and belong to a single flow.
+Subtags, on the other hand, are optional.
 
 #### Handler
 
@@ -122,7 +125,7 @@ iris.flow(name, config);
 ```
 - **name**: A string identifier.
 - **config**: An object containing:
-  - **tag**: The flow tag is the first part of the message, up until a known separator. It allows Iris to know how to route the message to the right handler. Therefore, a tag must belong to a single flow.
+  - **tag**: A unique string.
   - **docks**: An array of dock instances.
   - **handler**: The handler instance.
   - **inputHooks** *(optional)*:  An array of hook instances.
@@ -140,7 +143,7 @@ const hook2 = require('./hooks/hook2');
 
 iris.config = {
     threads: 4,
-    logLevel: 'info',
+    logLevel: 'warn',
 };
 
 dock.config = {
@@ -163,6 +166,8 @@ iris.flow('Flow 2', {
 });
 ```
 
+The default amount of threads is the number of CPU cores.
+
 ### 3. Run flows
 
 Inside a project directory:
@@ -171,6 +176,12 @@ Inside a project directory:
 $ iris
 ```
 ![Iris screenshot](https://github.com/gcba-iris/iris/raw/master/assets/img/running.png)
+
+
+## Writing plugins
+
+### Docks
+
 
 ## Requirements
 
