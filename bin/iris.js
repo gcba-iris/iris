@@ -119,9 +119,9 @@ const startIris = (env) => {
     load(env);
     require(env.configPath);
     iris = require(env.modulePath);
+    iris.events = Sparkles('iris');
 
     threadPool = newThreadPool(iris.config);
-    events = Sparkles('iris');
     watcher = chokidar.watch(Object.keys(iris.modules), {
             ignored: /[\/\\]\./,
             persistent: true
@@ -137,7 +137,7 @@ const startIris = (env) => {
                 iris.modules[path] = require(path);
             }
 
-            events.emit('reload', {
+            iris.events.emit('reload', {
                 pool: newThreadPool(iris.config),
                 module: iris.modules[path],
                 path: path,

@@ -27,12 +27,17 @@ class Iris {
         this._flows = [];
         this._modules = {};
         this._logger = logger;
+        this._events = undefined;
 
         this._logger.cli();
     }
 
     get config() {
         return this._config;
+    }
+
+    get events() {
+        return this._events;
     }
 
     get logger() {
@@ -79,6 +84,10 @@ class Iris {
         Object.assign(this._config, options);
     }
 
+    set events(value) {
+        this._events = value;
+    }
+
     flow(name, options) {
         const config = options;
         const spinner = ora(`Validating '${name}'`).start();
@@ -95,6 +104,10 @@ class Iris {
 
         spinner.succeed();
         this._flows.push(flow);
+    }
+
+    on(event, callback) {
+        this._events.on(event, callback);
     }
 
     _checkConfig(config, spinner) {
