@@ -35,6 +35,12 @@ const loader = new LiftOff({
     v8flags: ['--harmony']
 });
 
+/**
+ * Runs cli commands.
+ *
+ * @param {any} args
+ * @returns
+ */
 const cli = (args) => {
     const keys = Object.keys(args);
 
@@ -71,6 +77,11 @@ const cli = (args) => {
     return false;
 };
 
+/**
+ * Loads Irisfile and Iris instance.
+ *
+ * @param {any} env
+ */
 const load = (env) => {
     var spinner = ora('Loading local package');
 
@@ -99,12 +110,25 @@ const load = (env) => {
     }
 };
 
+/**
+ * Creates a new thread pool.
+ *
+ * @param {any} config
+ * @returns
+ */
 const newThreadPool = (config) => {
     logger.verbose('Creating new threadpool');
 
     return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
 };
 
+/**
+ * Configures the Dispatcher instance.
+ *
+ * @param {any} flows
+ * @param {any} config
+ * @param {any} threadPool
+ */
 const configureDispatcher = (flows, config, threadPool) => {
     dispatcher.threadPool = threadPool;
     dispatcher.config = {
@@ -113,6 +137,11 @@ const configureDispatcher = (flows, config, threadPool) => {
     };
 };
 
+/**
+ * Starts Iris.
+ *
+ * @param {any} env
+ */
 const startIris = (env) => {
     var iris, config, threadPool, events, watcher;
 
@@ -157,6 +186,11 @@ const startIris = (env) => {
     cliCursor.hide();
 };
 
+/**
+ * Initializes the app in the right mode.
+ *
+ * @param {any} env
+ */
 const init = (env) => {
     logger.cli();
 
