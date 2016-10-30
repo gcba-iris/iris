@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 /*
  * Iris
@@ -7,9 +8,8 @@
  *
  */
 
-'use strict';
 
-require("nodejs-dashboard");
+require('nodejs-dashboard');
 
 const LiftOff = require('liftoff');
 const Threads = require('threads');
@@ -32,7 +32,11 @@ const loader = new LiftOff({
     extensions: {
         '.js': null
     },
-    v8flags: ['--harmony']
+    v8flags: [
+        '--stack_size=8192',
+        '--max-old-space-size=8192',
+        '–max-new-space-size=2048'
+    ]
 });
 
 /**
@@ -143,7 +147,11 @@ const configureDispatcher = (flows, config, threadPool) => {
  * @param {any} env
  */
 const startIris = (env) => {
-    var iris, config, threadPool, events, watcher;
+    var iris,
+        config,
+        threadPool,
+        events,
+        watcher;
 
     load(env);
     require(env.configPath);
@@ -152,9 +160,9 @@ const startIris = (env) => {
 
     threadPool = newThreadPool(iris.config);
     watcher = chokidar.watch(Object.keys(iris.modules), {
-            ignored: /[\/\\]\./,
-            persistent: true
-        })
+        ignored: /[\/\\]\./,
+        persistent: true
+    })
         .on('change', (path) => {
             logger.verbose('File change detected');
 
