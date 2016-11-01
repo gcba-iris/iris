@@ -63,6 +63,9 @@ const cli = (args) => {
             case 'help':
                 cliCommands.help();
                 break;
+            case 'new':
+                cliCommands.new(false);
+                break;
             default:
                 cliCommands.error(args._[0]);
                 break;
