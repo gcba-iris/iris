@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict';
 
 /*
@@ -59,8 +60,11 @@ const cli = (args) => {
             case 'config':
                 cliCommands.config();
                 break;
-            default:
+            case 'help':
                 cliCommands.help();
+                break;
+            default:
+                cliCommands.error(args._[0]);
                 break;
         }
 
@@ -71,7 +75,7 @@ const cli = (args) => {
                 cliCommands.new(args._[1]);
                 break;
             default:
-                cliCommands.help();
+                cliCommands.error(args._[0]);
                 break;
         }
 
@@ -160,9 +164,9 @@ const startIris = (env) => {
 
     threadPool = newThreadPool(iris.config);
     watcher = chokidar.watch(Object.keys(iris.modules), {
-        ignored: /[\/\\]\./,
-        persistent: true
-    })
+            ignored: /[\/\\]\./,
+            persistent: true
+        })
         .on('change', (path) => {
             logger.verbose('File change detected');
 
