@@ -102,7 +102,8 @@ group('dock.validate()', (test) => {
     });
 
     test('checks message length', (t) => {
-        const result = dock.validate('tag1|subtag1|02,56,58,8,69,45,78,65,125,69,898,98|subtag2|sds,sd,wtr,ghd,sd,rt,frt,uty,adf,wfg,dgs,sd');
+        const result = dock.validate('tag1|subtag1|02,56,58,8,69,45,78,65,125,69,898,98|subtag2|sds,sd,wtr,ghd,sd,rt,f' +
+                'rt,uty,adf,wfg,dgs,sd');
 
         t.equal(result, false);
     });
@@ -139,7 +140,9 @@ group('dock.parse()', (test) => {
             tag: 'tag1',
             meta: meta,
             data: {
-                'subtag1': ['02', '56', '58', '8'],
+                'subtag1': [
+                    '02', '56', '58', '8'
+                ],
                 'subtag2': ['sds', 'sd', 'wtr', 'ghd']
             }
         };
@@ -206,8 +209,9 @@ group('dock.process()', (test) => {
         events.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.dock) events.emit('setDockId', {});
-        };
+            if (data.meta.dock) 
+                events.emit('setDockId', {});
+            };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -230,8 +234,9 @@ group('dock.process()', (test) => {
         events.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.timestamp) events.emit('setTimestamp', {});
-        }
+            if (data.meta.timestamp) 
+                events.emit('setTimestamp', {});
+            };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -261,7 +266,9 @@ group('dock.encode()', (test) => {
     test('encodes object messages', (t) => {
         const result = dock.encode({
             message: {
-                subtag1: ['abc', 'def', 'ghi'],
+                subtag1: [
+                    'abc', 'def', 'ghi'
+                ],
                 subtag2: ['jkl', 'mno', 'pqr']
             }
         });
@@ -275,25 +282,19 @@ group('dock.encode()', (test) => {
             toString: () => 'Test'
         };
 
-        const result = dock.encode({
-            message: message
-        });
+        const result = dock.encode({message: message});
 
         t.equal(result, 'Test');
     });
 
     test('returns string messages', (t) => {
-        const result = dock.encode({
-            message: 'Test'
-        });
+        const result = dock.encode({message: 'Test'});
 
         t.equal(result, 'Test');
     });
 
     test('handles unknown message types', (t) => {
-        const result = dock.encode({
-            message: new Date()
-        });
+        const result = dock.encode({message: new Date()});
 
         t.equal(result, '');
     });
@@ -314,7 +315,10 @@ group('dock._checkConfig()', (test) => {
     test('checks config', (t) => {
         dock._checkConfig(config);
 
-        if (failed) t.fail('Config threw validation errors');
-        else t.pass('Ok');
-    });
+        if (failed) 
+            t.fail('Config threw validation errors');
+        else 
+            t.pass('Ok');
+        }
+    );
 });
