@@ -9,7 +9,6 @@
  *
  */
 
-
 require('nodejs-dashboard');
 
 const LiftOff = require('liftoff');
@@ -43,8 +42,8 @@ const loader = new LiftOff({
 /**
  * Runs cli commands.
  *
- * @param {any} args
- * @returns
+ * @param {Object} args
+ * @return {boolean} Whether to finish execution or not
  */
 const cli = (args) => {
     const keys = Object.keys(args);
@@ -83,15 +82,16 @@ const cli = (args) => {
         }
 
         return true;
-    } else if (keys.length > 1 || args._.length > 0) cliCommands.help();
-
+    } else if (keys.length > 1 || args._.length > 0) 
+        cliCommands.help();
+    
     return false;
 };
 
 /**
  * Loads Irisfile and Iris instance.
  *
- * @param {any} env
+ * @param {Object} env
  */
 const load = (env) => {
     var spinner = ora('Loading local package');
@@ -124,21 +124,23 @@ const load = (env) => {
 /**
  * Creates a new thread pool.
  *
- * @param {any} config
- * @returns
+ * @param {Object} config
+ * @return {Object} A new thread pool
  */
 const newThreadPool = (config) => {
     logger.verbose('Creating new threadpool');
 
-    return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
+    return config.threads
+        ? new Threads.Pool(config.threads)
+        : new Threads.Pool();
 };
 
 /**
  * Configures the Dispatcher instance.
  *
- * @param {any} flows
- * @param {any} config
- * @param {any} threadPool
+ * @param {Object[]} flows
+ * @param {Object} config
+ * @param {Object} threadPool
  */
 const configureDispatcher = (flows, config, threadPool) => {
     dispatcher.threadPool = threadPool;
@@ -151,7 +153,7 @@ const configureDispatcher = (flows, config, threadPool) => {
 /**
  * Starts Iris.
  *
- * @param {any} env
+ * @param {Object} env
  */
 const startIris = (env) => {
     var iris,
@@ -167,28 +169,30 @@ const startIris = (env) => {
 
     threadPool = newThreadPool(iris.config);
     watcher = chokidar.watch(Object.keys(iris.modules), {
-            ignored: /[\/\\]\./,
-            persistent: true
-        })
-        .on('change', (path) => {
-            logger.verbose('File change detected');
+        ignored: /[\/\\]\./,
+        persistent: true
+    }).on('change', (path) => {
+        logger.verbose('File change detected');
 
-            const config = Object.assign({}, iris.modules[path].config);
+        const config = Object.assign({}, iris.modules[path].config);
 
-            if (iris.modules[path].type === 'dock') {
-                iris.modules[path].stop();
-                decache(path);
-                iris.modules[path] = require(path);
-            }
+        if (iris.modules[path].type === 'dock') {
+            iris
+                .modules[path]
+                .stop();
+            decache(path);
+            iris.modules[path] = require(path);
+        }
 
-            iris.events.emit('reload', {
+        iris
+            .events
+            .emit('reload', {
                 pool: newThreadPool(iris.config),
                 module: iris.modules[path],
                 path: path,
                 config: config
             });
-        })
-        .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
+    }).on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
@@ -204,12 +208,13 @@ const startIris = (env) => {
 /**
  * Initializes the app in the right mode.
  *
- * @param {any} env
+ * @param {Object} env
  */
 const init = (env) => {
     logger.cli();
 
-    if (!cli(args)) startIris(env);
-};
+    if (!cli(args)) 
+        startIris(env);
+    };
 
 loader.launch({}, init);

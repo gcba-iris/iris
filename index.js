@@ -35,7 +35,9 @@ class Iris {
         this._logger = logger;
         this._events = undefined;
 
-        this._logger.cli();
+        this
+            ._logger
+            .cli();
     }
 
     /**
@@ -138,10 +140,18 @@ class Iris {
         this._logger.level = config.logLevel || 'info';
 
         if (config.events) {
-            config.events.dispatcher = config.events.dispatcher ? true : false;
-            config.events.docks = config.events.docks ? true : false;
-            config.events.handlers = config.events.handlers ? true : false;
-            config.events.hooks = config.events.hooks ? true : false;
+            config.events.dispatcher = config.events.dispatcher
+                ? true
+                : false;
+            config.events.docks = config.events.docks
+                ? true
+                : false;
+            config.events.handlers = config.events.handlers
+                ? true
+                : false;
+            config.events.hooks = config.events.hooks
+                ? true
+                : false;
         } else {
             logger.verbose('\rNo events config found, disabling all by default');
         }
@@ -183,7 +193,9 @@ class Iris {
         this._validateHooks(flow, spinner);
 
         spinner.succeed();
-        this._flows.push(flow);
+        this
+            ._flows
+            .push(flow);
     }
 
     /**
@@ -195,7 +207,9 @@ class Iris {
      * @memberOf Iris
      */
     on(event, callback) {
-        this._events.on(event, callback);
+        this
+            ._events
+            .on(event, callback);
     }
 
     /**
@@ -212,13 +226,14 @@ class Iris {
             logLevel: validator.isString
         };
 
-        if (config.events) schema.events = {
-            dispatcher: validator.isBoolean,
-            docks: validator.isBoolean,
-            handlers: validator.isBoolean,
-            hooks: validator.isBoolean
-        };
-
+        if (config.events) 
+            schema.events = {
+                dispatcher: validator.isBoolean,
+                docks: validator.isBoolean,
+                handlers: validator.isBoolean,
+                hooks: validator.isBoolean
+            };
+        
         validator.validate(config, schema, this._handleErrors(spinner));
     }
 
@@ -232,8 +247,12 @@ class Iris {
      */
     _checkFlowOptions(options, spinner) {
         const flowSchema = {
-            tag: [validator.isRequired, validator.isString],
-            docks: [validator.isRequired, validator.isArray],
+            tag: [
+                validator.isRequired, validator.isString
+            ],
+            docks: [
+                validator.isRequired, validator.isArray
+            ],
             handler: validator.isRequired,
             inputHooks: validator.isArray,
             outputHooks: validator.isArray
@@ -242,7 +261,9 @@ class Iris {
         validator.validate(options, flowSchema, this._handleErrors(spinner));
 
         if (this.config.logLevel === 'silly') {
-            this._logger.silly('\rChecked flow options');
+            this
+                ._logger
+                .silly('\rChecked flow options');
         }
     }
 
@@ -256,37 +277,63 @@ class Iris {
      */
     _validateDocks(flow, spinner) {
         const dockSchema = {
-            name: [validator.isRequired, validator.isString],
-            protocol: [validator.isRequired, validator.isString],
-            path: [validator.isRequired, validator.isString],
-            port: [validator.isRequired, validator.isNumber],
-            validate: [validator.isRequired, validator.isFunction],
-            parse: [validator.isRequired, validator.isFunction],
-            process: [validator.isRequired, validator.isFunction],
-            reply: [validator.isRequired, validator.isFunction],
-            encode: [validator.isRequired, validator.isFunction],
-            listen: [validator.isRequired, validator.isFunction],
-            stop: [validator.isRequired, validator.isFunction],
-            on: [validator.isRequired, validator.isFunction],
+            name: [
+                validator.isRequired, validator.isString
+            ],
+            protocol: [
+                validator.isRequired, validator.isString
+            ],
+            path: [
+                validator.isRequired, validator.isString
+            ],
+            port: [
+                validator.isRequired, validator.isNumber
+            ],
+            validate: [
+                validator.isRequired, validator.isFunction
+            ],
+            parse: [
+                validator.isRequired, validator.isFunction
+            ],
+            process: [
+                validator.isRequired, validator.isFunction
+            ],
+            reply: [
+                validator.isRequired, validator.isFunction
+            ],
+            encode: [
+                validator.isRequired, validator.isFunction
+            ],
+            listen: [
+                validator.isRequired, validator.isFunction
+            ],
+            stop: [
+                validator.isRequired, validator.isFunction
+            ],
+            on: [
+                validator.isRequired, validator.isFunction
+            ],
             send: [validator.isFunction]
         };
 
-        flow.docks.forEach((dock) => {
-            if (!dock.id) {
-                validator.validate(dock, dockSchema, this._handleErrors(spinner));
-                this._logger.silly('Validated dock \'' + dock.name + '\'');
+        flow
+            .docks
+            .forEach((dock) => {
+                if (!dock.id) {
+                    validator.validate(dock, dockSchema, this._handleErrors(spinner));
+                    this
+                        ._logger
+                        .silly('Validated dock \'' + dock.name + '\'');
 
-                if (this.config.events && this.config.events.docks) {
-                    dock.config = Object.assign(dock.config, {
-                        events: this.config.events.docks
-                    });
+                    if (this.config.events && this.config.events.docks) {
+                        dock.config = Object.assign(dock.config, {events: this.config.events.docks});
+                    }
+
+                    dock.id = shortid.generate();
+                    dock.dispatcher = dispatcher;
+                    this.modules[dock.path] = dock;
                 }
-
-                dock.id = shortid.generate();
-                dock.dispatcher = dispatcher;
-                this.modules[dock.path] = dock;
-            }
-        }, this);
+            }, this);
     }
 
     /**
@@ -299,20 +346,26 @@ class Iris {
      */
     _validateHandler(flow, spinner) {
         const handlerSchema = {
-            name: [validator.isRequired, validator.isString],
-            path: [validator.isRequired, validator.isString],
-            handle: [validator.isRequired, validator.isFunction],
+            name: [
+                validator.isRequired, validator.isString
+            ],
+            path: [
+                validator.isRequired, validator.isString
+            ],
+            handle: [
+                validator.isRequired, validator.isFunction
+            ],
             on: [validator.isRequired, validator.isFunction]
         };
 
         if (!flow.handler.validated) {
             validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
-            this._logger.silly('Validated handler \'' + flow.handler.name + '\'');
+            this
+                ._logger
+                .silly('Validated handler \'' + flow.handler.name + '\'');
 
             if (this.config.events && this.config.events.handlers) {
-                flow.handler.config = Object.assign(flow.handler.config, {
-                    events: this.config.events.handlers
-                });
+                flow.handler.config = Object.assign(flow.handler.config, {events: this.config.events.handlers});
             }
 
             flow.handler.validated = true;
@@ -330,45 +383,63 @@ class Iris {
      */
     _validateHooks(flow, spinner) {
         const hookSchema = {
-            name: [validator.isRequired, validator.isString],
-            path: [validator.isRequired, validator.isString],
-            run: [validator.isRequired, validator.isFunction],
-            process: [validator.isRequired, validator.isFunction],
+            name: [
+                validator.isRequired, validator.isString
+            ],
+            path: [
+                validator.isRequired, validator.isString
+            ],
+            run: [
+                validator.isRequired, validator.isFunction
+            ],
+            process: [
+                validator.isRequired, validator.isFunction
+            ],
             on: [validator.isRequired, validator.isFunction]
         };
 
-        flow.inputHooks.forEach(function (hook) {
-            if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                this._logger.silly('Validated input hook \'' + hook.name + '\'');
+        flow
+            .inputHooks
+            .forEach(function (hook) {
+                if (!hook.validated) {
+                    validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                    this
+                        ._logger
+                        .silly('Validated input hook \'' + hook.name + '\'');
 
-                if (this.config.events && this.config.events.hooks) {
-                    hook.config = Object.assign(hook.config, {
-                        events: this.config.events.hooks
-                    });
+                    if (this.config.events && this.config.events.hooks) {
+                        hook.config = Object.assign(hook.config, {events: this.config.events.hooks});
+                    }
+
+                    hook.validated = true;
+                    this.modules[hook.path] = hook;
+                } else 
+                    logger.silly('Hook \'' + hook.name + '\' already validated');
                 }
+            , this);
 
-                hook.validated = true;
-                this.modules[hook.path] = hook;
-            } else logger.silly('Hook \'' + hook.name + '\' already validated');
-        }, this);
+        flow
+            .outputHooks
+            .forEach(function (hook) {
+                if (!hook.validated) {
+                    validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                    this
+                        ._logger
+                        .silly('Validated output hook \'' + hook.name + '\'');
 
-        flow.outputHooks.forEach(function (hook) {
-            if (!hook.validated) {
-                validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                this._logger.silly('Validated output hook \'' + hook.name + '\'');
-
-                hook.validated = true;
-                this.modules[hook.path] = hook;
-            } else logger.silly('Hook \'' + hook.name + '\' already validated');
-        }, this);
+                    hook.validated = true;
+                    this.modules[hook.path] = hook;
+                } else 
+                    logger.silly('Hook \'' + hook.name + '\' already validated');
+                }
+            , this);
     }
 
     /**
      * Handles validation errors.
      *
      * @param {any} spinner
-     * @returns
+     * @return {function} An error handler closure
      *
      * @memberOf Iris
      */
