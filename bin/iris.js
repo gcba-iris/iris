@@ -82,6 +82,15 @@ const cli = (args) => {
         }
 
         return true;
+    } else if (keys.length === 2 && args._.length === 0) {
+        switch (keys[1]) {
+            case 'version':
+                cliCommands.version();
+                break;
+            default:
+                cliCommands.help();
+                break;
+        }
     } else if (keys.length > 1 || args._.length > 0) 
         cliCommands.help();
     
