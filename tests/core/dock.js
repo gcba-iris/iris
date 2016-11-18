@@ -46,6 +46,14 @@ group('dock.name', (test) => {
     });
 });
 
+group('dock.type', (test) => {
+    const dock = new Dock('test', 'test');
+
+    test('gets dock type', (t) => {
+        t.equal(dock.type, 'dock');
+    });
+});
+
 group('dock.protocol', (test) => {
     const dock = new Dock('test', 'test');
 
@@ -246,6 +254,80 @@ group('dock.process()', (test) => {
             }
         }, 5);
     });
+
+    test('uses message.toString()', (t, next) => {
+        var failed = true;
+        const customMessage = {
+            toString: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
+        };
+        const eventCallback = (data) => {
+            failed = false;
+
+            t.pass('Ok');
+            next();
+        };
+
+        events.on('dispatcherExecuted', eventCallback.bind(this));
+        dock.dispatcher = dispatcher;
+        dock._dispatcher.dispatch = (data, callback) => {
+            events.emit('dispatcherExecuted', {});
+        };
+        dock.process(customMessage, meta, callback);
+
+        setTimeout(() => {
+            if (failed) {
+                t.fail('dispatcher.dispatch() was never called');
+                next();
+            }
+        }, 5);
+    });
+
+    test('fails with unrecognized message', (t, next) => {
+        const customMessage = {
+            message: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
+        };
+        const returnValue = dock.process(customMessage, meta, callback);
+
+        if (returnValue === undefined) 
+            t.pass('Ok');
+        else 
+            t.fail('should have returned immediately');
+        
+        next();
+    });
+
+    test('fails when there is no dispatcher reference', (t, next) => {
+        dock._dispatcher = () => {};
+
+        t.throws(dock.process, 'TypeError: Cannot read property \'tag1\' of undefined');
+        next();
+    });
+
+    test('fails when the parser returns no data', (t, next) => {
+        var passed = true;
+        const eventCallback = (data) => {
+            passed = false;
+
+            t.fail('dispatcher.dispatch() should not have been called');
+            next();
+        };
+
+        dock.parse = () => {};
+
+        events.on('dispatcherExecuted', eventCallback.bind(this));
+        dock.dispatcher = dispatcher;
+        dock._dispatcher.dispatch = (data, callback) => {
+            events.emit('dispatcherExecuted', {});
+        };
+        dock.process(message, meta, callback);
+
+        setTimeout(() => {
+            if (passed) {
+                t.pass('Ok');
+                next();
+            }
+        }, 5);
+    });
 });
 
 group('dock.encode()', (test) => {
@@ -276,13 +358,24 @@ group('dock.encode()', (test) => {
         t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr');
     });
 
+    test('encodes object messages with string values', (t) => {
+        const result = dock.encode({
+            message: {
+                subtag1: 'abc',
+                subtag2: 'jkl'
+            }
+        });
+
+        t.equal(result, '|subtag1|abc|subtag2|jkl');
+    });
+
     test('encodes messages with toString() method', (t) => {
-        const message = {};
-        message.prototype = {
+        const message = {
             toString: () => 'Test'
         };
 
         const result = dock.encode({message: message});
+        console.dir(result);
 
         t.equal(result, 'Test');
     });
@@ -294,9 +387,11 @@ group('dock.encode()', (test) => {
     });
 
     test('handles unknown message types', (t) => {
-        const result = dock.encode({message: new Date()});
+        const result = dock.encode({
+            message: () => 'Test'
+        });
 
-        t.equal(result, '');
+        t.equal(result, false);
     });
 });
 
