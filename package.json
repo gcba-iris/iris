@@ -1,6 +1,6 @@
 {
   "name": "iris",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Modular, extensible, real-time IoT backend",
   "main": "index.js",
   "directories": {
