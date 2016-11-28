@@ -143,9 +143,7 @@ const load = (env) => {
 const newThreadPool = (config) => {
     logger.verbose('Creating new threadpool');
 
-    return config.threads
-        ? new Threads.Pool(config.threads)
-        : new Threads.Pool();
+    return config.threads ? new Threads.Pool(config.threads) : new Threads.Pool();
 };
 
 /**
@@ -176,36 +174,36 @@ const startIris = (env) => {
         watcher;
 
     load(env);
+
     require(env.configPath);
     iris = require(env.modulePath);
     iris.events = Sparkles('iris');
 
     threadPool = newThreadPool(iris.config);
-    watcher = chokidar.watch(Object.keys(iris.modules), {
-        ignored: /[\/\\]\./,
-        persistent: true
-    }).on('change', (path) => {
-        logger.verbose('File change detected');
+    watcher = chokidar
+        .watch(Object.keys(iris.modules), {
+            ignored: /[\/\\]\./,
+            persistent: true
+        })
+        .on('change', (path) => {
+            logger.verbose('File change detected');
 
-        const config = Object.assign({}, iris.modules[path].config);
+            const config = Object.assign({}, iris.modules[path].config);
 
-        if (iris.modules[path].type === 'dock') {
-            iris
-                .modules[path]
-                .stop();
-            decache(path);
-            iris.modules[path] = require(path);
-        }
+            if (iris.modules[path].type === 'dock') {
+                iris.modules[path].stop();
+                decache(path);
+                iris.modules[path] = require(path);
+            }
 
-        iris
-            .events
-            .emit('reload', {
+            iris.events.emit('reload', {
                 pool: newThreadPool(iris.config),
                 module: iris.modules[path],
                 path: path,
                 config: config
             });
-    }).on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
+        })
+        .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
@@ -227,9 +225,7 @@ const startIris = (env) => {
 const init = (env) => {
     logger.cli();
 
-    if (!cli(args)) {
-        startIris(env);
-    }
+    if (!cli(args)) startIris(env);
 };
 
 loader.launch({}, init);
