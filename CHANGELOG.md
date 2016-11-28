@@ -1,3 +1,29 @@
+<a name="0.1.5"></a>
+## 0.1.5 (2016-11-28)
+
+* Added banner to more cli commands ([6c9fe4a](https://github.com/gcba-iris/iris/commit/6c9fe4a))
+* Added isFunction check ([ff171e3](https://github.com/gcba-iris/iris/commit/ff171e3))
+* Cleanup ([2c834dc](https://github.com/gcba-iris/iris/commit/2c834dc))
+* Code style fixes ([94e0581](https://github.com/gcba-iris/iris/commit/94e0581))
+* Copy fix ([ac5349d](https://github.com/gcba-iris/iris/commit/ac5349d))
+* Fixed bumped config ([d2d0a0a](https://github.com/gcba-iris/iris/commit/d2d0a0a))
+* Improved cli messages ([5029a9b](https://github.com/gcba-iris/iris/commit/5029a9b))
+* Improved message encoding ([8bcb089](https://github.com/gcba-iris/iris/commit/8bcb089))
+* More code style fixes ([20e8dcf](https://github.com/gcba-iris/iris/commit/20e8dcf))
+* More style fixes ([1f6ff43](https://github.com/gcba-iris/iris/commit/1f6ff43))
+* More style fixes ([297d661](https://github.com/gcba-iris/iris/commit/297d661))
+* Release 0.1.4 ([87a1ff4](https://github.com/gcba-iris/iris/commit/87a1ff4))
+* Style fix ([8bc848a](https://github.com/gcba-iris/iris/commit/8bc848a))
+* Style fixes ([bcd3711](https://github.com/gcba-iris/iris/commit/bcd3711))
+* Style fixes ([e8f3c25](https://github.com/gcba-iris/iris/commit/e8f3c25))
+* Updated .bumpedrc ([9cd37f8](https://github.com/gcba-iris/iris/commit/9cd37f8))
+* Updated bumped config ([0df5784](https://github.com/gcba-iris/iris/commit/0df5784))
+* Updated bumped config ([182017c](https://github.com/gcba-iris/iris/commit/182017c))
+* Updated dependencies ([732cbfb](https://github.com/gcba-iris/iris/commit/732cbfb))
+* Updated linter config ([9631813](https://github.com/gcba-iris/iris/commit/9631813))
+
+
+
 <a name="0.1.4"></a>
 ## 0.1.4 (2016-11-28)
 
