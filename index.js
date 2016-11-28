@@ -35,9 +35,7 @@ class Iris {
         this._logger = logger;
         this._events = undefined;
 
-        this
-            ._logger
-            .cli();
+        this._logger.cli();
     }
 
     /**
@@ -152,7 +150,8 @@ class Iris {
             config.events.hooks = config.events.hooks
                 ? true
                 : false;
-        } else {
+        }
+        else {
             logger.verbose('\rNo events config found, disabling all by default');
         }
 
@@ -193,9 +192,7 @@ class Iris {
         this._validateHooks(flow, spinner);
 
         spinner.succeed();
-        this
-            ._flows
-            .push(flow);
+        this._flows.push(flow);
     }
 
     /**
@@ -207,9 +204,7 @@ class Iris {
      * @memberOf Iris
      */
     on(event, callback) {
-        this
-            ._events
-            .on(event, callback);
+        this._events.on(event, callback);
     }
 
     /**
@@ -226,14 +221,14 @@ class Iris {
             logLevel: validator.isString
         };
 
-        if (config.events) 
+        if (config.events)
             schema.events = {
                 dispatcher: validator.isBoolean,
                 docks: validator.isBoolean,
                 handlers: validator.isBoolean,
                 hooks: validator.isBoolean
             };
-        
+
         validator.validate(config, schema, this._handleErrors(spinner));
     }
 
@@ -261,9 +256,7 @@ class Iris {
         validator.validate(options, flowSchema, this._handleErrors(spinner));
 
         if (this.config.logLevel === 'silly') {
-            this
-                ._logger
-                .silly('\rChecked flow options');
+            this._logger.silly('\rChecked flow options');
         }
     }
 
@@ -321,9 +314,7 @@ class Iris {
             .forEach((dock) => {
                 if (!dock.id) {
                     validator.validate(dock, dockSchema, this._handleErrors(spinner));
-                    this
-                        ._logger
-                        .silly('Validated dock \'' + dock.name + '\'');
+                    this._logger.silly('Validated dock \'' + dock.name + '\'');
 
                     if (this.config.events && this.config.events.docks) {
                         dock.config = Object.assign(dock.config, {events: this.config.events.docks});
@@ -360,9 +351,7 @@ class Iris {
 
         if (!flow.handler.validated) {
             validator.validate(flow.handler, handlerSchema, this._handleErrors(spinner));
-            this
-                ._logger
-                .silly('Validated handler \'' + flow.handler.name + '\'');
+            this._logger.silly('Validated handler \'' + flow.handler.name + '\'');
 
             if (this.config.events && this.config.events.handlers) {
                 flow.handler.config = Object.assign(flow.handler.config, {events: this.config.events.handlers});
@@ -403,9 +392,7 @@ class Iris {
             .forEach(function (hook) {
                 if (!hook.validated) {
                     validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                    this
-                        ._logger
-                        .silly('Validated input hook \'' + hook.name + '\'');
+                    this._logger.silly('Validated input hook \'' + hook.name + '\'');
 
                     if (this.config.events && this.config.events.hooks) {
                         hook.config = Object.assign(hook.config, {events: this.config.events.hooks});
@@ -413,7 +400,8 @@ class Iris {
 
                     hook.validated = true;
                     this.modules[hook.path] = hook;
-                } else 
+                }
+                else
                     logger.silly('Hook \'' + hook.name + '\' already validated');
                 }
             , this);
@@ -423,16 +411,15 @@ class Iris {
             .forEach(function (hook) {
                 if (!hook.validated) {
                     validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                    this
-                        ._logger
-                        .silly('Validated output hook \'' + hook.name + '\'');
+                    this._logger.silly('Validated output hook \'' + hook.name + '\'');
 
                     hook.validated = true;
                     this.modules[hook.path] = hook;
-                } else 
-                    logger.silly('Hook \'' + hook.name + '\' already validated');
                 }
-            , this);
+                else
+                    logger.silly('Hook \'' + hook.name + '\' already validated');
+                },
+            this);
     }
 
     /**

@@ -71,7 +71,8 @@ const cli = (args) => {
         }
 
         return true;
-    } else if (keys.length === 1 && args._.length === 2) {
+    }
+    else if (keys.length === 1 && args._.length === 2) {
         switch (args._[0]) {
             case 'new':
                 cliCommands.new(args._[1]);
@@ -82,7 +83,8 @@ const cli = (args) => {
         }
 
         return true;
-    } else if (keys.length === 2 && args._.length === 0) {
+    }
+    else if (keys.length === 2 && args._.length === 0) {
         switch (keys[1]) {
             case 'version':
                 cliCommands.version();
@@ -91,9 +93,10 @@ const cli = (args) => {
                 cliCommands.help();
                 break;
         }
-    } else if (keys.length > 1 || args._.length > 0) 
+    }
+    else if (keys.length > 1 || args._.length > 0)
         cliCommands.help();
-    
+
     return false;
 };
 
@@ -122,7 +125,8 @@ const load = (env) => {
     if (env.configPath) {
         process.chdir(env.configBase);
         spinner.succeed();
-    } else {
+    }
+    else {
         spinner.fail();
         consoleLog.error('No Irisfile found.');
 
@@ -205,7 +209,8 @@ const startIris = (env) => {
 
     if (iris.flows.length > 0) {
         configureDispatcher(iris.flows, iris.config, threadPool);
-    } else {
+    }
+    else {
         consoleLog.error('No flows found in Irisfile.');
 
         process.exit(1);
@@ -222,8 +227,9 @@ const startIris = (env) => {
 const init = (env) => {
     logger.cli();
 
-    if (!cli(args)) 
+    if (!cli(args)) {
         startIris(env);
-    };
+    }
+};
 
 loader.launch({}, init);
