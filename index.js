@@ -390,8 +390,7 @@ class Iris {
                 this.modules[hook.path] = hook;
             }
             else this._logger.silly('Hook \'' + hook.name + '\' already validated');
-            }
-        , this);
+        }, this);
 
         flow.outputHooks.forEach(function (hook) {
             if (!hook.validated) {
