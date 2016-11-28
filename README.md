@@ -137,7 +137,7 @@ iris.flow(name, config);
 const iris = require('iris');
 const dock = require('./docks/http');
 const handler = require('./handlers/handler1');
-const anotherHandler = require('./handlers/handler2');
+const handler2 = require('./handlers/handler2');
 const hook1 = require('./hooks/hook1');
 const hook2 = require('./hooks/hook2');
 
@@ -161,7 +161,7 @@ iris.flow('Flow 1', {
 iris.flow('Flow 2', {
     tag: 'tag2',
     docks: [dock],
-    handler: anotherHandler,
+    handler: handler2,
     inputHooks: [hook2]
 });
 ```

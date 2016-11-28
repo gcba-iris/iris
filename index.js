@@ -144,7 +144,7 @@ class Iris {
             config.events.hooks = !!config.events.hooks;
         }
         else {
-            logger.verbose('\rNo events config found, disabling all by default');
+            this._logger.verbose('\rNo events config found, disabling all by default');
         }
 
         spinner.succeed();
@@ -390,7 +390,7 @@ class Iris {
                 this.modules[hook.path] = hook;
             }
             else
-                logger.silly('Hook \'' + hook.name + '\' already validated');
+                this._logger.silly('Hook \'' + hook.name + '\' already validated');
             }
         , this);
 
@@ -403,7 +403,7 @@ class Iris {
                 this.modules[hook.path] = hook;
             }
             else
-                logger.silly('Hook \'' + hook.name + '\' already validated');
+                this._logger.silly('Hook \'' + hook.name + '\' already validated');
             },
         this);
     }
