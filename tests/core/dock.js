@@ -281,7 +281,7 @@ group('dock.process()', (test) => {
         }, 5);
     });
 
-    test('fails with unrecognized message', (t, next) => {
+    test('fails with unrecognized message type', (t, next) => {
         const customMessage = {
             message: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
         };
