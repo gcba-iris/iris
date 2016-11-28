@@ -217,9 +217,8 @@ group('dock.process()', (test) => {
         events.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.dock)
-                events.emit('setDockId', {});
-            };
+            if (data.meta.dock) events.emit('setDockId', {});
+        };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -242,9 +241,8 @@ group('dock.process()', (test) => {
         events.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.timestamp)
-                events.emit('setTimestamp', {});
-            };
+            if (data.meta.timestamp) events.emit('setTimestamp', {});
+        };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
@@ -288,10 +286,8 @@ group('dock.process()', (test) => {
         };
         const returnValue = dock.process(customMessage, meta, callback);
 
-        if (returnValue === undefined)
-            t.pass('Ok');
-        else
-            t.fail('should have returned immediately');
+        if (returnValue === undefined) t.pass('Ok');
+        else t.fail('should have returned immediately');
 
         next();
     });
@@ -409,10 +405,8 @@ group('dock._checkConfig()', (test) => {
     test('checks config', (t) => {
         dock._checkConfig(config);
 
-        if (failed)
-            t.fail('Config threw validation errors');
-        else
-            t.pass('Ok');
+        if (failed) t.fail('Config threw validation errors');
+        else t.pass('Ok');
         }
     );
 });

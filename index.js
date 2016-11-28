@@ -389,8 +389,7 @@ class Iris {
                 hook.validated = true;
                 this.modules[hook.path] = hook;
             }
-            else
-                this._logger.silly('Hook \'' + hook.name + '\' already validated');
+            else this._logger.silly('Hook \'' + hook.name + '\' already validated');
             }
         , this);
 
@@ -402,8 +401,7 @@ class Iris {
                 hook.validated = true;
                 this.modules[hook.path] = hook;
             }
-            else
-                this._logger.silly('Hook \'' + hook.name + '\' already validated');
+            else this._logger.silly('Hook \'' + hook.name + '\' already validated');
             },
         this);
     }
