@@ -47,7 +47,7 @@ group('hook.run()', (test) => {
     const hook = new Hook('test');
 
     test('runs hook', (t) => {
-        var valid = false;
+        let valid = false;
 
         hook.process = () => {
             valid = true;

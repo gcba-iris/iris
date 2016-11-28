@@ -301,22 +301,20 @@ class Iris {
             send: [validator.isFunction]
         };
 
-        flow
-            .docks
-            .forEach((dock) => {
-                if (!dock.id) {
-                    validator.validate(dock, dockSchema, this._handleErrors(spinner));
-                    this._logger.silly('Validated dock \'' + dock.name + '\'');
+        flow.docks.forEach((dock) => {
+            if (!dock.id) {
+                validator.validate(dock, dockSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated dock \'' + dock.name + '\'');
 
-                    if (this.config.events && this.config.events.docks) {
-                        dock.config = Object.assign(dock.config, {events: this.config.events.docks});
-                    }
-
-                    dock.id = shortid.generate();
-                    dock.dispatcher = dispatcher;
-                    this.modules[dock.path] = dock;
+                if (this.config.events && this.config.events.docks) {
+                    dock.config = Object.assign(dock.config, {events: this.config.events.docks});
                 }
-            }, this);
+
+                dock.id = shortid.generate();
+                dock.dispatcher = dispatcher;
+                this.modules[dock.path] = dock;
+            }
+        }, this);
     }
 
     /**
@@ -379,39 +377,35 @@ class Iris {
             on: [validator.isRequired, validator.isFunction]
         };
 
-        flow
-            .inputHooks
-            .forEach(function (hook) {
-                if (!hook.validated) {
-                    validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                    this._logger.silly('Validated input hook \'' + hook.name + '\'');
+        flow.inputHooks.forEach(function (hook) {
+            if (!hook.validated) {
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated input hook \'' + hook.name + '\'');
 
-                    if (this.config.events && this.config.events.hooks) {
-                        hook.config = Object.assign(hook.config, {events: this.config.events.hooks});
-                    }
-
-                    hook.validated = true;
-                    this.modules[hook.path] = hook;
+                if (this.config.events && this.config.events.hooks) {
+                    hook.config = Object.assign(hook.config, {events: this.config.events.hooks});
                 }
-                else
-                    logger.silly('Hook \'' + hook.name + '\' already validated');
-                }
-            , this);
 
-        flow
-            .outputHooks
-            .forEach(function (hook) {
-                if (!hook.validated) {
-                    validator.validate(hook, hookSchema, this._handleErrors(spinner));
-                    this._logger.silly('Validated output hook \'' + hook.name + '\'');
+                hook.validated = true;
+                this.modules[hook.path] = hook;
+            }
+            else
+                logger.silly('Hook \'' + hook.name + '\' already validated');
+            }
+        , this);
 
-                    hook.validated = true;
-                    this.modules[hook.path] = hook;
-                }
-                else
-                    logger.silly('Hook \'' + hook.name + '\' already validated');
-                },
-            this);
+        flow.outputHooks.forEach(function (hook) {
+            if (!hook.validated) {
+                validator.validate(hook, hookSchema, this._handleErrors(spinner));
+                this._logger.silly('Validated output hook \'' + hook.name + '\'');
+
+                hook.validated = true;
+                this.modules[hook.path] = hook;
+            }
+            else
+                logger.silly('Hook \'' + hook.name + '\' already validated');
+            },
+        this);
     }
 
     /**

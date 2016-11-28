@@ -182,7 +182,7 @@ group('dock.process()', (test) => {
     dock.config = config;
 
     test('sends messages to dispatcher', (t, next) => {
-        var failed = true;
+        let failed = true;
         const eventCallback = (data) => {
             failed = false;
 
@@ -206,18 +206,18 @@ group('dock.process()', (test) => {
     });
 
     test('sets dock Id', (t, next) => {
-        var failed = true;
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
             next();
         };
+        let failed = true;
 
         events.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.dock) 
+            if (data.meta.dock)
                 events.emit('setDockId', {});
             };
         dock.process(message, meta, callback);
@@ -231,18 +231,18 @@ group('dock.process()', (test) => {
     });
 
     test('sets message timestamp', (t, next) => {
-        var failed = true;
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
             next();
         };
+        let failed = true;
 
         events.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.timestamp) 
+            if (data.meta.timestamp)
                 events.emit('setTimestamp', {});
             };
         dock.process(message, meta, callback);
@@ -256,7 +256,6 @@ group('dock.process()', (test) => {
     });
 
     test('uses message.toString()', (t, next) => {
-        var failed = true;
         const customMessage = {
             toString: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
         };
@@ -266,6 +265,7 @@ group('dock.process()', (test) => {
             t.pass('Ok');
             next();
         };
+        let failed = true;
 
         events.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
@@ -288,11 +288,11 @@ group('dock.process()', (test) => {
         };
         const returnValue = dock.process(customMessage, meta, callback);
 
-        if (returnValue === undefined) 
+        if (returnValue === undefined)
             t.pass('Ok');
-        else 
+        else
             t.fail('should have returned immediately');
-        
+
         next();
     });
 
@@ -304,13 +304,13 @@ group('dock.process()', (test) => {
     });
 
     test('fails when the parser returns no data', (t, next) => {
-        var passed = true;
         const eventCallback = (data) => {
             passed = false;
 
             t.fail('dispatcher.dispatch() should not have been called');
             next();
         };
+        let passed = true;
 
         dock.parse = () => {};
 
@@ -397,8 +397,7 @@ group('dock.encode()', (test) => {
 
 group('dock._checkConfig()', (test) => {
     const dock = new Dock('test', 'test');
-
-    var failed = false;
+    let failed = false;
 
     dock.id = 'test';
     dock.config = config;
@@ -410,9 +409,9 @@ group('dock._checkConfig()', (test) => {
     test('checks config', (t) => {
         dock._checkConfig(config);
 
-        if (failed) 
+        if (failed)
             t.fail('Config threw validation errors');
-        else 
+        else
             t.pass('Ok');
         }
     );

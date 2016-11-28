@@ -61,7 +61,7 @@ group('handler.handle()', (test) => {
 
     test('handles data', (t) => {
         const response = 'test';
-        var valid = false;
+        let valid = false;
 
         handler.process = () => {
             valid = true;
@@ -77,7 +77,7 @@ group('handler.send()', (test) => {
 
     test('sends response to dispatcher', (t) => {
         const response = 'test';
-        var valid = false;
+        let valid = false;
 
         dispatcher.respond = () => {
             valid = true;

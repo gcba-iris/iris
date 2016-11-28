@@ -96,7 +96,7 @@ group('dispatcher.dispatch()', (test) => {
     };
 
     test('sends data to threadpool', (t) => {
-        var valid = false;
+        let valid = false;
 
         dispatcher.threadPool = threadPool;
         dispatcher._threadPool.send = (data) => {
@@ -121,7 +121,6 @@ group('dispatcher.dispatch()', (test) => {
 
 group('dispatcher.respond()', (test) => {
     test('sends response to original dock', (t) => {
-        var valid = false;
         const response = {
             message: 'Test',
             meta: {
@@ -129,6 +128,7 @@ group('dispatcher.respond()', (test) => {
             },
             tag: 'tag1'
         };
+        let valid = false;
 
         flows[0].docks[0].reply = (response) => {
             valid = true;
@@ -163,7 +163,8 @@ group('dispatcher._startDock()', (test) => {
     };
 
     test('starts docks', (t) => {
-        var valid = false;
+        let valid = false;
+
         dock.stop = () => {};
         dock.listen = () => valid = true;
 

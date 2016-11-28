@@ -106,7 +106,7 @@ const cli = (args) => {
  * @param {Object} env
  */
 const load = (env) => {
-    var spinner = ora('Loading local package');
+    let spinner = ora('Loading local package');
 
     consoleLog.info(utils.banner + '\n');
     spinner.start();
@@ -167,7 +167,7 @@ const configureDispatcher = (flows, config, threadPool) => {
  * @param {Object} env
  */
 const startIris = (env) => {
-    var iris,
+    let iris,
         config,
         threadPool,
         events,
