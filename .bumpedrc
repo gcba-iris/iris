@@ -11,6 +11,15 @@ plugins:
       Detecting problems before publish:
         plugin: bumped-terminal
         command: 'git-dirty && npm test'
+      Switching to master branch:
+        plugin: bumped-terminal
+        command: 'git checkout master'
+      Updating master branch from dev:
+        plugin: bumped-terminal
+        command: 'git pull . dev'
       Publishing tag at Github:
         plugin: bumped-terminal
         command: 'git tag $newVersion && git push && git push --tags'
+      Switching back to dev branch:
+        plugin: bumped-terminal
+        command: 'git checkout dev'
