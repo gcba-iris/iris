@@ -110,8 +110,9 @@ group('dock.validate()', (test) => {
     });
 
     test('checks message length', (t) => {
-        const result = dock.validate('tag1|subtag1|02,56,58,8,69,45,78,65,125,69,898,98|subtag2|sds,sd,wtr,ghd,sd,rt,f' +
-                'rt,uty,adf,wfg,dgs,sd');
+        const result = dock.validate(
+            'tag1|subtag1|02,56,58,8,69,45,78,65,125,69,898,98|subtag2|sds,sd,wtr,ghd,sd,rt,frt,uty,adf,wfg,dgs,sd'
+        );
 
         t.equal(result, false);
     });
@@ -371,7 +372,6 @@ group('dock.encode()', (test) => {
         };
 
         const result = dock.encode({message: message});
-        console.dir(result);
 
         t.equal(result, 'Test');
     });
