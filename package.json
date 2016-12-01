@@ -51,7 +51,7 @@
     "graceful-fs": "^4.1.9",
     "liftoff": "^2.3.0",
     "minimist": "^1.2.0",
-    "nodejs-dashboard": "^0.1.2",
+    "nodejs-dashboard": "^0.2.1",
     "npm-cmd": "^0.2.0",
     "ora": "^0.3.0",
     "param-case": "^2.1.0",
