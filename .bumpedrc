@@ -15,7 +15,7 @@ plugins:
         command: 'git checkout master'
       Updating master branch from dev:
         plugin: bumped-terminal
-        command: 'git pull . dev'
+        command: 'git pull . dev && git push'
       Publishing tag at Github:
         plugin: bumped-terminal
         command: 'git tag $newVersion && git push && git push --tags'
