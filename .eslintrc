@@ -7,6 +7,7 @@
         "allowTemplateLiterals": 0,
         "arrow-body-style": 0,
         "arrow-parens": 0,
+        "brace-style": [0, "stroustrup", {"allowSingleLine": true}],
         "class-methods-use-this": 0,
         "comma-dangle": 0, // not sure why airbnb turned this on. gross!
         "consistent-return": 0,
@@ -30,6 +31,7 @@
         "no-case-declarations": 0,
         "no-confusing-arrow": 0,
         "no-console": 0,
+        "no-continue": 0,
         "no-param-reassign": 0,
         "no-prototype-builtins": 0,
         "no-plusplus": 0,
