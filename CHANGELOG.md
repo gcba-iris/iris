@@ -1,36 +1,3 @@
-<a name="0.1.5"></a>
-## 0.1.5 (2016-12-12)
-
-* Added banner to more cli commands ([6c9fe4a](https://github.com/gcba-iris/iris/commit/6c9fe4a))
-* Added isFunction check ([ff171e3](https://github.com/gcba-iris/iris/commit/ff171e3))
-* Cleanup ([2c834dc](https://github.com/gcba-iris/iris/commit/2c834dc))
-* Code style fixes ([94e0581](https://github.com/gcba-iris/iris/commit/94e0581))
-* Code style fixes ([7447f9a](https://github.com/gcba-iris/iris/commit/7447f9a))
-* Copy fix ([ac5349d](https://github.com/gcba-iris/iris/commit/ac5349d))
-* Fixed bumped config ([d2d0a0a](https://github.com/gcba-iris/iris/commit/d2d0a0a))
-* Improved cli messages ([5029a9b](https://github.com/gcba-iris/iris/commit/5029a9b))
-* Improved message encoding ([8bcb089](https://github.com/gcba-iris/iris/commit/8bcb089))
-* More code style fixes ([20e8dcf](https://github.com/gcba-iris/iris/commit/20e8dcf))
-* More style fixes ([297d661](https://github.com/gcba-iris/iris/commit/297d661))
-* More style fixes ([1f6ff43](https://github.com/gcba-iris/iris/commit/1f6ff43))
-* Release 0.1.4 ([8aaf297](https://github.com/gcba-iris/iris/commit/8aaf297))
-* Release 0.1.4 ([87a1ff4](https://github.com/gcba-iris/iris/commit/87a1ff4))
-* Release 0.1.5 ([ef28881](https://github.com/gcba-iris/iris/commit/ef28881))
-* Removed node-dashboard ([1ed4924](https://github.com/gcba-iris/iris/commit/1ed4924))
-* Style fix ([8bc848a](https://github.com/gcba-iris/iris/commit/8bc848a))
-* Style fixes ([e8f3c25](https://github.com/gcba-iris/iris/commit/e8f3c25))
-* Style fixes ([bcd3711](https://github.com/gcba-iris/iris/commit/bcd3711))
-* Updated .bumpedrc ([9cd37f8](https://github.com/gcba-iris/iris/commit/9cd37f8))
-* Updated bumped config ([182017c](https://github.com/gcba-iris/iris/commit/182017c))
-* Updated bumped config ([0df5784](https://github.com/gcba-iris/iris/commit/0df5784))
-* Updated bumped config ([2ca33cf](https://github.com/gcba-iris/iris/commit/2ca33cf))
-* Updated dependencies ([732cbfb](https://github.com/gcba-iris/iris/commit/732cbfb))
-* Updated linter config ([9631813](https://github.com/gcba-iris/iris/commit/9631813))
-* Updated linter config ([7447ea3](https://github.com/gcba-iris/iris/commit/7447ea3))
-* Version bump ([4dff1a9](https://github.com/gcba-iris/iris/commit/4dff1a9))
-
-
-
 <a name="0.1.4"></a>
 ## 0.1.4 (2016-12-12)
 
