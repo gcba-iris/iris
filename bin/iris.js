@@ -9,8 +9,6 @@
  *
  */
 
-require('nodejs-dashboard');
-
 const LiftOff = require('liftoff');
 const Threads = require('threads');
 const Sparkles = require('sparkles');
