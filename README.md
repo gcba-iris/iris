@@ -20,7 +20,7 @@
 
 A tiny Node.js framework for building fast, modular & extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Run the app. That's it.
 
-Iris tries to strike a balance between convention vs configuration. It comes with sane defaults and a plugin system that makes it easy to get started, while allowing ample flexibility at the same time.
+Iris tries to strike a balance between convention vs configuration. It comes with sane defaults and a plugin system that makes it easy to get started while allowing ample flexibility at the same time.
 
 ```bash
 $ npm install gcba-iris/iris -g
