@@ -30,6 +30,11 @@ $ npm install gcba-iris/iris -g
 ## Contents
 
   * [1 Flow](#flow)
+    * [1.1 Dispatcher](#dispatcher)
+    * [1.2 Plugins](#plugins)
+      * [1.2.1 Dock](#dock)
+      * [1.2.2 Handler](#handler)
+      * [1.2.3 Hook](#hook)
   * [2 Getting started](#getting-started)
     * [2.1 Create an empty project](#1-create-an-empty-project)
       * [2.1.1 Existing project](#existing-project)
@@ -39,6 +44,11 @@ $ npm install gcba-iris/iris -g
     * [2.3 Run flows](#3-run-flows)
   * [3 CLI commands](#cli-commands)
   * [4 Wrtiting plugins](#writing-plugins)
+    * [4.1 Docks](#docks)
+    * [4.2 Handlers](#handlers)
+    * [4.3 Hooks](#hooks)
+    * [4.4 Utilities](#utilities)
+      * [4.4.1 Logger](#logger)
   * [5 Requirements](#requirements)
 
 
@@ -81,7 +91,7 @@ Subtags, on the other hand, are optional.
 
 Processes the data object received from the dispatcher. A handler can generate a response, which goes back to the dispatcher. The response will be serialized and sent by the respective dock. If there's no response the data flow ends there.
 
-#### Hooks
+#### Hook
 
 A hook is just a callback function that gets executed whenever a piece of data passes by the dispatcher in the course of a data flow. Multiple hooks can be tied to a single flow. Each hook can be set to run when the message object comes in (input hook) or when the response goes out (output hook).
 
