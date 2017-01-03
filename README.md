@@ -84,8 +84,7 @@ Listens to a single port for incoming messages through a specific protocol and p
 tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd
 ```
 
-The flow tag is the first part of the message. It allows Iris to know how to route the message to the right handler. Therefore, a tag must be unique and belong to a single flow.
-Subtags, on the other hand, are optional.
+The flow tag is the first part of the message. It allows Iris to know how to route the message to the right handler. Thus a tag must be unique and belong to a single flow. Subtags are optional.
 
 #### Handler
 
