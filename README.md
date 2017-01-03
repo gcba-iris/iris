@@ -37,8 +37,9 @@ $ npm install gcba-iris/iris -g
       * [2.2.1 Method signature](#method-signature)
       * [2.2.2 Sample irisfile.js](#sample-irisfilejs)
     * [2.3 Run flows](#3-run-flows)
-  * [3 Requirements](#requirements)
-  * [4 Learn more](#learn-more)
+  * [3 CLI commands](#cli-commands)
+  * [4 Wrtiting plugins](#writing-plugins)
+  * [5 Requirements](#requirements)
 
 
 ## Flow
@@ -51,7 +52,8 @@ Data flows are processed in parallel using threads. A message will always remain
 
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
-Handler --> Dispatcher --> Hooks --> Dock -->
+
+<-- Dock <-- Dispatcher <-- Hooks <-- Handler
 ```
 
 ### Dispatcher
@@ -178,15 +180,43 @@ $ iris
 ![Iris screenshot](https://github.com/gcba-iris/iris/raw/master/assets/img/running.png)
 
 
+## CLI Commands
+
+```
+Usage: iris [command]
+
+    iris
+        Runs Iris in the current directory.
+
+    iris new [project-name]
+        Creates a new empty Iris project at the directory [project-name].
+
+    iris init
+        Creates an empty Irisfile and installs Iris locally.
+
+    iris --version
+        Displays Iris's version.
+
+    iris --help
+        Displays the list of available commands.
+```
+
+
 ## Writing plugins
 
-All plugins must extend their base classes. Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) for an in-depth explanation of the architecture and API reference.
+Plugins are javascript files or npm packages that get required in the Irisfile. All plugins extend some base class.
+Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) for an in-depth explanation of the architecture and API reference.
 
 ### Docks
 
- You must implement `get path()`, `listen()` and `stop()`. `send()` is optional.
+You must implement `get path()`, `listen()` and `stop()`. `send()` is optional.
 
-##### Sample HTTP dock
+- **get path():** returns the dock path in the filesystem.
+- **listen():** starts listening at the configured port.
+- **stop():** stops listening.
+- **send(response):** sends the response to the device.
+
+#### Sample HTTP dock
 
 ```javascript
 'use strict';
@@ -244,9 +274,8 @@ class HTTPDock extends Dock {
 
                 if (message) {
                     response.write(message);
-                    this.logger.verbose('[HTTP Dock] Sent response to client');
-                }
-                else response.end();
+                    this.logger.verbose('Sent response to client');
+                } else response.end();
             });
         }.bind(this));
     }
@@ -259,7 +288,10 @@ module.exports = new HTTPDock('http', 'HTTP');
 
 You must implement `get path()` and `handle()`.
 
-##### Sample handler
+- **get path():** returns the handler path in the filesystem.
+- **handle(data):** does with the data whatever the handler was meant to do.
+
+#### Sample handler
 
 ```javascript
 'use strict';
@@ -289,7 +321,11 @@ module.exports = new Handler1('handler1');
 
 You must implement `get path()` and `process()`.
 
-##### Sample hook
+- **get path():** returns the hook path in the filesystem.
+- **process(data):** does with the data whatever the hook was meant to do.
+
+#### Sample hook
+
 ```javascript
 'use strict';
 
@@ -312,6 +348,15 @@ class Hook1 extends Hook {
 
 module.exports = new Hook1('hook1');
 ```
+
+### Utilities
+
+#### Logger
+
+Iris exposes a [Winston](https://github.com/winstonjs/winston) instance at several points, available for full use and configuration:
+
+- **At each base class:** for plugins's use. Accesible at `this.logger`.
+- **At the Iris instance itself:** for Irisfile and other scripts's use. Accesible at `iris.logger`.
 
 
 ## Requirements
