@@ -70,7 +70,7 @@ Data flows are processed in parallel using threads. A message will always be man
 
 Receives the data object from the **dock**, calls the registered **input hooks** and routes the data object to the right **handler**. Similarly, when there's a response the dispatcher routes it to the right **dock** and executes the registered **output hooks**.
 
-The dispatcher is part of the Iris core and cannot be customized or swapped off - it's the glue that holds everything together.
+The dispatcher is part of the Iris core and cannot be customized or swapped off—it's the glue that holds everything together.
 
 ### Plugins
 
