@@ -221,7 +221,7 @@ Take a look at the [technical docs](https://gcba-iris.github.io/iris-tech-docs) 
 
 You must implement `get path()`, `listen()` and `stop()`. `send()` is optional.
 
-- **get path():** returns the dock path in the filesystem.
+- **get path():** returns the dock path.
 - **listen():** starts listening at the configured port.
 - **stop():** stops listening.
 - **send(response):** sends the response to the device.
@@ -298,7 +298,7 @@ module.exports = new HTTPDock('http', 'HTTP');
 
 You must implement `get path()` and `handle()`.
 
-- **get path():** returns the handler path in the filesystem.
+- **get path():** returns the handler path.
 - **handle(data):** does with the data whatever the handler was meant to do.
 
 #### Sample handler
@@ -331,7 +331,7 @@ module.exports = new Handler1('handler1');
 
 You must implement `get path()` and `process()`.
 
-- **get path():** returns the hook path in the filesystem.
+- **get path():** returns the hook path.
 - **process(data):** does with the data whatever the hook was meant to do.
 
 #### Sample hook
