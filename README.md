@@ -48,7 +48,7 @@ $ npm install gcba-iris/iris -g
 
 Iris is built around the **flow**, which is the path a message follows from the moment it arrives to the moment it gets handled/processed. If a response is generated, the flow will include its way back to the original device.
 
-Data flows are processed in parallel using threads. A message will always remain within a single thread from start to finish, so if a thread goes down only the messages within will be affected.
+Data flows are processed in parallel using threads. A message will always be managed by a single thread from start to finish, so if a thread goes down only that thread's messages will be affected.
 
 ```
 --> Dock --> Dispatcher --> Hooks --> Handler
