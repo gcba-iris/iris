@@ -280,14 +280,22 @@ group('dock.process()', (test) => {
         };
         const returnValue = dock.process(customMessage, meta, callback);
 
-        if (returnValue === undefined) t.pass('Ok');
-        else t.fail('should have returned immediately');
+        if (returnValue) t.pass('Ok');
+        else t.fail('unknown message type');
     });
 
     test('fails when there is no dispatcher reference', (t) => {
-        dock._dispatcher = () => {};
+        let valid = false;
 
-        t.throws(dock.process, 'TypeError: Cannot read property \'tag1\' of undefined');
+        dock._dispatcher = undefined;
+        dock.logger.error = () => {
+            valid = true;
+        };
+
+        dock.process(message, meta, callback);
+
+        if (valid) t.pass('Ok');
+        else t.fail('does not fail when there is no dispatcher reference');
     });
 
     test('fails when the parser returns no data', (t) => {
@@ -381,22 +389,56 @@ group('dock.encode()', (test) => {
 
 group('dock._checkConfig()', (test) => {
     const dock = new Dock('test', 'test');
-    let failed = false;
 
     dock.id = 'test';
-    dock.config = config;
     dock.dispatcher = dispatcher;
-    dock.logger.error = () => {
-        failed = true;
-    };
 
-    test('checks config', (t) => {
+    test('checks config', (t, next) => {
+        let fails = false;
+
+        dock.config = config;
+        dock.logger.error = () => {
+            fails = true;
+        };
+
         dock._checkConfig(config);
 
-        if (failed) t.fail('Config threw validation errors');
-        else t.pass('Ok');
-        }
-    );
+        setTimeout(() => {
+            if (fails) t.fail('Config threw validation errors');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
+
+    test('catches validation errors', (t, next) => {
+        const invalidConfig = {
+            parser: {
+                subtagSeparator: '|',
+                dataSeparator: ','
+            },
+            encoder: {
+                subtagSeparator: '|',
+                dataSeparator: ','
+            },
+            maxMessageLength: 100,
+            events: true
+        };
+        let valid = false;
+
+        dock.logger.error = () => {
+            valid = true;
+        };
+
+        dock._checkConfig(invalidConfig);
+
+        setTimeout(() => {
+            if (valid) t.pass('Ok');
+            else t.fail('Config did not throw validation errors');
+
+            next();
+        }, 5);
+    });
 });
 
 group('dock.on', (test) => {
