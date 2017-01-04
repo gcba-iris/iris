@@ -66,7 +66,7 @@ group('hook.run()', (test) => {
     });
 });
 
-group('hook.on', (test) => {
+group('hook.on()', (test) => {
     const hook = new Hook('test');
 
     test('registers an event handler', (t, next) => {

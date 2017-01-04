@@ -392,6 +392,102 @@ group('dock.encode()', (test) => {
     });
 });
 
+group('dock.reply()', (test) => {
+    test('sends a reply', (t, next) => {
+        const dock = new Dock('test', 'test');
+        let valid = false;
+
+        dock.config = config;
+        dock.send = () => {
+            valid = true;
+        };
+
+        dock.reply({
+            meta: {
+                dock: dock._id
+            },
+            message: 'test'
+        });
+
+        setTimeout(() => {
+            if (valid) t.pass('Ok');
+            else t.fail('dock.send() was not called');
+
+            next();
+        }, 5);
+    });
+
+    test('fails because there is no message to send', (t, next) => {
+        const dock = new Dock('test', 'test');
+        let valid = false;
+
+        dock.config = config;
+        dock.send = () => {};
+        dock.logger.error = () => {
+            valid = true;
+        };
+
+        dock.reply({
+            meta: {
+                dock: dock._id
+            },
+            message: {}
+        });
+
+        setTimeout(() => {
+            if (valid) t.pass('Ok');
+            else t.fail('the message was sent anyway');
+
+            next();
+        }, 5);
+    });
+
+    test('fails with invalid dock reference', (t, next) => {
+        const dock = new Dock('test', 'test');
+        let valid = false;
+
+        dock.config = config;
+        dock.logger.error = () => {
+            valid = true;
+        };
+
+        dock.reply({
+            meta: {
+                dock: 'test'
+            },
+            message: {}
+        });
+
+        setTimeout(() => {
+            if (valid) t.pass('Ok');
+            else t.fail('did not fail with an invalid dock reference');
+
+            next();
+        }, 5);
+    });
+});
+
+group('dock.on()', (test) => {
+    test('registers an event handler', (t, next) => {
+        const dock = new Dock('test', 'test');
+        let failed = true;
+
+        dock.config = config;
+
+        dock.on('test', () => {
+            failed = false;
+        });
+        dock._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not handled');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
+});
+
 group('dock._checkConfig()', (test) => {
     const dock = new Dock('test', 'test');
 
@@ -440,28 +536,6 @@ group('dock._checkConfig()', (test) => {
         setTimeout(() => {
             if (valid) t.pass('Ok');
             else t.fail('Config did not throw validation errors');
-
-            next();
-        }, 5);
-    });
-});
-
-group('dock.on', (test) => {
-    const dock = new Dock('test', 'test');
-
-    test('registers an event handler', (t, next) => {
-        let failed = true;
-
-        dock.config = config;
-
-        dock.on('test', () => {
-            failed = false;
-        });
-        dock._emitEvent('test', {});
-
-        setTimeout(() => {
-            if (failed) t.fail('Event was not handled');
-            else t.pass('Ok');
 
             next();
         }, 5);

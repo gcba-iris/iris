@@ -95,7 +95,7 @@ group('handler.send()', (test) => {
     });
 });
 
-group('handler.on', (test) => {
+group('handler.on()', (test) => {
     const handler = new Handler('test');
 
     test('registers an event handler', (t, next) => {
