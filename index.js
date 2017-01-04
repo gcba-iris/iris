@@ -33,7 +33,6 @@ class Iris {
         this._flows = [];
         this._modules = {};
         this._logger = logger;
-        this._events = undefined;
 
         this._logger.cli();
     }
@@ -46,16 +45,6 @@ class Iris {
      */
     get config() {
         return this._config;
-    }
-
-    /**
-     * Gets Iris' Sparkles instance.
-     *
-     *
-     * @memberOf Iris
-     */
-    get events() {
-        return this._events;
     }
 
     /**
@@ -185,18 +174,6 @@ class Iris {
 
         spinner.succeed();
         this._flows.push(flow);
-    }
-
-    /**
-     * Registers an event handler.
-     *
-     * @param {any} event
-     * @param {any} callback
-     *
-     * @memberOf Iris
-     */
-    on(event, callback) {
-        this._events.on(event, callback);
     }
 
     /**
