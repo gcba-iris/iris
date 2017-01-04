@@ -14,7 +14,7 @@ const hook2 = require('../../example/hooks/hook2');
 
 const config = {
     threads: 4,
-    logLevel: 'silly',
+    logLevel: 'error',
     events: {
         dispatcher: true,
         docks: true,
@@ -23,12 +23,7 @@ const config = {
     }
 };
 
-iris._logger = {
-    warn: () => {},
-    silly: () => {},
-    error: () => {},
-    verbose: () => {}
-};
+iris._logger.level = 'error'; // This affects all other tests
 
 group('iris.config', (test) => {
     test('sets Iris config', (t) => {
@@ -46,14 +41,8 @@ group('iris.config', (test) => {
 
 group('iris.logger', (test) => {
     test('gets logger instance', (t) => {
-        const logger = {
-            level: 'silly',
-            warn: () => {},
-            silly: () => {},
-            error: () => {},
-            verbose: () => {}
-        };
-        t.equal(JSON.stringify(iris.logger), JSON.stringify(logger));
+        if (iris.logger) t.pass('Ok');
+        else t.fail('No logger instance returned');
     });
 });
 
