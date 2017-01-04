@@ -274,14 +274,14 @@ group('dock.process()', (test) => {
         }, 5);
     });
 
-    test('fails with unrecognized message type', (t) => {
+    test('fails with unrecognized message types', (t) => {
         const customMessage = {
-            message: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
+            message: {}
         };
         const returnValue = dock.process(customMessage, meta, callback);
 
-        if (returnValue) t.pass('Ok');
-        else t.fail('unknown message type');
+        if (returnValue === false) t.pass('failed to recognize Date type');
+        else t.fail('returned something else than false');
     });
 
     test('fails when there is no dispatcher reference', (t) => {
