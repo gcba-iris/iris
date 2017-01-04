@@ -34,6 +34,24 @@ group('iris.config', (test) => {
         }, 5);
     });
 
+    test('sets Iris config with events disabled', (t, next) => {
+        let valid = false;
+
+        iris._logger.verbose = () => {
+            valid = true;
+        };
+        iris.config = {
+            threads: 4,
+            logLevel: 'error'
+        };
+
+        setTimeout(() => {
+            t.equal(valid, true);
+
+            next();
+        }, 5);
+    });
+
     test('gets Iris config', (t) => {
         t.deepEqual(iris.config, config);
     });
@@ -112,8 +130,7 @@ group('iris._handleErrors()', (test) => {
         iris._checkFlowOptions({ tag: 'test', docks: [] }, spinner);
 
         setTimeout(() => {
-            if (failed) t.fail('Errors weren\'t handled');
-            else t.pass('Ok');
+            t.equal(failed, false);
 
             next();
         }, 5);
