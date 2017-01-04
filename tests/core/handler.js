@@ -2,7 +2,7 @@
 
 const Handler = require('../../lib/bases/Handler');
 const Sparkles = require('sparkles');
-const test = require('tape');
+const test = require('tape-plus');
 const group = require('tape-plus').group;
 
 const dispatcher = {
@@ -12,8 +12,16 @@ const dispatcher = {
 group('handler.name', (test) => {
     const handler = new Handler('test');
 
-    test('gets hook name', (t) => {
+    test('gets handler name', (t) => {
         t.equal(handler.name, 'test');
+    });
+});
+
+group('handler.type', (test) => {
+    const handler = new Handler('test');
+
+    test('gets dock type', (t) => {
+        t.equal(handler.type, 'handler');
     });
 });
 
@@ -24,12 +32,12 @@ group('handler.config', (test) => {
         test: 'Test'
     };
 
-    test('sets hook config', (t) => {
+    test('sets handler config', (t) => {
         handler.config = config;
         t.deepEqual(handler._config, config);
     });
 
-    test('gets hook config', (t) => {
+    test('gets handler config', (t) => {
         t.deepEqual(handler.config, config);
     });
 });
@@ -37,7 +45,7 @@ group('handler.config', (test) => {
 group('handler.dispatcher', (test) => {
     const handler = new Handler('test');
 
-    test('sets hook dispatcher instance', (t) => {
+    test('sets handler dispatcher instance', (t) => {
         handler.dispatcher = dispatcher;
         t.deepEqual(handler._dispatcher, dispatcher);
     });
@@ -46,12 +54,12 @@ group('handler.dispatcher', (test) => {
 group('handler.validated', (test) => {
     const handler = new Handler('test');
 
-    test('sets hook validation state', (t) => {
+    test('sets handler validation state', (t) => {
         handler.validated = true;
         t.equal(handler.validated, true);
     });
 
-    test('gets hook validation state', (t) => {
+    test('gets handler validation state', (t) => {
         t.equal(handler.validated, true);
     });
 });

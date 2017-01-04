@@ -1,7 +1,7 @@
 'use strict';
 
 const log = require('../../lib/utils/utils');
-const test = require('tape');
+const test = require('tape-plus');
 const group = require('tape-plus').group;
 const util = require('util');
 

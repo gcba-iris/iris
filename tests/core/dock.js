@@ -2,7 +2,7 @@
 
 const Dock = require('../../lib/bases/Dock');
 const Sparkles = require('sparkles');
-const test = require('tape');
+const test = require('tape-plus');
 const group = require('tape-plus').group;
 
 const config = {
@@ -182,13 +182,12 @@ group('dock.process()', (test) => {
     dock.id = 'test';
     dock.config = config;
 
-    test('sends messages to dispatcher', (t, next) => {
+    test('sends messages to dispatcher', (t) => {
         let failed = true;
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
-            next();
         };
 
         events.on('dispatcherExecuted', eventCallback.bind(this));
@@ -201,17 +200,15 @@ group('dock.process()', (test) => {
         setTimeout(() => {
             if (failed) {
                 t.fail('dispatcher.dispatch() was never called');
-                next();
             }
         }, 5);
     });
 
-    test('sets dock Id', (t, next) => {
+    test('sets dock Id', (t) => {
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
-            next();
         };
         let failed = true;
 
@@ -225,17 +222,15 @@ group('dock.process()', (test) => {
         setTimeout(() => {
             if (failed) {
                 t.fail('Dock id was never set');
-                next();
             }
         }, 5);
     });
 
-    test('sets message timestamp', (t, next) => {
+    test('sets message timestamp', (t) => {
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
-            next();
         };
         let failed = true;
 
@@ -249,12 +244,11 @@ group('dock.process()', (test) => {
         setTimeout(() => {
             if (failed) {
                 t.fail('Timestamp was never set');
-                next();
             }
         }, 5);
     });
 
-    test('uses message.toString()', (t, next) => {
+    test('uses message.toString()', (t) => {
         const customMessage = {
             toString: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
         };
@@ -262,7 +256,6 @@ group('dock.process()', (test) => {
             failed = false;
 
             t.pass('Ok');
-            next();
         };
         let failed = true;
 
@@ -276,12 +269,11 @@ group('dock.process()', (test) => {
         setTimeout(() => {
             if (failed) {
                 t.fail('dispatcher.dispatch() was never called');
-                next();
             }
         }, 5);
     });
 
-    test('fails with unrecognized message type', (t, next) => {
+    test('fails with unrecognized message type', (t) => {
         const customMessage = {
             message: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
         };
@@ -289,23 +281,19 @@ group('dock.process()', (test) => {
 
         if (returnValue === undefined) t.pass('Ok');
         else t.fail('should have returned immediately');
-
-        next();
     });
 
-    test('fails when there is no dispatcher reference', (t, next) => {
+    test('fails when there is no dispatcher reference', (t) => {
         dock._dispatcher = () => {};
 
         t.throws(dock.process, 'TypeError: Cannot read property \'tag1\' of undefined');
-        next();
     });
 
-    test('fails when the parser returns no data', (t, next) => {
+    test('fails when the parser returns no data', (t) => {
         const eventCallback = (data) => {
             passed = false;
 
             t.fail('dispatcher.dispatch() should not have been called');
-            next();
         };
         let passed = true;
 
@@ -321,7 +309,6 @@ group('dock.process()', (test) => {
         setTimeout(() => {
             if (passed) {
                 t.pass('Ok');
-                next();
             }
         }, 5);
     });

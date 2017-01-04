@@ -246,7 +246,11 @@ class Iris {
         };
 
         validator.validate(options, flowSchema, this._handleErrors(spinner));
-        this._logger.silly('\rChecked flow options');
+
+        if (this.config.logLevel == 'silly') {
+            process.stdout.write('\n');
+            this._logger.silly('Checked flow options');
+        }
     }
 
     /**

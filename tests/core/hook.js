@@ -2,7 +2,7 @@
 
 const Hook = require('../../lib/bases/Hook');
 const Sparkles = require('sparkles');
-const test = require('tape');
+const test = require('tape-plus');
 const group = require('tape-plus').group;
 
 group('hook.name', (test) => {
@@ -10,6 +10,14 @@ group('hook.name', (test) => {
 
     test('gets dock name', (t) => {
         t.equal(hook.name, 'test');
+    });
+});
+
+group('hook.type', (test) => {
+    const hook = new Hook('test');
+
+    test('gets dock type', (t) => {
+        t.equal(hook.type, 'hook');
     });
 });
 
@@ -52,9 +60,34 @@ group('hook.run()', (test) => {
         hook.process = () => {
             valid = true;
         };
-        hook._emitEvent = (event, data) => {};
+        hook._emitEvent = (event, data) => { };
+
         hook.run('test');
         t.equal(valid, true);
+    });
+});
+
+group('hook.on', (test) => {
+    const hook = new Hook('test');
+    const events = Sparkles('iris');
+
+    test('registers an event handler', (t, next) => {
+        const config = {
+            events: true
+        };
+        let failed = true;
+
+        hook.on('test', () => {
+            failed = false;
+        });
+        events.emit('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not handled');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });
 

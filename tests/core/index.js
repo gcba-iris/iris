@@ -5,7 +5,7 @@ const BaseDock = require('../../lib/bases/Dock');
 const BaseHandler = require('../../lib/bases/Handler');
 const BaseHook = require('../../lib/bases/Hook');
 const iris = require('../../index');
-const test = require('tape');
+const test = require('tape-plus');
 const group = require('tape-plus').group;
 const httpDock = require('../../example/docks/http');
 const handler = require('../../example/handlers/handler1');
@@ -23,7 +23,7 @@ const config = {
     }
 };
 
-iris._logger.level = 'error'; // This affects all other tests
+iris._logger.level = 'error'; // This affects all other tests (the Winston instance is a singleton)
 
 group('iris.config', (test) => {
     test('sets Iris config', (t) => {
@@ -101,19 +101,25 @@ group('iris.Hook', (test) => {
 });
 
 group('iris._handleErrors()', (test) => {
-    test('emits events', (t) => {
-        const spinner = {
-            fail: () => {}
-        };
-        const errors = ['error'];
+    test('handles errors', (t, next) => {
+        let failed = true;
 
         iris._handleErrors = (spinner) => {
             return (errors) => {
-                spinner.fail();
-
-                t.pass('Ok');
+                failed = false;
             };
         };
-        iris._handleErrors(spinner)(errors);
+
+        iris.flow('Flow 1', {
+            docks: [httpDock],
+            handler: handler
+        });
+
+        setTimeout(() => {
+            if (failed) t.fail('Errors weren\'t handled');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });
