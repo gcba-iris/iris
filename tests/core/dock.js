@@ -344,11 +344,16 @@ group('dock.encode()', (test) => {
                 subtag1: [
                     'abc', 'def', 'ghi'
                 ],
-                subtag2: ['jkl', 'mno', 'pqr']
+                subtag2: ['jkl', 'mno', 'pqr'],
+                subtag3: {
+                    toString: () => {
+                        return 'stu,vwx';
+                    }
+                }
             }
         });
 
-        t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr');
+        t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr|subtag3|stu,vwx');
     });
 
     test('encodes object messages with string values', (t) => {
