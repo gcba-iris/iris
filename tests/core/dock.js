@@ -280,8 +280,7 @@ group('dock.process()', (test) => {
         };
         const returnValue = dock.process(customMessage, meta, callback);
 
-        if (returnValue === false) t.pass('failed to recognize Date type');
-        else t.fail('returned something else than false');
+        t.equal(returnValue, false);
     });
 
     test('fails when there is no dispatcher reference', (t) => {
@@ -293,9 +292,7 @@ group('dock.process()', (test) => {
         };
 
         dock.process(message, meta, callback);
-
-        if (valid) t.pass('Ok');
-        else t.fail('does not fail when there is no dispatcher reference');
+        t.equal(valid, true);
     });
 
     test('fails when the parser returns no data', (t) => {
@@ -410,8 +407,7 @@ group('dock.reply()', (test) => {
         });
 
         setTimeout(() => {
-            if (valid) t.pass('Ok');
-            else t.fail('dock.send() was not called');
+            t.equal(valid, true);
 
             next();
         }, 5);
@@ -435,8 +431,7 @@ group('dock.reply()', (test) => {
         });
 
         setTimeout(() => {
-            if (valid) t.pass('Ok');
-            else t.fail('the message was sent anyway');
+            t.equal(valid, true);
 
             next();
         }, 5);
@@ -459,8 +454,7 @@ group('dock.reply()', (test) => {
         });
 
         setTimeout(() => {
-            if (valid) t.pass('Ok');
-            else t.fail('did not fail with an invalid dock reference');
+            t.equal(valid, true);
 
             next();
         }, 5);
@@ -534,8 +528,7 @@ group('dock._checkConfig()', (test) => {
         dock._checkConfig(invalidConfig);
 
         setTimeout(() => {
-            if (valid) t.pass('Ok');
-            else t.fail('Config did not throw validation errors');
+            t.equal(valid, true);
 
             next();
         }, 5);
