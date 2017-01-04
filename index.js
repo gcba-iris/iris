@@ -170,18 +170,6 @@ class Iris {
     }
 
     /**
-     * Registers an event handler.
-     *
-     * @param {string} event
-     * @param {function} callback
-     *
-     * @memberOf Iris
-     */
-    on(event, callback) {
-        this._events.on(event, callback);
-    }
-
-    /**
      * Validates Iris's config object.
      *
      * @param {any} config
