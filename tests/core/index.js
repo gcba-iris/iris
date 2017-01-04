@@ -102,18 +102,14 @@ group('iris.Hook', (test) => {
 
 group('iris._handleErrors()', (test) => {
     test('handles errors', (t, next) => {
+        const spinner = {
+            fail: () => {
+                failed = false;
+            }
+        };
         let failed = true;
 
-        iris._handleErrors = (spinner) => {
-            return (errors) => {
-                failed = false;
-            };
-        };
-
-        iris.flow('Flow 1', {
-            docks: [httpDock],
-            handler: handler
-        });
+        iris._checkFlowOptions({ tag: 'test', docks: [] }, spinner);
 
         setTimeout(() => {
             if (failed) t.fail('Errors weren\'t handled');

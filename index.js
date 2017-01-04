@@ -7,6 +7,7 @@
 
 'use strict';
 
+const Sparkles = require('sparkles');
 const Flow = require('./lib/Flow');
 const BaseDock = require('./lib/bases/Dock');
 const BaseHandler = require('./lib/bases/Handler');
@@ -33,12 +34,14 @@ class Iris {
         this._flows = [];
         this._modules = {};
         this._logger = logger;
+        this._valid = false;
+        this._events = Sparkles('iris');
 
         this._logger.cli();
     }
 
     /**
-     * Gets Iris' config object.
+     * Gets Iris's config object.
      *
      *
      * @memberOf Iris
@@ -48,7 +51,7 @@ class Iris {
     }
 
     /**
-     * Gets Iris' Winston instance.
+     * Gets Iris's Winston instance.
      *
      * @readonly
      *
@@ -59,7 +62,7 @@ class Iris {
     }
 
     /**
-     * Gets Iris' modules sorted by path.
+     * Gets Iris's modules sorted by path.
      *
      * @readonly
      *
@@ -70,7 +73,7 @@ class Iris {
     }
 
     /**
-     * Gets Iris' flows.
+     * Gets Iris's flows.
      *
      * @readonly
      *
@@ -114,7 +117,7 @@ class Iris {
     }
 
     /**
-     * Sets Iris' config object.
+     * Sets Iris's config object.
      *
      *
      * @memberOf Iris
@@ -138,16 +141,6 @@ class Iris {
 
         spinner.succeed();
         Object.assign(this._config, options);
-    }
-
-    /**
-     * Sets Iris' Sparkles instance.
-     *
-     *
-     * @memberOf Iris
-     */
-    set events(value) {
-        this._events = value;
     }
 
     /**
@@ -177,7 +170,19 @@ class Iris {
     }
 
     /**
-     * Validates Iris' config object.
+     * Registers an event handler.
+     *
+     * @param {string} event
+     * @param {function} callback
+     *
+     * @memberOf Iris
+     */
+    on(event, callback) {
+        this._events.on(event, callback);
+    }
+
+    /**
+     * Validates Iris's config object.
      *
      * @param {any} config
      * @param {any} spinner
@@ -394,12 +399,14 @@ class Iris {
     _handleErrors(spinner) {
         return (errors) => {
             spinner.fail();
+            process.stdout.write('\n');
 
             errors.forEach(function (error) {
                 consoleLog.error(error);
             }, this);
 
-            process.exit(1);
+            process.stdout.write('\n');
+            this._events.emit('validationError', {});
         };
     }
 }

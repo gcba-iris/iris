@@ -22,6 +22,7 @@ const cliCursor = require('cli-cursor');
 const cliCommands = require('../lib/utils/cli');
 const utils = require('../lib/utils/utils');
 
+const events = Sparkles('iris');
 const args = minimist(process.argv.slice(2));
 const consoleLog = utils.log;
 
@@ -175,7 +176,6 @@ const startIris = (env) => {
 
     require(env.configPath);
     iris = require(env.modulePath);
-    iris.events = Sparkles('iris');
 
     threadPool = newThreadPool(iris.config);
     watcher = chokidar
@@ -203,9 +203,7 @@ const startIris = (env) => {
         })
         .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
 
-    if (iris.flows.length > 0) {
-        configureDispatcher(iris.flows, iris.config, threadPool);
-    }
+    if (iris.flows.length > 0) configureDispatcher(iris.flows, iris.config, threadPool);
     else {
         consoleLog.error('No flows found in Irisfile.');
 
@@ -223,7 +221,13 @@ const startIris = (env) => {
 const init = (env) => {
     logger.cli();
 
-    if (!cli(args)) startIris(env);
+    if (!cli(args)) {
+        events.on('validationError', () => {
+            process.exit(1);
+        });
+
+        startIris(env);
+    }
 };
 
 loader.launch({}, init);
