@@ -1,7 +1,6 @@
 'use strict';
 
 const Hook = require('../../lib/bases/Hook');
-const Sparkles = require('sparkles');
 const test = require('tape-plus');
 const group = require('tape-plus').group;
 
@@ -69,7 +68,6 @@ group('hook.run()', (test) => {
 
 group('hook.on', (test) => {
     const hook = new Hook('test');
-    const events = Sparkles('iris');
 
     test('registers an event handler', (t, next) => {
         const config = {
@@ -77,10 +75,12 @@ group('hook.on', (test) => {
         };
         let failed = true;
 
+        hook.config = config;
+
         hook.on('test', () => {
             failed = false;
         });
-        events.emit('test', {});
+        hook._emitEvent('test', {});
 
         setTimeout(() => {
             if (failed) t.fail('Event was not handled');
@@ -93,16 +93,25 @@ group('hook.on', (test) => {
 
 group('hook._emitEvent', (test) => {
     const hook = new Hook('test');
+    let failed = true;
 
-    test('emits events', (t) => {
+    test('emits events', (t, next) => {
         const config = {
             events: true
         };
 
-        hook._events = {};
-        hook._events.emit = function (event, callback) {
-            t.pass('Ok');
-        }.bind(this);
+        hook.config = config;
+
+        hook.on('test', () => {
+            failed = false;
+        });
         hook._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });

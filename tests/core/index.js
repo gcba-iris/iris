@@ -14,7 +14,7 @@ const hook2 = require('../../example/hooks/hook2');
 
 const config = {
     threads: 4,
-    logLevel: 'error',
+    logLevel: 'silly',
     events: {
         dispatcher: true,
         docks: true,
@@ -23,7 +23,7 @@ const config = {
     }
 };
 
-iris._logger.level = 'error'; // This affects all other tests (the Winston instance is a singleton)
+iris._logger.level = 'silly'; // This affects all other tests (the Winston instance is a singleton)
 
 group('iris.config', (test) => {
     test('sets Iris config', (t) => {
