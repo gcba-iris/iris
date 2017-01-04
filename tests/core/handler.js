@@ -96,18 +96,52 @@ group('handler.send()', (test) => {
     });
 });
 
-group('handler._emitEvent', (test) => {
+group('handler.on', (test) => {
     const handler = new Handler('test');
 
-    test('emits events', (t) => {
+    test('registers an event handler', (t, next) => {
+        const config = {
+            events: true
+        };
+        let failed = true;
+
+        handler.config = config;
+
+        handler.on('test', () => {
+            failed = false;
+        });
+        handler._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not handled');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
+});
+
+group('handler._emitEvent', (test) => {
+    const handler = new Handler('test');
+    let failed = true;
+
+    test('emits events', (t, next) => {
         const config = {
             events: true
         };
 
-        handler._events = {};
-        handler._events.emit = function (event, callback) {
-            t.pass('Ok');
-        }.bind(this);
+        handler.config = config;
+
+        handler.on('test', () => {
+            failed = false;
+        });
         handler._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });

@@ -15,7 +15,8 @@ const config = {
         subtagSeparator: '|',
         dataSeparator: ','
     },
-    maxMessageLength: 100
+    maxMessageLength: 100,
+    events: true
 };
 const dispatcher = {
     tags: {
@@ -396,4 +397,47 @@ group('dock._checkConfig()', (test) => {
         else t.pass('Ok');
         }
     );
+});
+
+group('dock.on', (test) => {
+    const dock = new Dock('test', 'test');
+
+    test('registers an event handler', (t, next) => {
+        let failed = true;
+
+        dock.config = config;
+
+        dock.on('test', () => {
+            failed = false;
+        });
+        dock._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not handled');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
+});
+
+group('dock._emitEvent', (test) => {
+    const dock = new Dock('test', 'test');
+    let failed = true;
+
+    test('emits events', (t, next) => {
+        dock.config = config;
+
+        dock.on('test', () => {
+            failed = false;
+        });
+        dock._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
 });
