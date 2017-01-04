@@ -1,7 +1,6 @@
 'use strict';
 
 const Dock = require('../../lib/bases/Dock');
-const Sparkles = require('sparkles');
 const test = require('tape-plus');
 const group = require('tape-plus').group;
 
@@ -174,8 +173,6 @@ group('dock.parse()', (test) => {
 
 group('dock.process()', (test) => {
     const dock = new Dock('test', 'test');
-    const events = Sparkles('test');
-
     const message = 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
     const meta = {};
     const callback = () => {};
@@ -191,10 +188,10 @@ group('dock.process()', (test) => {
             t.pass('Ok');
         };
 
-        events.on('dispatcherExecuted', eventCallback.bind(this));
+        dock.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            events.emit('dispatcherExecuted', {});
+            dock._emitEvent('dispatcherExecuted', {});
         };
         dock.process(message, meta, callback);
 
@@ -213,10 +210,10 @@ group('dock.process()', (test) => {
         };
         let failed = true;
 
-        events.on('setDockId', eventCallback.bind(this));
+        dock.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.dock) events.emit('setDockId', {});
+            if (data.meta.dock) dock._emitEvent('setDockId', {});
         };
         dock.process(message, meta, callback);
 
@@ -235,10 +232,10 @@ group('dock.process()', (test) => {
         };
         let failed = true;
 
-        events.on('setTimestamp', eventCallback.bind(this));
+        dock.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            if (data.meta.timestamp) events.emit('setTimestamp', {});
+            if (data.meta.timestamp) dock._emitEvent('setTimestamp', {});
         };
         dock.process(message, meta, callback);
 
@@ -260,10 +257,10 @@ group('dock.process()', (test) => {
         };
         let failed = true;
 
-        events.on('dispatcherExecuted', eventCallback.bind(this));
+        dock.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            events.emit('dispatcherExecuted', {});
+            dock._emitEvent('dispatcherExecuted', {});
         };
         dock.process(customMessage, meta, callback);
 
@@ -305,17 +302,15 @@ group('dock.process()', (test) => {
 
         dock.parse = () => {};
 
-        events.on('dispatcherExecuted', eventCallback.bind(this));
+        dock.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
         dock._dispatcher.dispatch = (data, callback) => {
-            events.emit('dispatcherExecuted', {});
+            dock._emitEvent('dispatcherExecuted', {});
         };
         dock.process(message, meta, callback);
 
         setTimeout(() => {
-            if (passed) {
-                t.pass('Ok');
-            }
+            t.equal(passed, true);
         }, 5);
     });
 });
