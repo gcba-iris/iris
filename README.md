@@ -127,7 +127,7 @@ Creates an empty Irisfile and runs `npm install gcba-iris/iris --save`.
 
 ### 2. Add flows
 
-The data flows are defined in the Irisfile, using `iris.flow()`.
+Define data flows in the Irisfile using `iris.flow()`.
 
 #### Method signature
 
