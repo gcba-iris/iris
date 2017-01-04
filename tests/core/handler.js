@@ -1,7 +1,6 @@
 'use strict';
 
 const Handler = require('../../lib/bases/Handler');
-const Sparkles = require('sparkles');
 const test = require('tape-plus');
 const group = require('tape-plus').group;
 

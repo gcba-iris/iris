@@ -35,7 +35,8 @@ const tags = {
     }
 };
 const config = {
-    flows: flows
+    flows: flows,
+    events: true
 };
 
 httpDock.config = {
@@ -173,22 +174,76 @@ group('dispatcher._startDock()', (test) => {
     });
 });
 
-group('dispatcher._registerEventHandlers()', (test) => {
-    test('registers event handlers', (t) => {
-        dispatcher._events = {};
-        dispatcher._events.on = function (event, callback) {
-            t.pass('Ok');
-        }.bind(this);
-        dispatcher._registerEventHandlers('test', {});
+group('handler._emitEvent', (test) => {
+    test('emits events', (t, next) => {
+        let failed = true;
+
+        dispatcher._events.on('test', () => {
+            failed = false;
+        });
+        dispatcher._emitEvent('test', {});
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });
 
-group('dispatcher._emitEvent()', (test) => {
-    test('emits events', (t) => {
-        dispatcher._events = {};
-        dispatcher._events.emit = (event, callback) => {
-            t.pass('Ok');
+group('dispatcher._registerEventHandlers()', (test) => {
+    test('reloads dock', (t, next) => {
+        let failed = true;
+
+        dispatcher._events.on('reload', () => {
+            failed = false;
+        });
+        dispatcher._emitEvent('reload', {
+            module: {
+                type: 'dock',
+                listen: () => {},
+                config: { port: 3000 }
+            }
+        });
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
+    });
+
+    test('reloads all flows', (t, next) => {
+        let failed = true;
+
+        dispatcher._threadPool = {
+            on: () => {}
         };
-        dispatcher._emitEvent('test', {});
+
+        dispatcher._events.on('reload', () => {
+            failed = false;
+        });
+        dispatcher._emitEvent('reload', {
+            module: {
+                type: 'hook',
+                path: __filename
+            },
+            pool: {
+                run: () => {
+                    return {
+                        on: () => {}
+                    }
+                }
+            }
+        });
+
+        setTimeout(() => {
+            if (failed) t.fail('Event was not emitted');
+            else t.pass('Ok');
+
+            next();
+        }, 5);
     });
 });
