@@ -228,11 +228,6 @@ class Iris {
         };
 
         validator.validate(options, flowSchema, this._handleErrors(spinner));
-
-        if (this.config.logLevel == 'silly') {
-            process.stdout.write('\n');
-            this._logger.silly('Checked flow options');
-        }
     }
 
     /**
