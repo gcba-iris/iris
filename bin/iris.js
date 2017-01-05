@@ -221,9 +221,13 @@ const init = (env) => {
     logger.cli();
 
     if (!cli(args)) {
-        events.on('validationError', () => {
-            process.exit(1);
-        });
+        events
+            .on('validationError', () => {
+                process.exit(1);
+            })
+            .on('compilationError', () => {
+                process.exit(1);
+            });
 
         startIris(env);
     }

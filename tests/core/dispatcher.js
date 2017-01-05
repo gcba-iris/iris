@@ -53,11 +53,8 @@ group('dispatcher.tags', (test) => {
 
 group('dispatcher.config', (test) => {
     const threadPool = {
-        test: 'Test',
         run: (data) => {
-            return {
-                on: (event) => {}
-            };
+            return dispatcher._events;
         }
     };
 
@@ -69,6 +66,24 @@ group('dispatcher.config', (test) => {
         dispatcher.config = config;
 
         t.deepEqual(dispatcher._config, config);
+    });
+
+    test('sets threadpool error handler', (t, next) => {
+        let failed = false;
+
+        dispatcher.threadPool = threadPool;
+        dispatcher._logger.error = () => {
+            failed = true;
+        };
+        dispatcher.config = config;
+
+        dispatcher._events.emit('error', { message: 'Test' });
+
+        setTimeout(() => {
+            t.equal(failed, true);
+
+            next();
+        }, 5);
     });
 });
 
@@ -193,6 +208,23 @@ group('dispatcher._generateJob()', (test) => {
 
         t.equal(Number.isInteger(fs.openSync(fileName, 'r')), true);
     });
+
+    test('fails on file write error', (t, next) => {
+        const fileName = '\0'; // Invalid file name, write will fail
+        let failed = false;
+
+        dispatcher._logger.error = () => {
+            failed = true;
+        };
+
+        dispatcher._generateJob(dispatcher.tags, fileName);
+
+        setTimeout(() => {
+            t.equal(failed, true);
+
+            next();
+        }, 5);
+    });
 });
 
 group('dispatcher._startDock()', (test) => {
@@ -271,7 +303,7 @@ group('dispatcher._registerEventHandlers()', (test) => {
             pool: {
                 run: () => {
                     return {
-                        on: () => {}
+                        on: (event, data) => { }
                     }
                 }
             }
@@ -284,14 +316,16 @@ group('dispatcher._registerEventHandlers()', (test) => {
         }, 5);
     });
 
-    test('switches threadpools', (t, next) => {
+    test('replaces old threadpool with new one', (t, next) => {
         let valid = false;
 
-        dispatcher._threadPool = dispatcher._events;
-        dispatcher._threadPool.killAll = () => {
-            valid = true;
+        dispatcher._threadPool = {
+            on: () => {}
         };
 
+        dispatcher._events.on('finished', () => {
+            valid = true;
+        });
         dispatcher._emitEvent('reload', {
             module: {
                 type: 'hook',
@@ -299,11 +333,14 @@ group('dispatcher._registerEventHandlers()', (test) => {
             },
             pool: {
                 run: () => {
-                    return dispatcher._events;
+                    return {
+                        on: (event, data) => {
+                            dispatcher._events.on(event, data);
+                        }
+                    }
                 }
             }
         });
-
         dispatcher._emitEvent('finished', {});
 
         setTimeout(() => {
