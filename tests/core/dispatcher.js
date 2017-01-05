@@ -46,6 +46,7 @@ httpDock.config = {
 group('dispatcher.tags', (test) => {
     test('gets tags', (t) => {
         dispatcher._tags = tags;
+
         t.deepEqual(dispatcher.tags, tags);
     });
 });
@@ -66,6 +67,7 @@ group('dispatcher.config', (test) => {
 
         dispatcher.threadPool = threadPool;
         dispatcher.config = config;
+
         t.deepEqual(dispatcher._config, config);
     });
 });
@@ -77,6 +79,7 @@ group('dispatcher.threadPool', (test) => {
         };
 
         dispatcher.threadPool = threadPool;
+
         t.equal(dispatcher._threadPool, threadPool);
     });
 });
@@ -103,19 +106,51 @@ group('dispatcher.dispatch()', (test) => {
         dispatcher._threadPool.send = (data) => {
             valid = true;
 
-            return {
-                on: () => {}
-            };
+            return dispatcher._events;
         };
         dispatcher._tags = tags;
         dispatcher.dispatch(data);
+
         t.equal(valid, true);
+    });
+
+    test('receives response from the threadpool', (t, next) => {
+        const callback = () => {
+            valid = true;
+        };
+        let valid = false;
+
+        dispatcher.threadPool = threadPool;
+        dispatcher._threadPool.send = (data) => {
+            valid = true;
+
+            return dispatcher._events;
+        };
+        dispatcher._docks = {
+            test: {
+                reply: () => { }
+            }
+        };
+        dispatcher._tags = tags;
+        dispatcher.dispatch(data, callback);
+        dispatcher._events.emit('done', {
+            meta: {
+                dock: 'test'
+            }
+        });
+
+        setTimeout(() => {
+            t.equal(valid, true);
+
+            next();
+        }, 5);
     });
 
     test('adds flow name to metadata', (t) => {
         dispatcher.threadPool = threadPool;
         dispatcher._tags = tags;
         dispatcher.dispatch(data);
+
         t.equal(data.meta.flow, 'Flow 1');
     });
 });
@@ -136,6 +171,7 @@ group('dispatcher.respond()', (test) => {
         };
         dispatcher._docks['test'] = flows[0].docks[0];
         dispatcher.respond(response);
+
         t.equal(valid, true);
     });
 });
@@ -143,6 +179,7 @@ group('dispatcher.respond()', (test) => {
 group('dispatcher._processFlows()', (test) => {
     test('pushes content to tags array', (t) => {
         dispatcher._processFlows(config);
+
         t.deepEqual(dispatcher.tags, tags);
     });
 });
@@ -152,6 +189,7 @@ group('dispatcher._generateJob()', (test) => {
         const fileName = '.iris';
 
         dispatcher._generateJob(dispatcher.tags, fileName);
+
         t.equal(Number.isInteger(fs.openSync(fileName, 'r')), true);
     });
 });
@@ -170,6 +208,7 @@ group('dispatcher._startDock()', (test) => {
         dock.listen = () => valid = true;
 
         dispatcher._startDock(dock);
+
         t.equal(valid, true);
     });
 });
@@ -184,8 +223,7 @@ group('handler._emitEvent', (test) => {
         dispatcher._emitEvent('test', {});
 
         setTimeout(() => {
-            if (failed) t.fail('Event was not emitted');
-            else t.pass('Ok');
+            t.equal(failed, false);
 
             next();
         }, 5);
@@ -208,8 +246,7 @@ group('dispatcher._registerEventHandlers()', (test) => {
         });
 
         setTimeout(() => {
-            if (failed) t.fail('Event was not emitted');
-            else t.pass('Ok');
+            t.equal(failed, false);
 
             next();
         }, 5);
@@ -240,8 +277,7 @@ group('dispatcher._registerEventHandlers()', (test) => {
         });
 
         setTimeout(() => {
-            if (failed) t.fail('Event was not emitted');
-            else t.pass('Ok');
+            t.equal(failed, false);
 
             next();
         }, 5);
