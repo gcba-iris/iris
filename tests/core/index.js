@@ -100,6 +100,26 @@ group('iris.flow()', (test) => {
     });
 });
 
+group('iris.flow()', (test) => {
+    test('does not validate the same hook twice', (t) => {
+        let valid = false;
+
+        iris._logger.silly = () => {
+            valid = true;
+        };
+
+        iris.flow('Flow 1', {
+            tag: 'tag1',
+            docks: [httpDock],
+            handler: handler,
+            inputHooks: [hook1],
+            outputHooks: [hook1]
+        });
+
+        t.equal(valid, true);
+    });
+});
+
 group('iris.Dock', (test) => {
     test('gets base Dock class', (t) => {
         t.deepLooseEqual(iris.Dock, BaseDock);

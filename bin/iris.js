@@ -93,8 +93,7 @@ const cli = (args) => {
                 break;
         }
     }
-    else if (keys.length > 1 || args._.length > 0)
-        cliCommands.help();
+    else if (keys.length > 1 || args._.length > 0) cliCommands.help();
 
     return false;
 };
