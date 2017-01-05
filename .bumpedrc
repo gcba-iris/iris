@@ -2,6 +2,9 @@ files:
   - package.json
 plugins:
     postrelease:
+      Removing previous CHANGELOG:
+        plugin: bumped-terminal
+        command: 'rm CHANGELOG.md'
       Generating CHANGELOG file:
         plugin: bumped-changelog
       Commiting new version:
