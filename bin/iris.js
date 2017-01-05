@@ -168,7 +168,6 @@ const startIris = (env) => {
     let iris,
         config,
         threadPool,
-        events,
         watcher;
 
     load(env);
@@ -193,7 +192,7 @@ const startIris = (env) => {
                 iris.modules[path] = require(path);
             }
 
-            iris.events.emit('reload', {
+            events.emit('reload', {
                 pool: newThreadPool(iris.config),
                 module: iris.modules[path],
                 path: path,

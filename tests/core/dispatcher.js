@@ -267,9 +267,10 @@ group('dispatcher._registerEventHandlers()', (test) => {
     test('reloads dock', (t, next) => {
         let failed = true;
 
-        dispatcher._events.on('reload', () => {
+        dispatcher._startDock = () => {
             failed = false;
-        });
+        };
+
         dispatcher._emitEvent('reload', {
             module: {
                 type: 'dock',
@@ -286,67 +287,35 @@ group('dispatcher._registerEventHandlers()', (test) => {
     });
 
     test('reloads all flows', (t, next) => {
-        let failed = true;
-
-        dispatcher._threadPool = {
-            on: () => {}
-        };
-
-        dispatcher._events.on('reload', () => {
-            failed = false;
-        });
-        dispatcher._emitEvent('reload', {
-            module: {
-                type: 'hook',
-                path: __filename
-            },
-            pool: {
-                run: () => {
-                    return {
-                        on: (event, data) => { }
-                    }
-                }
-            }
-        });
-
-        setTimeout(() => {
-            t.equal(failed, false);
-
-            next();
-        }, 5);
-    });
-
-    test('replaces old threadpool with new one', (t, next) => {
         let valid = false;
 
-        dispatcher._threadPool = {
-            on: () => {}
+        dispatcher._threadPool = dispatcher._events;
+        dispatcher._loadJob = () => {
+            valid = true;
         };
 
-        dispatcher._events.on('finished', () => {
-            valid = true;
-        });
         dispatcher._emitEvent('reload', {
             module: {
-                type: 'hook',
-                path: __filename
-            },
-            pool: {
-                run: () => {
-                    return {
-                        on: (event, data) => {
-                            dispatcher._events.on(event, data);
-                        }
-                    }
-                }
+                type: 'hook'
             }
         });
-        dispatcher._emitEvent('finished', {});
 
         setTimeout(() => {
             t.equal(valid, true);
 
             next();
         }, 5);
+    });
+
+    test('replaces old threadpool with new one', (t, next) => {
+        const throws = () => {
+            dispatcher._events.emit('finished', {});
+        };
+
+        dispatcher._threadPool.killAll = () => {};
+
+        t.throws(throws, 'TypeError: Cannot read property \'killAll\' of undefined');
+
+        next();
     });
 });
