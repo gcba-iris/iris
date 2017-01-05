@@ -132,6 +132,7 @@ group('dispatcher.dispatch()', (test) => {
             }
         };
         dispatcher._tags = tags;
+
         dispatcher.dispatch(data, callback);
         dispatcher._events.emit('done', {
             meta: {
@@ -278,6 +279,35 @@ group('dispatcher._registerEventHandlers()', (test) => {
 
         setTimeout(() => {
             t.equal(failed, false);
+
+            next();
+        }, 5);
+    });
+
+    test('switches threadpools', (t, next) => {
+        let valid = false;
+
+        dispatcher._threadPool = dispatcher._events;
+        dispatcher._threadPool.killAll = () => {
+            valid = true;
+        };
+
+        dispatcher._emitEvent('reload', {
+            module: {
+                type: 'hook',
+                path: __filename
+            },
+            pool: {
+                run: () => {
+                    return dispatcher._events;
+                }
+            }
+        });
+
+        dispatcher._emitEvent('finished', {});
+
+        setTimeout(() => {
+            t.equal(valid, true);
 
             next();
         }, 5);
