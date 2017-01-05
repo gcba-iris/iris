@@ -21,9 +21,6 @@ coverage
 # dotenv
 .env
 
-# Rendered site
-_docpress
-
 # Node
 node_modules
 
