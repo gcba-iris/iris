@@ -111,8 +111,11 @@ const load = (env) => {
 
     if (!env.modulePath) {
         spinner.fail();
+
+        process.stdout.write('\n');
         consoleLog.error('Local Iris not found.');
         consoleLog.error('Try running: npm install gcba-iris/iris --save');
+        process.stdout.write('\n');
 
         process.exit(1);
     }
@@ -126,7 +129,10 @@ const load = (env) => {
     }
     else {
         spinner.fail();
+
+        process.stdout.write('\n');
         consoleLog.error('No Irisfile found.');
+        process.stdout.write('\n');
 
         process.exit(1);
     }
