@@ -58,6 +58,11 @@
             "id": "cli-commands"
           },
           {
+            "title": "Node Flags",
+            "depth": 2,
+            "id": "node-flags"
+          },
+          {
             "title": "Writing plugins",
             "depth": 2,
             "id": "writing-plugins",
@@ -153,6 +158,11 @@
           "title": "CLI Commands",
           "depth": 2,
           "id": "cli-commands"
+        },
+        {
+          "title": "Node Flags",
+          "depth": 2,
+          "id": "node-flags"
         },
         {
           "title": "Writing plugins",
