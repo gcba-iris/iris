@@ -39,6 +39,19 @@ const loader = new LiftOff({
 });
 
 /**
+ * Displays an error message and then exits Iris with an error code.
+ *
+ * @param {string} message
+ */
+const fail = (message) => {
+    process.stdout.write('\n');
+    consoleLog.error(message);
+    process.stdout.write('\n');
+
+    process.exit(1);
+};
+
+/**
  * Runs cli commands.
  *
  * @param {Object} args
@@ -105,37 +118,31 @@ const cli = (args) => {
  */
 const load = (env) => {
     let spinner = ora('Loading local package');
+    let iris;
 
     consoleLog.info(utils.banner + '\n');
     spinner.start();
 
     if (!env.modulePath) {
         spinner.fail();
-
-        process.stdout.write('\n');
-        consoleLog.error('Local Iris not found.');
-        consoleLog.error('Try running: npm install gcba-iris/iris --save');
-        process.stdout.write('\n');
-
-        process.exit(1);
+        fail('Local Iris not found.\nTry running: npm install gcba-iris/iris --save');
     }
-
     spinner.succeed();
+
+    iris = require(env.modulePath);
     spinner = ora('Loading Irisfile').start();
 
-    if (env.configPath) {
-        process.chdir(env.configBase);
-        spinner.succeed();
-    }
-    else {
+    if (!env.configPath) {
         spinner.fail();
-
-        process.stdout.write('\n');
-        consoleLog.error('No Irisfile found.');
-        process.stdout.write('\n');
-
-        process.exit(1);
+        fail('No Irisfile found.');
     }
+
+    process.chdir(env.configBase);
+    spinner.succeed();
+
+    require(env.configPath);
+
+    return iris;
 };
 
 /**
@@ -151,38 +158,13 @@ const newThreadPool = (config) => {
 };
 
 /**
- * Configures the Dispatcher instance.
+ * Sets up the file watcher.
  *
- * @param {Object[]} flows
  * @param {Object} config
- * @param {Object} threadPool
+ * @return {Object} The Chokidar instance
  */
-const configureDispatcher = (flows, config, threadPool) => {
-    dispatcher.threadPool = threadPool;
-    dispatcher.config = {
-        flows: flows,
-        events: config.events
-    };
-};
-
-/**
- * Starts Iris.
- *
- * @param {Object} env
- */
-const startIris = (env) => {
-    let iris,
-        config,
-        threadPool,
-        watcher;
-
-    load(env);
-
-    require(env.configPath);
-    iris = require(env.modulePath);
-
-    threadPool = newThreadPool(iris.config);
-    watcher = chokidar
+const newWatcher = (iris) => {
+    return chokidar
         .watch(Object.keys(iris.modules), {
             ignored: /[\/\\]\./,
             persistent: true
@@ -206,13 +188,55 @@ const startIris = (env) => {
             });
         })
         .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
+};
+
+/**
+ * Configures the Dispatcher instance.
+ *
+ * @param {Object[]} flows
+ * @param {Object} config
+ * @param {Object} threadPool
+ */
+const configureDispatcher = (flows, config, threadPool) => {
+    dispatcher.threadPool = threadPool;
+    dispatcher.config = {
+        flows: flows,
+        events: config.events
+    };
+};
+
+/**
+ * Sets error event handlers.
+ *
+ * @param {Object} env
+ */
+const setErrorHandlers = () => {
+    events
+        .on('validationError', () => {
+            process.exit(1);
+        })
+        .on('compilationError', () => {
+            process.exit(1);
+        });
+};
+
+/**
+ * Starts Iris.
+ *
+ * @param {Object} env
+ */
+const start = (env) => {
+    let iris,
+        config,
+        threadPool,
+        watcher;
+
+    iris = load(env);
+    threadPool = newThreadPool(iris.config);
+    watcher = newWatcher(iris);
 
     if (iris.flows.length > 0) configureDispatcher(iris.flows, iris.config, threadPool);
-    else {
-        consoleLog.error('No flows found in Irisfile.');
-
-        process.exit(1);
-    }
+    else fail('No flows found in Irisfile.');
 
     cliCursor.hide();
 };
@@ -226,15 +250,8 @@ const init = (env) => {
     logger.cli();
 
     if (!cli(args)) {
-        events
-            .on('validationError', () => {
-                process.exit(1);
-            })
-            .on('compilationError', () => {
-                process.exit(1);
-            });
-
-        startIris(env);
+        setErrorHandlers();
+        start(env);
     }
 };
 

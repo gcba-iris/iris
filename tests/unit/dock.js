@@ -203,12 +203,12 @@ group('dock.process()', (test) => {
     });
 
     test('sets dock Id', (t) => {
+        let failed = true;
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
         };
-        let failed = true;
 
         dock.on('setDockId', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
@@ -275,9 +275,9 @@ group('dock.process()', (test) => {
         const customMessage = {
             message: {}
         };
-        const returnValue = dock.process(customMessage, meta, callback);
+        const result = dock._checkMessage(customMessage, meta);
 
-        t.equal(returnValue, false);
+        t.equal(result, false);
     });
 
     test('fails when there is no dispatcher reference', (t) => {
@@ -293,12 +293,12 @@ group('dock.process()', (test) => {
     });
 
     test('fails when the parser returns no data', (t) => {
+        let passed = true;
         const eventCallback = (data) => {
             passed = false;
 
             t.fail('dispatcher.dispatch() should not have been called');
         };
-        let passed = true;
 
         dock.parse = () => {};
 
@@ -333,19 +333,12 @@ group('dock.encode()', (test) => {
     test('encodes object messages', (t) => {
         const result = dock.encode({
             message: {
-                subtag1: [
-                    'abc', 'def', 'ghi'
-                ],
-                subtag2: ['jkl', 'mno', 'pqr'],
-                subtag3: {
-                    toString: () => {
-                        return 'stu,vwx';
-                    }
-                }
+                subtag1: ['abc', 'def', 'ghi'],
+                subtag2: ['jkl', 'mno', 'pqr']
             }
         });
 
-        t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr|subtag3|stu,vwx');
+        t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr');
     });
 
     test('encodes object messages with string values', (t) => {
@@ -357,6 +350,35 @@ group('dock.encode()', (test) => {
         });
 
         t.equal(result, '|subtag1|abc|subtag2|jkl');
+    });
+
+    test('encodes object messages with toString() method', (t) => {
+        const result = dock.encode({
+            message: {
+                subtag1: {
+                    toString: () => {
+                        return 'abc,def,ghi';
+                    }
+                },
+                subtag2: {
+                    toString: () => {
+                        return 'jkl,mno,pqr';
+                    }
+                }
+            }
+        });
+
+        t.equal(result, '|subtag1|abc,def,ghi|subtag2|jkl,mno,pqr');
+    });
+
+    test('fails to encode object messages with unknown values', (t) => {
+        const result = dock.encode({
+            message: {
+                subtag1: () => 'Test'
+            }
+        });
+
+        t.equal(result, false);
     });
 
     test('encodes messages with toString() method', (t) => {

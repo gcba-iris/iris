@@ -130,10 +130,10 @@ group('dispatcher.dispatch()', (test) => {
     });
 
     test('receives response from the threadpool', (t, next) => {
+        let valid = false;
         const callback = () => {
             valid = true;
         };
-        let valid = false;
 
         dispatcher.threadPool = threadPool;
         dispatcher._threadPool.send = (data) => {

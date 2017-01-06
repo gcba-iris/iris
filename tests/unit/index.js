@@ -140,12 +140,12 @@ group('iris.Hook', (test) => {
 
 group('iris._handleErrors()', (test) => {
     test('handles errors', (t, next) => {
+        let failed = true;
         const spinner = {
             fail: () => {
                 failed = false;
             }
         };
-        let failed = true;
 
         iris._checkFlowOptions({ tag: 'test', docks: [] }, spinner);
 
