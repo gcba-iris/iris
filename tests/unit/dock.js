@@ -280,6 +280,21 @@ group('dock.process()', (test) => {
         t.equal(result, false);
     });
 
+    test('returns with unrecognized message types', (t) => {
+        let continues = false;
+        const customMessage = {
+            message: {}
+        };
+
+        dock.parse = () => {
+            continues = true;
+        };
+
+        dock.process(customMessage, meta);
+
+        t.equal(continues, false);
+    });
+
     test('fails when there is no dispatcher reference', (t) => {
         let valid = false;
 
