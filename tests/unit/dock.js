@@ -225,12 +225,12 @@ group('dock.process()', (test) => {
     });
 
     test('sets message timestamp', (t) => {
+        let failed = true;
         const eventCallback = (data) => {
             failed = false;
 
             t.pass('Ok');
         };
-        let failed = true;
 
         dock.on('setTimestamp', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
