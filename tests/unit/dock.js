@@ -247,6 +247,7 @@ group('dock.process()', (test) => {
     });
 
     test('uses message.toString()', (t) => {
+        let failed = true;
         const customMessage = {
             toString: () => 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd'
         };
@@ -255,7 +256,6 @@ group('dock.process()', (test) => {
 
             t.pass('Ok');
         };
-        let failed = true;
 
         dock.on('dispatcherExecuted', eventCallback.bind(this));
         dock.dispatcher = dispatcher;
