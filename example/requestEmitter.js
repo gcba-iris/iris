@@ -13,7 +13,7 @@ const loop = (options) => {
         const request = http.request(options, function (response) {
             response.setEncoding('utf8');
             response.on('data', function (body) {
-                console.log('Response: ' + body);
+                console.log(`Response: ${body}`);
             });
         });
 
@@ -24,12 +24,12 @@ const loop = (options) => {
         request.write(dataTag);
         request.end();
 
-        console.log('[ResquestEmitter] Sending ' + '\'' + dataTag + '\'');
+        console.log(`[ResquestEmitter] Sending '${dataTag}'`);
 
         loop(options);
     }, 1000);
 };
 
-console.log('[RequestEmitter] Connecting to ' + options.hostname + ':' + options.port + '...');
+console.log(`[RequestEmitter] Connecting to ${options.hostname}:${options.port}...`);
 
 loop(options);
