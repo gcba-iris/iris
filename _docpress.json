@@ -2,17 +2,12 @@
   "toc": {
     "sections": [
       {
-        "title": "Iris",
+        "title": "Contents",
         "source": "README.md",
         "expand": true,
         "url": "index.html",
         "slug": "index",
         "headings": [
-          {
-            "title": "Iris",
-            "depth": 3,
-            "id": "iris"
-          },
           {
             "title": "Contents",
             "depth": 2,
@@ -106,15 +101,10 @@
   "index": {
     "index.html": {
       "source": "README.md",
-      "title": "Iris",
-      "pageTitle": "Iris",
+      "title": "Contents",
+      "pageTitle": "Contents",
       "slug": "index",
       "headings": [
-        {
-          "title": "Iris",
-          "depth": 3,
-          "id": "iris"
-        },
         {
           "title": "Contents",
           "depth": 2,

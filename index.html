@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/style.css?t=615badd5">
     <script src="assets/script.js?t=42463e55"></script>
-    <title>Iris</title>
+    <title>Contents</title>
     <meta name="viewport" content="width=device-width">
   </head>
   <body class="-menu-visible">
@@ -13,9 +13,7 @@
       <div class="menu toc-menu">
         <li class="menu-item -level-0 -parent">
           <ul class="submenu">
-            <li class="menu-item -level-1"><a class="link title -active link-index" href="index.html">Iris</a>
-            </li>
-            <li class="menu-item -level-1"><a class="link title link-iris" href="#iris">Iris</a>
+            <li class="menu-item -level-1"><a class="link title -active link-index" href="index.html">Contents</a>
             </li>
             <li class="menu-item -level-1"><a class="link title link-contents" href="#contents">Contents</a>
             </li>
@@ -78,7 +76,6 @@
     </a>
 </p>
 <hr>
-<h3 id="iris">Iris</h3>
 <p>A tiny Node.js framework for building fast, modular &amp; extensible IoT backends. Assemble data processing flows in a Gulp-like fashion using third-party plugins, or write your own. Run the app. That&apos;s it.</p>
 <p>Iris tries to strike a balance between convention vs configuration. It comes with sane defaults and a plugin system that makes it easy to get started while allowing ample flexibility at the same time.</p>
 <pre><code class="lang-bash">$ npm install gcba-iris/iris -g
@@ -255,7 +252,7 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
 <h4 id="sample-http-dock">Sample HTTP dock</h4>
 <pre><code class="lang-javascript"><span class="hljs-meta">&apos;use strict&apos;</span>;
 
-<span class="pl-k">const</span> Dock = <span class="pl-c1">require</span>(<span class="pl-s">&apos;iris&apos;</span>).Dock;
+<span class="pl-k">const</span> Dock = <span class="pl-c1">require</span>(<span class="pl-s">&apos;../../lib/bases/Dock&apos;</span>);
 <span class="pl-k">const</span> http = <span class="pl-c1">require</span>(<span class="pl-s">&apos;http&apos;</span>);
 <span class="pl-k">const</span> requestIp = <span class="pl-c1">require</span>(<span class="pl-s">&apos;request-ip&apos;</span>);
 
@@ -277,7 +274,7 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
         <span class="pl-k">if</span> (!<span class="pl-k">this</span>._listening) {
             <span class="pl-k">this</span>._server.listen(<span class="pl-k">this</span>.config.port, () =&gt; {
                 <span class="pl-k">this</span>._listening = <span class="pl-c1">true</span>;
-                <span class="pl-k">this</span>.logger.info(<span class="pl-s">&apos;[HTTP Dock] Listening on port &apos;</span> + <span class="pl-k">this</span>.config.port + <span class="pl-s">&apos;...&apos;</span>);
+                <span class="pl-k">this</span>.logger.info(<span class="pl-s">`[HTTP Dock] Listening on port <span class="hljs-subst">${<span class="pl-k">this</span>.config.port}</span>...`</span>);
             });
         }
     }
@@ -308,8 +305,9 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
 
                 <span class="pl-k">if</span> (message) {
                     response.write(message);
-                    <span class="pl-k">this</span>.logger.verbose(<span class="pl-s">&apos;Sent response to client&apos;</span>);
-                } <span class="pl-k">else</span> response.end();
+                    <span class="pl-k">this</span>.logger.verbose(<span class="pl-s">&apos;[HTTP Dock] Sent response to client&apos;</span>);
+                }
+                <span class="pl-k">else</span> response.end();
             });
         }.bind(<span class="pl-k">this</span>));
     }
