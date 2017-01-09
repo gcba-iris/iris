@@ -290,7 +290,8 @@ class HTTPDock extends Dock {
                     response.write(message);
                     this.logger.verbose('[HTTP Dock] Sent response to client');
                 }
-                else response.end();
+
+                response.end();
             });
         }.bind(this));
     }
