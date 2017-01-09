@@ -22,7 +22,6 @@ class HTTPDock extends Dock {
         if (!this._listening) {
             this._server.listen(this.config.port, () => {
                 this._listening = true;
-
                 this.logger.info(`[HTTP Dock] Listening on port ${this.config.port}...`);
             });
         }
