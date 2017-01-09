@@ -302,10 +302,11 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
             <span class="hljs-attr">ip</span>: requestIp.getClientIp(request)
         };
 
+        request.socket.setNoDelay();
+
         request.on(<span class="pl-s">&apos;data&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params">chunk</span>) </span>{
             chunks.push(chunk);
         });
-
         request.on(<span class="pl-s">&apos;end&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params"></span>) </span>{
             <span class="pl-k">const</span> data = Buffer.concat(chunks);
 
@@ -377,7 +378,6 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
     process(data) {
         <span class="pl-k">this</span>.logger.info(<span class="pl-s">&apos;[Hook1] Running...&apos;</span>);
     }
-
 }
 
 <span class="pl-c1">module</span>.exports = <span class="pl-k">new</span> Hook1(<span class="pl-s">&apos;hook1&apos;</span>);
