@@ -5,7 +5,6 @@ const options = {
     path: '/',
     method: 'POST'
 };
-
 const dataTag = 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
 
 const loop = (options) => {
@@ -30,6 +29,7 @@ const loop = (options) => {
     }, 1000);
 };
 
+http.globalAgent.maxSockets = 5;
 console.log(`[RequestEmitter] Connecting to ${options.hostname}:${options.port}...`);
 
 loop(options);
