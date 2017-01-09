@@ -37,6 +37,8 @@
             </li>
             <li class="menu-item -level-1"><a class="link title link-cli-commands" href="#cli-commands">CLI Commands</a>
             </li>
+            <li class="menu-item -level-1"><a class="link title link-node-flags" href="#node-flags">Node Flags</a>
+            </li>
             <li class="menu-item -level-1 -parent"><a class="link title link-writing-plugins" href="#writing-plugins">Writing plugins</a>
               <ul class="submenu">
                 <li class="menu-item -level-2"><a class="link title link-docks" href="#docks">Docks</a>
@@ -238,6 +240,13 @@ iris.flow(<span class="pl-s">&apos;Flow 2&apos;</span>, {
     iris --help
         Displays the list of available commands.
 </code></pre>
+<h2 id="node-flags">Node Flags</h2>
+<p>You can set custom values for the following flags via environment variables:</p>
+<ul>
+<li><code>--stack-size</code>: use a variable called <strong>STACK_SIZE</strong>. The default value is <code>8192</code>.</li>
+<li><code>--max-old-space-size</code>: use a variable called <strong>MAX_OLD_SPACE_SIZE</strong>. The default value is <code>8192</code>.</li>
+<li><code>--max-new-space-size</code>: use a variable called <strong>MAX_NEW_SPACE_SIZE</strong>. The default value is <code>2048</code>.</li>
+</ul>
 <h2 id="writing-plugins">Writing plugins</h2>
 <p>Plugins are javascript files or npm packages that get required in the Irisfile. All plugins extend some base class.
 Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technical docs</a> for an in-depth explanation of the architecture and API reference.</p>
