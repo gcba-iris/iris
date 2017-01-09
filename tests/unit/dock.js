@@ -91,6 +91,10 @@ group('dock.dispatcher', (test) => {
         dock.dispatcher = dispatcher;
         t.deepEqual(dock._dispatcher, dispatcher);
     });
+
+    test('gets dispatcher instance', (t) => {
+        t.deepEqual(dock.dispatcher, dispatcher);
+    });
 });
 
 group('dock.validate()', (test) => {
