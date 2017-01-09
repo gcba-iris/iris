@@ -7,8 +7,6 @@ const options = {
 };
 const dataTag = 'tag1|subtag1|02,56,58,8|subtag2|sds,sd,wtr,ghd';
 
-http.globalAgent.maxSockets = 5;
-
 const loop = (options) => {
     setTimeout(function () {
         const requests = 10000;
@@ -32,13 +30,15 @@ const loop = (options) => {
             request.end();
         }
 
-        console.log(`------------------------------------------------------------------------`);
+        console.log(`-------------------------------------------------`);
         console.log(`Requests: ${requests}`);
+        console.log(`-------------------------------------------------`);
 
         loop(options);
     }, 1000);
 };
 
+http.globalAgent.maxSockets = 5;
 console.log(`[RequestEmitter] Connecting to ${options.hostname}:${options.port}...`);
 
 loop(options);
