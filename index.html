@@ -316,7 +316,8 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
                     response.write(message);
                     <span class="pl-k">this</span>.logger.verbose(<span class="pl-s">&apos;[HTTP Dock] Sent response to client&apos;</span>);
                 }
-                <span class="pl-k">else</span> response.end();
+
+                response.end();
             });
         }.bind(<span class="pl-k">this</span>));
     }
