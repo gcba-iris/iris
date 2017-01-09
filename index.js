@@ -119,6 +119,7 @@ class Iris {
     /**
      * Sets Iris's config object.
      *
+     * @param {Object} options
      *
      * @memberOf Iris
      */

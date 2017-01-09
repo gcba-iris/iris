@@ -175,16 +175,22 @@ const newWatcher = (iris) => {
             const config = Object.assign({}, iris.modules[path].config);
 
             if (iris.modules[path].type === 'dock') {
+                const id = iris.modules[path].id;
+                const dispatcher = iris.modules[path].dispatcher;
+
                 iris.modules[path].stop();
                 decache(path);
+
                 iris.modules[path] = require(path);
+                iris.modules[path].id = id;
+                iris.modules[path].dispatcher = dispatcher;
             }
 
             events.emit('reload', {
                 pool: newThreadPool(iris.config),
                 module: iris.modules[path],
-                path: path,
-                config: config
+                path,
+                config
             });
         })
         .on('error', (error) => consoleLog.error(`Watcher error: ${error}`));
@@ -200,8 +206,8 @@ const newWatcher = (iris) => {
 const configureDispatcher = (flows, config, threadPool) => {
     dispatcher.threadPool = threadPool;
     dispatcher.config = {
-        flows: flows,
-        events: config.events
+        events: config.events,
+        flows
     };
 };
 
