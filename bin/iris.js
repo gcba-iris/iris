@@ -32,9 +32,9 @@ const loader = new LiftOff({
         '.js': null
     },
     v8flags: [
-        process.env.STACK_SIZE || '--stack-size=8192',
-        process.env.MAX_OLD_SPACE_SIZE || '--max-old-space-size=8192',
-        process.env.MAX_NEW_SPACE_SIZE || '–max-new-space-size=2048'
+        process.env.STACK_SIZE || '--stack_size=8192',
+        process.env.MAX_OLD_SPACE_SIZE || '--max_old_space_size=8192',
+        process.env.MAX_NEW_SPACE_SIZE || '--max_new_space_size=2048'
     ]
 });
 
