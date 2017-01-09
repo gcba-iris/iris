@@ -14,7 +14,6 @@ class Hook1 extends Hook {
     process(data) {
         this.logger.info('[Hook1] Running...');
     }
-
 }
 
 module.exports = new Hook1('hook1');
