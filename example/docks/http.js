@@ -41,6 +41,8 @@ class HTTPDock extends Dock {
             ip: requestIp.getClientIp(request)
         };
 
+        request.socket.setNoDelay();
+
         request.on('data', function (chunk) {
             chunks.push(chunk);
         });
