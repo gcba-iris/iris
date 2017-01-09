@@ -46,7 +46,6 @@ class HTTPDock extends Dock {
         request.on('data', function (chunk) {
             chunks.push(chunk);
         });
-
         request.on('end', function () {
             const data = Buffer.concat(chunks);
 
