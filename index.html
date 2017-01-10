@@ -243,9 +243,9 @@ iris.flow(<span class="pl-s">&apos;Flow 2&apos;</span>, {
 <h2 id="node-flags">Node Flags</h2>
 <p>You can set custom values for the following flags via environment variables:</p>
 <ul>
-<li><code>--stack-size</code>: use a variable called <strong>STACK_SIZE</strong>. The default value is <code>8192</code>.</li>
-<li><code>--max-old-space-size</code>: use a variable called <strong>MAX_OLD_SPACE_SIZE</strong>. The default value is <code>8192</code>.</li>
-<li><code>--max-new-space-size</code>: use a variable called <strong>MAX_NEW_SPACE_SIZE</strong>. The default value is <code>2048</code>.</li>
+<li><code>--stack_size</code>: use a variable called <strong>STACK_SIZE</strong>. The default value is <code>8192</code>.</li>
+<li><code>--max_old_space_size</code>: use a variable called <strong>MAX_OLD_SPACE_SIZE</strong>. The default value is <code>8192</code>.</li>
+<li><code>--max_new_space_size</code>: use a variable called <strong>MAX_NEW_SPACE_SIZE</strong>. The default value is <code>2048</code>.</li>
 </ul>
 <h2 id="writing-plugins">Writing plugins</h2>
 <p>Plugins are javascript files or npm packages that get required in the Irisfile. All plugins extend some base class.
@@ -302,10 +302,11 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
             <span class="hljs-attr">ip</span>: requestIp.getClientIp(request)
         };
 
+        request.socket.setNoDelay();
+
         request.on(<span class="pl-s">&apos;data&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params">chunk</span>) </span>{
             chunks.push(chunk);
         });
-
         request.on(<span class="pl-s">&apos;end&apos;</span>, <span class="hljs-function"><span class="pl-k">function</span> (<span class="hljs-params"></span>) </span>{
             <span class="pl-k">const</span> data = Buffer.concat(chunks);
 
@@ -316,7 +317,8 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
                     response.write(message);
                     <span class="pl-k">this</span>.logger.verbose(<span class="pl-s">&apos;[HTTP Dock] Sent response to client&apos;</span>);
                 }
-                <span class="pl-k">else</span> response.end();
+
+                response.end();
             });
         }.bind(<span class="pl-k">this</span>));
     }
@@ -376,7 +378,6 @@ Take a look at the <a href="https://gcba-iris.github.io/iris-tech-docs">technica
     process(data) {
         <span class="pl-k">this</span>.logger.info(<span class="pl-s">&apos;[Hook1] Running...&apos;</span>);
     }
-
 }
 
 <span class="pl-c1">module</span>.exports = <span class="pl-k">new</span> Hook1(<span class="pl-s">&apos;hook1&apos;</span>);
