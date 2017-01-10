@@ -30,6 +30,6 @@ const loop = (options) => {
 };
 
 http.globalAgent.maxSockets = 5;
-console.log(`[RequestEmitter] Connecting to ${options.hostname}:${options.port}...`);
+console.log(`Connecting to ${options.hostname}:${options.port}...`);
 
 loop(options);

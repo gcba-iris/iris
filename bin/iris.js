@@ -44,9 +44,7 @@ const loader = new LiftOff({
  * @param {string} message
  */
 const fail = (message) => {
-    process.stdout.write('\n');
-    consoleLog.error(message);
-    process.stdout.write('\n');
+    consoleLog.error('\n' + message + '\n');
 
     process.exit(1);
 };
@@ -127,6 +125,7 @@ const load = (env) => {
         spinner.fail();
         fail('Local Iris not found.\nTry running: npm install gcba-iris/iris --save');
     }
+
     spinner.succeed();
 
     iris = require(env.modulePath);
