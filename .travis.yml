@@ -8,6 +8,7 @@ env:
     - GIT_EMAIL: nobody@nobody.org
     - GITHUB_REPO: gcba-iris/iris
     - GIT_SOURCE: _docpress
+    - NODE_MODULES_CACHE: false
     - secure: VDaRwjrrAbBc4WCwsrKLy4S0XESXYLf+SmoONhC+ohEgAuHSH2OEzmEvYopic1DM+XoRP+zsIpQ2aMpb/3/YFXa2M1l3cOGNC2DDhajgwjDmMM1ybRnyWN0WPnIU6QMs3o7gp/dJJNZlH8FVUAEsxSvawFKSadREMczqrQ1M2y6wAP6p4Fof7AY1XIt8D0OXn6Qs/mwvXVYBGTYnD4jQ7f4dlliyeA6SJpcNS+RYa61m+mG3xZsgtwjXn92EZ2scFUowNqUwYtJ3uWrGncs3LCNzzmqxValq5rGf8MAdMcbyNT1Nab50o12EDtRtwVjQa21oG3j7rK04lK0Qsx3SjsSrUeEGYf2JIETWD5Kj81U8WIl25f+IfOBNMrHaGekABhhB1l0yp1+wtFmKN+tk0pb5c764VrnE/ajO9dcJ0687LNGypN+fdbiiFW1BI9xCVuLrY9yRxtNc0Xcrb65k9DilKS2yZYQ9L47186xAZqEvDxHtxlCTXiYWaAePzxuEsVlMxqdIahtTD/lCBWX80nITgnrEnL/3EN6aeWLVSivyBOPV0WUfkEcTG0ZY9UQsF4/OktPwWttA6AkTYA+ghoFOj+cB0LSw/660LWinMBDfpuV03u17nQOf5VKL+b6xM47IMWX2ceHmYScq+mDEZjK9tGi0jdkZfO61VP424Xg=
 before_script:
   - npm update -g npm
