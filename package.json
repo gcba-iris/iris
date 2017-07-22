@@ -65,7 +65,7 @@
     "@types/chalk": "^0.4.31",
     "@types/chokidar": "^1.4.29",
     "@types/minimist": "^1.1.29",
-    "@types/ora": "0.3.31",
+    "@types/ora": "0.3.32",
     "codecov": "^2.0.1",
     "nyc": "^10.0.0",
     "request-ip": "^2.0.1",
