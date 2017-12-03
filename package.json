@@ -57,7 +57,7 @@
     "propchecker": "^1.0.2",
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
-    "threads": "^0.7.0",
+    "threads": "^0.10.0",
     "winston": "^2.2.0"
   },
   "devDependencies": {
