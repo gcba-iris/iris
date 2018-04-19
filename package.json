@@ -67,7 +67,7 @@
     "@types/minimist": "^1.1.29",
     "@types/ora": "0.3.31",
     "codecov": "^2.0.1",
-    "nyc": "^10.0.0",
+    "nyc": "^11.7.1",
     "request-ip": "^2.0.1",
     "tap-notify": "^1.0.0",
     "tape": "^4.6.2",
