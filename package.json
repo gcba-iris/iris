@@ -58,7 +58,7 @@
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
     "threads": "^0.7.0",
-    "winston": "^2.2.0"
+    "winston": "^3.1.0"
   },
   "devDependencies": {
     "@rstacruz/tap-speck": "^0.3.0",
