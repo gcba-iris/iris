@@ -53,7 +53,7 @@
     "minimist": "^1.2.0",
     "npm-cmd": "^0.2.0",
     "ora": "^1.0.0",
-    "param-case": "^2.1.0",
+    "param-case": "^3.0.2",
     "propchecker": "^1.0.2",
     "shortid": "^2.2.6",
     "sparkles": "^1.0.0",
