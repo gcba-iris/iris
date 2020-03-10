@@ -50,7 +50,7 @@
     "fastparallel": "^2.3.0",
     "graceful-fs": "^4.1.9",
     "liftoff": "^2.3.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "npm-cmd": "^0.2.0",
     "ora": "^1.0.0",
     "param-case": "^2.1.0",
