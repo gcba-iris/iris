@@ -48,7 +48,7 @@
     "cli-cursor": "^2.1.0",
     "decache": "^4.1.0",
     "fastparallel": "^2.3.0",
-    "graceful-fs": "^4.1.9",
+    "graceful-fs": "^4.2.4",
     "liftoff": "^2.3.0",
     "minimist": "^1.2.0",
     "npm-cmd": "^0.2.0",
